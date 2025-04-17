@@ -6,37 +6,149 @@ author: Alfredo Di Tillio
 parts:
   - folder: I
     title: 
-      en: Theory of the firm
-      it: Teoria dell'impresa
+      en: Markets and Competition
+      it: Mercati e concorrenza
     chapters:
-      - folder: 7
+      - folder: 0
         title:
-          en: Technology and Costs of the Firm
-          it: Tecnologia e costi dell'impresa
+          en: Sandbox chapter
+          it: Sandbox chapter
         sections:
+          - title:
+              en: Sandbox section
+              it: Sandbox section
+      - folder: 1
+        title:
+          en: Introduction
+          it: Introduzione
+        sections:
+          - title:
+              en: Scarcity and Choice
+              it: Scarsità e scelta
+          - title:
+              en: Demand and Supply
+              it: Domanda e offerta
+      - folder: 2
+        title:
+          en: Preferences, Constraints and Consumer Choice  
+          it: Preferenze, vincoli e scelte dei consumatori
+        sections:
+          - title:
+              en: Consumer's Preferences and Budget Constraint
+              it: Preferenze e vincolo di bilancio del consumatore
+          - title:
+              en: Consumer's Optimal Choice
+              it: Scelta ottima del consumatore
+          - title:
+              en: Price Variations and Consumer Surplus
+              it: Variazioni di prezzo e surplus del consumatore
+          - title:
+              en: OLD
+              it: OLD
+      - folder: 3
+        title:
+          en: Production, Costs and Firm Choice
+          it: Produzione, costi e scelte delle imprese
+        sections:
+
           - title:
               en: Production and Productivity
               it: Produzione e produttività
           - title:
               en: Firm's Costs
               it: Costi dell'impresa
-      - folder: 8
-        title:
-          en: Profit Maximization and Supply
-          it: Massimizzazione del profitto e offerta
-        sections:
           - title:
               en: Firm's Optimal Choice
               it: Scelta ottima dell'impresa
           - title:
               en: Price-Taking Firms' Supply
               it: Offerta delle imprese price-taker
+          - title:
+              en: Title of Section 3.1
+              it: Offerta e benessere OLD
+      - folder: 4
+        title:
+          en: Equilibrium in Competitive Markets
+          it: Equilibrio nei mercati concorrenziali
+        sections:
+          - title:
+              en: Market Demand and Supply in Equilibrium
+              it: Domanda e offerta di mercato in equilibrio
+          - title:
+              en: Short-Run and Long-Run
+              it: Breve periodo e lungo periodo
+          - title:
+              en: Total Surplus and Efficiency
+              it: Surplus totale ed efficienza
   - folder: II
+    title: 
+      en: Market Power
+      it: Potere di mercato
+    chapters:
+      - folder: 5
+        title:
+          en: Monopoly
+          it: Monopolio
+        sections:
+          - title:
+              en: Monopolist's optimal choice
+              it: Scelta ottima del monopolista
+          - title:
+              en: Price discrimination
+              it: Discriminazione di prezzo
+      - folder: 6
+        title:
+          en: Oligopoly
+          it: Oligopolio
+        sections:
+          - title:
+              en: Basic Concepts of Game Theory
+              it: Concetti di base di teoria dei giochi
+          - title:
+              en: Competition on Quantity - Cournot Model
+              it: Concorrenza sulle quantità - modello di Cournot
+          - title:
+              en: Competition on Price - Bertrand Model
+              it: Concorrenza sui prezzi - modello di Bertrand  
+  - folder: III
+    title: 
+      en: Government Intervention, Externalities and Public Goods
+      it: Interventi statali, esternalità e beni pubblici
+    chapters:
+      - folder: 7
+        title:
+          en: Government Intervention
+          it: Interventi statali
+        sections:
+          - title:
+              en: Price Controls
+              it: Regolazione dei prezzi
+          - title:
+              en: Taxes and Subsidies
+              it: Tasse e sussidi
+          - title:
+              en: Import Tariffs
+              it: Dazi all'importazione
+          - title:
+              en: Monopoly Regulation
+              it: Regolazione dei monopoli
+      - folder: 8
+        title:
+          en: Externalities and Public Goods
+          it: Esternalità e beni pubblici
+        sections:
+          - title:
+              en: Externalities and Efficiency
+              it: Esternalità ed efficienza
+          - title:
+              en: Correcting Externalities
+              it: Correzione delle esternalità
+  - folder: IV
     title: 
       en: Labor Market and Savings Decisions
       it: Mercato del lavoro e scelte di risparmio
     chapters:
-      - folder: L
+      - folder: 9
         title:
           en: Labor Market
           it: Mercato del lavoro
@@ -50,7 +162,7 @@ parts:
           - title:
               en: Monopsony in Labor Markets
               it: Monopsonio nel mercato del lavoro
-      - folder: S
+      - folder: 10
         title:
           en: Saving Decisions
           it: Scelte di risparmio
@@ -61,3 +173,52 @@ parts:
           - title:
               en: Saving and Borrowing
               it: Risparmio e indebitamento
+  - folder: V
+    title: 
+      en: Information Asymmetry
+      it: Asimmetrie informative
+    chapters:
+      - folder: 11
+        title:
+          en: Choice under Uncertainty
+          it: Scelte in condizioni di incertezza
+        sections:
+          - title:
+              en: xxx
+              it: xxx
+          - title:
+              en: xxx
+              it: xxx
+      - folder: 12
+        title:
+          en: Adverse Selection
+          it: Selezione avversa
+        sections:
+          - title:
+              en: xxx
+              it: xxx
+          - title:
+              en: xxx
+              it: xxx
+      - folder: 13
+        title:
+          en: Moral Hazard
+          it: Moral hazard
+        sections:
+          - title:
+              en: xxx
+              it: xxx
+          - title:
+              en: xxx
+              it: xxx
+      - folder: 14
+        title:
+          en: Credit Market
+          it: Mercato del credito
+        sections:
+          - title:
+              en: xxx
+              it: xxx
+          - title:
+              en: xxx
+              it: xxx

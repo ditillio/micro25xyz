@@ -1,0 +1,293 @@
+---
+schema: EconSchema
+version: 1
+aspectRatio: 1.3
+
+params:
+  - name: x1
+    value: 3.9
+    min: 0
+    max: 10
+    round: 0.1
+  - name: x2
+    value: 1.8
+    min: 0
+    max: 10
+    round: 0.1
+  - name: s
+    value: 4
+    min: 0
+    max: 10
+  - name: m
+    value: 6
+  - name: p1
+    value: 1
+  - name: p2
+    value: 4
+
+calcs:
+  u: (params.x1) * (params.x2) + (params.s) * ( (params.x1) + (params.x2) )
+  cost: (params.x1) * (params.p1) + (params.x2) * (params.p2)
+
+layout:
+  OneGraphPlusSidebar:
+    graph:
+
+      xAxis:
+        orient: bottom
+        min: 0
+        max: 7
+        ticks: 0
+      yAxis:
+        orient: left
+        min: 0
+        max: 3
+        ticks: 0
+
+
+      objects:
+
+      - Label:
+            coordinates: [7, 0]
+            text: "` \\\\text{Mele (kg)} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, 3]
+            text: "` \\\\text{Arance (kg)}  `"
+            xPixelOffset: 0
+            yPixelOffset: 10
+
+
+
+      # Bundles preferred to X
+      - Area:
+          fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
+          fill: purple
+          above: true
+
+      # Indifference Curve at X
+      - Curve:
+          fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
+          color: Black
+          strokeWidth: 2
+      
+      # Indifference Map
+      - Curve:
+          fn:   ( 24 - params.s * (x) ) / ( (x) + params.s )
+          color: Grey
+          strokeWidth: 0.5
+      - Curve:
+          fn:   ( 18 - params.s * (x) ) / ( (x) + params.s )
+          color: Grey
+          strokeWidth: 0.5
+      - Curve:
+          fn:   ( 12 - params.s * (x) ) / ( (x) + params.s )
+          color: Grey
+          strokeWidth: 0.5
+      - Curve:
+          fn:   ( 6 - params.s * (x) ) / ( (x) + params.s )
+          color: Grey
+          strokeWidth: 0.5
+      - Curve:
+          fn:   ( 29.82 - params.s * (x) ) / ( (x) + params.s )
+          color: Grey
+          strokeWidth: 0.5
+      - Curve:
+          fn:   ( 36 - params.s * (x) ) / ( (x) + params.s )
+          color: Grey
+          strokeWidth: 0.5
+      - Curve:
+          fn:   ( 44 - params.s * (x) ) / ( (x) + params.s )
+          color: Grey
+          strokeWidth: 0.5
+      - Curve:
+          fn:   ( 53 - params.s * (x) ) / ( (x) + params.s )
+          color: Grey
+          strokeWidth: 0.5
+
+      # BudgetLine
+      - Line:
+          point: [0,1.5]
+          slope: -0.25
+          color: DarkGreen
+          strokeWidth: 2
+          max: 6
+      - Point:
+          coordinates: [6, 0]
+          droplines: {vertical: 6, horizontal: }
+          color: black
+          r: 0
+      - Point:
+          coordinates: [0, 1.5]
+          droplines: {vertical: , horizontal: 1.5}
+          color: black
+          r: 0
+
+      # Affordable bundles
+      - Area:
+          fn: (params.m) / (params.p2) - ((params.p1)*(x)) / (params.p2)
+          fill: green
+          above: false
+            
+      # Bundle
+      - Point:
+          coordinates: [params.x1, params.x2]
+          droplines:
+            horizontal: params.x2.toFixed(1)
+            vertical: params.x1.toFixed(1)
+          color: Blue
+          draggable: true
+      - Label:
+          coordinates: [params.x1, params.x2+0.1]
+          text: "` ( ${params.x1.toFixed(1)} , ${params.x2.toFixed(1)} ) `"
+          position: l
+          color: Blue
+          bgcolor: none
+              
+      # Evaluation
+      - Label:
+          coordinates: [6.3, 2.7]
+          text: \text{\large No sovrapp.}
+          position: r
+          bgcolor: none
+
+      - Label:
+          coordinates: [6.3, 2.7]
+          text: \LARGE\checkmark
+          position: bl
+          bgcolor: none
+          color: green
+          show: calcs.u >= 24
+
+      - Label:
+          coordinates: [6.3, 2.7]
+          text: \LARGE{\boldsymbol\times}
+          position: bl
+          bgcolor: none
+          color: red
+          show: calcs.u < 24
+
+      - Label:
+          coordinates: [6.3, 2.4]
+          text: \text{\large Accessibile}
+          position: r
+          bgcolor: none
+          
+      - Label:
+          coordinates: [6.3, 2.4]
+          text: \LARGE\checkmark
+          position: bl
+          bgcolor: none
+          color: green
+          show: calcs.cost <= params.m
+
+      - Label:
+          coordinates: [6.3, 2.4]
+          text: \LARGE{\boldsymbol\times}
+          position: bl
+          bgcolor: none
+          color: red
+          show: calcs.cost > params.m
+
+      - Label:
+          coordinates: [6.7, 2]
+          text: \text{\LARGE BINGO!}
+          color: green
+          position: r
+          bgcolor: none
+          show: (params.x1 == 6) && (params.x2 == 0)
+
+    explanation:
+      divs:
+        - html: "` Le preferenze del consumatore sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY+4X+4Y$$
+                     dove $X$ e $Y$ indicano rispettivamente il consumo settimanale di mele
+                      e arance (entrambe misurate in chili).  `"
+        - html: "` Il consumatore ha un reddito settimanale di  $M=6$ euro. Mele e arance si
+                   vendono rispettivamente a $P_X=1$ euro/kg e $P_Y=4$ euro/kg.  `"
+        - html: "` La figura mostra i panieri accessibili  (area verde), un generico paniere (punto blu), 
+                  la curva di indifferenza che passa per quel paniere,
+                     e l'insieme dei panieri ad esso preferiti 
+                     (area rosa).  `"
+
+
+    sidebar:
+      controls:
+      - title: Scelta ottima del consumatore
+        divs:
+          - html: "` L'insieme dei panieri preferiti al paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
+                    non si sovrappone all'insieme dei panieri accessibili.
+                     `"
+            show: calcs.u >= 24 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+          - html: "` `"
+            show: calcs.u >= 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+          - html: "` Tuttavia, il paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ non è accessibile, dato che
+                    $$ ${params.p1}*${params.x1.toFixed(1)}+${params.p2}*${params.x2.toFixed(1)} > ${params.m} .$$
+                    Prova a spostare il paniere fino ad un punto dove è accessibile.
+                     `"
+            show: calcs.u >= 24 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+
+
+
+          - html: "` L'insieme dei panieri preferiti al paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
+                    non si sovrappone all'insieme dei panieri accessibili. `"
+            show: calcs.u >= 24 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+          - html: "` `"
+            show: calcs.u >= 24 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+          - html: "` Inoltre, il paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ è accessibile, dato che
+                    $$ ${params.p1}*${params.x1.toFixed(1)}+${params.p2}*${params.x2.toFixed(1)} \\\\leq ${params.m} .$$
+                    Hai individuato la scelta ottima del consumatore! `"
+            show: calcs.u >= 24 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+
+
+
+          - html: "` Il paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ è accessibile, dato che
+                    $$ ${params.p1}*${params.x1.toFixed(1)}+${params.p2}*${params.x2.toFixed(1)} \\\\leq ${params.m} .$$
+                     `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+          - html: "` `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+          - html: "` Tuttavia, l'insieme dei panieri preferiti al paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
+                    si sovrappone all'insieme dei panieri accessibili. Ciò significa che qualche altro
+                    paniere è sia accessibile sia preferito al paniere  $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$.
+                     `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+          - html: "` `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+          - html: "` Dunque, $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ non è la scelta ottima del consumatore.
+                     `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+
+
+
+
+
+          - html: "` Il paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ non è accessibile, dato che
+                    $$ ${params.p1}*${params.x1.toFixed(1)}+${params.p2}*${params.x2.toFixed(1)} > ${params.m} .$$
+                     `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+          - html: "` `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+          - html: "` Inoltre, l'insieme dei panieri preferiti al paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
+                    si sovrappone all'insieme dei panieri accessibili. Ciò significa che qualche altro
+                    paniere è sia accessibile sia preferito al paniere  $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$.
+                     `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+          - html: "` `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+          - html: "` Prova a spostare il paniere fino ad un punto dove è accessibile e non c'è
+                    sovrapposizione.
+                     `"
+            show: calcs.u < 24 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+
+
+
+
+
+
+
+
+
+
+

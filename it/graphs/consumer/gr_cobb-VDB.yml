@@ -1,0 +1,168 @@
+---
+schema: EconSchema
+version: 1
+aspectRatio: 1.3
+params:
+  - name: x1
+    value: 75
+    min: 0
+    max: 230
+    round: 5
+  - name: x2
+    value: 80
+    min: 0
+    max: 230
+    round: 5
+  - name: p1
+    value: 10
+    min: 5
+    max: 20
+  - name: p2
+    value: 10
+    min: 5
+    max: 20
+  - name: m
+    value: 1200
+    min: 600
+    max: 1800
+    round: 100
+  - {name: showAFFORDABLE, value: true}
+
+calcs:
+  e: (params.p1)*(params.x1)+(params.p2)*(params.x2)
+  xintercept: params.m/params.p1
+  yintercept: params.m/params.p2
+
+layout:
+  OneGraphPlusSidebar:
+    graph:
+      xAxis:
+        max: 240
+        ticks: 5
+      yAxis:
+        max: 240
+        ticks: 5
+      objects:
+
+      - Label:
+            coordinates: [240, 0]
+            text: "` \\\\text{Cibo (kg)} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, 240]
+            text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
+            yPixelOffset: 0
+
+
+      # BudgetLine
+      - Line:
+          point: [0,params.m/params.p2]
+          slope: -params.p1/params.p2
+          color: DarkGreen
+          strokeWidth: 2.5
+          max: params.m/params.p1
+      - Point:
+          coordinates: [params.m/params.p1, 0]
+          droplines: {vertical: calcs.xintercept.toFixed(1), horizontal: }
+          color: black
+          r: 0
+      - Point:
+          coordinates: [0, params.m/params.p2]
+          droplines: {vertical: , horizontal: calcs.yintercept.toFixed(1)}
+          color: black
+          r: 0
+
+      # Affordable bundles
+      - Area:
+          fn: (params.m) / (params.p2) - ((params.p1)*(x)) / (params.p2)
+          fill: green
+          above: false
+          show: params.showAFFORDABLE == true
+
+
+
+      # Bundle
+      - Point:
+          coordinates: [params.x1, params.x2]
+          droplines:
+            horizontal: params.x2
+            vertical: params.x1
+          color: Blue
+          draggable: true
+          show: calcs.e <= params.m
+      - Label:
+          coordinates: [params.x1, params.x2+5]
+          text: "` A `"
+          position: l
+          color: Blue
+          bgcolor: none
+          show: calcs.e <= params.m
+
+      - Point:
+          coordinates: [params.x1, params.x2]
+          droplines:
+            horizontal: params.x2
+            vertical: params.x1
+          color: Red
+          draggable: true
+          show: calcs.e > params.m
+      - Label:
+          coordinates: [params.x1, params.x2+5]
+          text: "` A `"
+          position: l
+          color: Red
+          bgcolor: none
+          show: calcs.e > params.m
+
+
+    sidebar:
+      controls:
+      - title: Vincolo di bilancio del consumatore
+        description: Il vincolo di bilancio è rappresentato graficamente dalla retta verde scuro. 
+                      Spostare i cursori per vedere come il vincolo di bilancio cambia al variare
+                      dei suoi parametri (reddito del consumatore e prezzi dei due beni).
+                      Spostare il paniere <i>A</i> per calcolare la spesa necessaria ad acquistarlo
+                      e verificarne l'accessibilità o meno.
+        checkboxes:
+        - param: showAFFORDABLE
+          label: "\\text{Mostra tutti i panieri accessibili}"
+        sliders:
+        - param: m
+          label: M
+        - param: p1
+          label: P_X
+        - param: p2
+          label: P_Y
+        divs:
+          - html: "` `"
+          - html: "` `"
+          - html: "` Il paniere $A=(${params.x1},${params.x2})$
+                      $\\\\color{${colors.red}}\\\\textbf{non}$
+                      è accessibile, dato che
+                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
+                          = ${calcs.e} > ${params.m} .$$
+                     `"
+            show: calcs.e > params.m
+          - html: "` Il paniere $A=(${params.x1},${params.x2})$ è accessibile ma non si trova
+                      sul vincolo di bilancio, dato che
+                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
+                          = ${calcs.e} < ${params.m} .$$
+                     `"
+            show: calcs.e < params.m
+          - html: "` Il paniere $A=(${params.x1},${params.x2})$ è accessibile e si trova
+                      sul vincolo di bilancio, dato che
+                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
+                          = ${calcs.e} = ${params.m} .$$
+                     `"
+            show: calcs.e == params.m
+
+
+
+
+
+
+
+
+
+

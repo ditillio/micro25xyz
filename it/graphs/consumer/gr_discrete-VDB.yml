@@ -1,0 +1,136 @@
+---
+schema: EconSchema
+version: 1
+aspectRatio: 1.3
+params:
+  - name: x1
+    value: 2
+    min: 0
+    max: 6
+    round: 1
+  - name: x2
+    value: 1
+    min: 0
+    max: 6
+    round: 1
+  - name: p1
+    value: 10
+  - name: p2
+    value: 10
+  - name: m
+    value: 120
+  - name: a
+    value: 1
+    min: 1
+    max: 4
+  - name: b
+    value: 1
+    min: 1
+    max: 4
+  - {name: showMORE, value: false}
+  - {name: showLESS, value: false}
+
+calcs:
+  u: ((params.x1)^(params.a))*((params.x2)^(params.b))
+
+layout:
+  OneGraphPlusSidebar:
+    graph:
+      xAxis:
+        max: 6.9
+        ticks: 5
+      yAxis:
+        max: 6.9
+        ticks: 5
+      objects:
+
+      - Label:
+            coordinates: [6.9, 0]
+            text: "` \\\\text{Pizza} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, 6.9]
+            text: "` \\\\text{Cinema}  `"
+            yPixelOffset: 0
+
+      # Bundle
+      - Point:
+          coordinates: [params.x1, params.x2]
+          droplines:
+            horizontal: 
+            vertical: 
+          color: Blue
+          draggable: false
+      - Label:
+          coordinates: [params.x1, params.x2+0.2]
+          text: "` A `"
+          position: l
+          color: Blue
+          bgcolor: none
+
+      # Preferred and less preferred bundles
+      - Area:
+          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
+          fill: purple
+          above: true
+          show: params.showMORE == true
+      - Area:
+          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
+          fill: grey
+          above: false
+          show: params.showLESS == true
+          min: 0.5
+
+      - Point: {coordinates: [0,0], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [0,1], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [0,2], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [0,3], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [1,0], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [1,1], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [1,2], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [1,3], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [2,0], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [2,1], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [2,2], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [2,3], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [3,0], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [3,1], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [3,2], color: gray, opacity: 0.5, r: 4}
+      - Point: {coordinates: [3,3], color: gray, opacity: 0.5, r: 4}
+
+
+      
+
+
+
+
+    sidebar:
+      controls:
+      - title: Scelta ottima del consumatore
+        checkboxes:
+        - param: showMORE
+          label: "\\text{Mostra panieri più costosi di $A$}"
+        - param: showLESS
+          label: "\\text{Mostra panieri meno costosi di $A$}"
+        sliders:
+        - param: x1
+          label: "` \\\\text{Pizza} `"
+        - param: x2
+          label: "` \\\\text{Cinema} `"
+        divs:
+          - html: "` L'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
+                    non si sovrappone all'insieme dei panieri ammissibili.
+                     `"
+            show: calcs.u >= 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+
+
+
+
+
+
+
+
+
+
+
