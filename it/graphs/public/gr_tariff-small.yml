@@ -85,6 +85,7 @@ layout:
           droplines: {horizontal: (params.dint)-(params.T)}
           color: Blue
           r: 0
+          show: calcs.eqQs !== calcs.eqQ
 
 # shadow national demand
       - Line:
@@ -153,7 +154,7 @@ layout:
           lineStyle: dotted
       - Point:
           coordinates: [0, calcs.eqwP]
-          droplines: {horizontal: calcs.eqwP}
+          droplines: {horizontal: "` P_W=${calcs.eqwP} `"}
           color: Green
           r: 0
 
@@ -162,8 +163,8 @@ layout:
           coordinates: [0, calcs.eqwP+params.T]
           color: Green
           r: 0
-          droplines: {horizontal: calcs.eqwP+params.T}
-          show: params.T > 0 && calcs.eqQ !== calcs.eqQs
+          droplines: {horizontal: "` P_W+T=${calcs.eqwP+params.T} `"}
+          show: params.T > 0
 
 # national equilibrium quantity
       - Point:
@@ -227,6 +228,38 @@ layout:
           above: false
           show: params.showDWL == true
 
+# import
+      - Arrow:
+          begin: [calcs.eqQs,1]
+          end: [calcs.eqQ,1]
+          double: true
+          color: black
+          strokeWidth: 1.5
+          show: calcs.eqQs < calcs.eqQ
+      - Label:
+          coordinates: [(calcs.eqQs+calcs.eqQ)/2, 1]
+          text: "` \\\\text{imp.} `"
+          yPixelOffset: 15
+          xPixelOffset: 0
+          show: calcs.eqQs < calcs.eqQ
+
+    leftControls:
+      title: Mercato nazionale
+      checkboxes:
+      - param: showCS
+        label: "\\text{Mostra surplus del consumatore}"
+      - param: showPS
+        label: "\\text{Mostra surplus del produttore}"
+      - param: showREV
+        label: "\\text{Mostra gettito fiscale}"
+      - param: showDWL
+        label: "\\text{Mostra perdita secca}"
+
+
+
+
+
+
 
 
 
@@ -282,6 +315,9 @@ layout:
           color: Green
           r: 4
 
+    rightControls:
+      title: Mercato mondiale
+
 
 
 
@@ -289,53 +325,77 @@ layout:
     sidebar:
       controls:
       - title: Impatto di un dazio in una piccola economia aperta
-        checkboxes:
-        - param: showCS
-          label: "\\text{Mostra surplus del consumatore nazionale}"
-        - param: showPS
-          label: "\\text{Mostra surplus del produttore nazionale}"
-        - param: showREV
-          label: "\\text{Mostra gettito fiscale nazionale}"
-        - param: showDWL
-          label: "\\text{Mostra perdita secca nel paese}"
         sliders:
         - param: T
           label: T
+        # divs:
+        #   - html: "` Quando $T=${params.T}$, il surplus del consumatore è `"
+        #     show: params.showCS == true
+        #   - html: "` Quando $T=${params.T}$, il surplus del produttore è `"
+        #     show: params.showPS == true
         divs:
-          - html: "`  `"
-            show: params.T >= 0
+          - html: "`La domanda nazionale è pari a 1/1000 di quella mondiale, 
+                    l'offerta nazionale a 1/4000 di quella mondiale. `"
+            show: params.T == 0
+          - html: "`In assenza di dazi, il prezzo pagato
+                    dai consumatori nazionali è il prezzo determinato a livello mondiale, 
+                    $ P_W=${calcs.eqwP}$ €/kg.
+                    A questo prezzo la domanda nazionale  è pari a 
+                    ${calcs.eqQ} tonnellate, mentre la produzione nazionale è pari a ${calcs.eqQs} tonnellate.
+                    Le importazioni sono quindi pari a  
+                    $ ${calcs.eqQ}-${calcs.eqQs}=${calcs.eqQ-calcs.eqQs} $ tonnellate. `"
+            show: params.T == 0
+
+          - html: "` Un dazio di $T=${params.T}$ €/kg fa aumentare il prezzo pagato dai consumatori 
+                    nazionali a $ P_W+T= ${calcs.eqwP+params.T}$ €/kg.
+                    La produzione nazionale aumenta a ${calcs.eqQs} tonnellate.
+                    Le importazioni diminuiscono a 
+                    $ ${calcs.eqQ}-${calcs.eqQs}=${calcs.eqQ-calcs.eqQs} $ tonnellate.
+                    Il gettito fiscale è quindi pari a 
+                    $ ${params.T} * ${calcs.eqQ-calcs.eqQs} = ${(params.T)*(calcs.eqQ-calcs.eqQs)} $ 
+                    migliaia di euro. `"
+            show: params.T > 0 && calcs.eqQs !== calcs.eqQ
+
+          - html: "` Un dazio di $T=${params.T}$ €/kg esclude completamente i produttori esteri
+                    dal mercato nazionale. Le importazioni e quindi il gettito fiscale derivante
+                    dal dazio sono quindi pari a zero.
+                    La perdita secca di benessere nel paese è massima.
+                    Un dazio ancora più alto avrebbe esattamente gli stessi
+                    effetti.
+                    `"
+            show: calcs.eqQs == calcs.eqQ
 
 
-    explanation:
-      divs:
-        - html: "`La domanda nazionale costituisce solo un 1/1000 di quella mondiale, 
-                  l'offerta nazionale 1/4000 di quella mondiale. In assenza di dazi, il prezzo pagato
-                  dai consumatori nazionali è il prezzo determinato a livello mondiale, 
-                  $ P_W=${calcs.eqwP}$ €/kg.
-                  A questo prezzo la domanda nazionale  è pari a 
-                  ${calcs.eqQ} tonnellate, mentre la produzione nazionale è pari a ${calcs.eqQs} tonnellate.
-                  Le importazioni sono quindi pari a  
-                  $ ${calcs.eqQ}-${calcs.eqQs}=${calcs.eqQ-calcs.eqQs} $ tonnellate. `"
-          show: params.T == 0
+    # explanation:
+    #   divs:
+    #     - html: "`La domanda nazionale costituisce solo un 1/1000 di quella mondiale, 
+    #               l'offerta nazionale 1/4000 di quella mondiale. In assenza di dazi, il prezzo pagato
+    #               dai consumatori nazionali è il prezzo determinato a livello mondiale, 
+    #               $ P_W=${calcs.eqwP}$ €/kg.
+    #               A questo prezzo la domanda nazionale  è pari a 
+    #               ${calcs.eqQ} tonnellate, mentre la produzione nazionale è pari a ${calcs.eqQs} tonnellate.
+    #               Le importazioni sono quindi pari a  
+    #               $ ${calcs.eqQ}-${calcs.eqQs}=${calcs.eqQ-calcs.eqQs} $ tonnellate. `"
+    #       show: params.T == 0
 
-        - html: "` Un dazio di $T=${params.T}$ €/kg fa aumentare il prezzo pagato dai consumatori 
-                  nazionali a $ P_W+T= ${calcs.eqwP+params.T}$ €/kg.
-                  La produzione nazionale aumenta a ${calcs.eqQs} tonnellate.
-                  Le importazioni diminuiscono a 
-                  $ ${calcs.eqQ}-${calcs.eqQs}=${calcs.eqQ-calcs.eqQs} $ tonnellate.
-                  Il gettito fiscale è quindi pari a 
-                  $ ${params.T} * ${calcs.eqQ-calcs.eqQs} = ${(params.T)*(calcs.eqQ-calcs.eqQs)} $ 
-                  migliaia di €. `"
-          show: params.T > 0 && calcs.eqQs !== calcs.eqQ
+    #     - html: "` Un dazio di $T=${params.T}$ €/kg fa aumentare il prezzo pagato dai consumatori 
+    #               nazionali a $ P_W+T= ${calcs.eqwP+params.T}$ €/kg.
+    #               La produzione nazionale aumenta a ${calcs.eqQs} tonnellate.
+    #               Le importazioni diminuiscono a 
+    #               $ ${calcs.eqQ}-${calcs.eqQs}=${calcs.eqQ-calcs.eqQs} $ tonnellate.
+    #               Il gettito fiscale è quindi pari a 
+    #               $ ${params.T} * ${calcs.eqQ-calcs.eqQs} = ${(params.T)*(calcs.eqQ-calcs.eqQs)} $ 
+    #               migliaia di €. `"
+    #       show: params.T > 0 && calcs.eqQs !== calcs.eqQ
 
-        - html: "` Un dazio di $T=${params.T}$ €/kg esclude completamente i produttori esteri
-                  dal mercato nazionale. Le importazioni e quindi il gettito fiscale derivante
-                  dal dazio sono quindi pari a zero.
-                  La perdita secca di benessere nel paese è massima.
-                  Un dazio ancora più alto avrebbe esattamente gli stessi
-                  effetti.
-                  `"
-          show: calcs.eqQs == calcs.eqQ
+    #     - html: "` Un dazio di $T=${params.T}$ €/kg esclude completamente i produttori esteri
+    #               dal mercato nazionale. Le importazioni e quindi il gettito fiscale derivante
+    #               dal dazio sono quindi pari a zero.
+    #               La perdita secca di benessere nel paese è massima.
+    #               Un dazio ancora più alto avrebbe esattamente gli stessi
+    #               effetti.
+    #               `"
+    #       show: calcs.eqQs == calcs.eqQ
 
 
 
