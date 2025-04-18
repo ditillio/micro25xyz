@@ -156,9 +156,9 @@ layout:
       title: Mercato nazionale senza dazio
       checkboxes:
       - param: showCS
-        label: "\\text{Mostra surplus del consumatore}"
+        label: "\\text{Mostra surplus del cons.}"
       - param: showPS
-        label: "\\text{Mostra surplus del produttore}"
+        label: "\\text{Mostra surplus del prod.}"
       - param: showREV
         label: "\\text{Mostra gettito fiscale}"
 
