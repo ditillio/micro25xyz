@@ -91,8 +91,8 @@ parts:
           it: Monopolio
         sections:
           - title:
-              en: Monopolist's optimal choice
-              it: Scelta ottima del monopolista
+              en: Monopolist's Costs, Revenues, and Optimal Choice
+              it: Costi, ricavi e scelta ottima del monopolista
           - title:
               en: Price discrimination
               it: Discriminazione di prezzo
@@ -129,9 +129,6 @@ parts:
           - title:
               en: Import Tariffs
               it: Dazi all'importazione
-          - title:
-              en: Monopoly Regulation
-              it: Regolazione dei monopoli
       - folder: 8
         title:
           en: Externalities and Public Goods

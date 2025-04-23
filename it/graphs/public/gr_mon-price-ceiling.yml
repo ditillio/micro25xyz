@@ -1,0 +1,410 @@
+---
+schema: EconSchema
+version: 1
+params:
+
+- {name: cap, value: 20, min: 0, max: 30}
+
+- {name: dslope, value: 1} # abs value of slope of inverse demand
+- {name: dint, value: 30} # intercept of inverse demand
+- {name: mcslope, value: 0.5} # slope of marginal cost function
+
+- {name: showCS, value: 0}
+- {name: showPS, value: 0}
+- {name: showDWL, value: 0}
+
+calcs:
+
+  maxQ: (1.1)*(params.dint)/(params.dslope) # max displayed quantity
+  maxP: (1.15)*(params.dint) # max displayed price
+  minP: -(0.15)*(calcs.maxP) # max displayed price
+
+  Q0: ( (params.dint) - (params.cap) ) / (params.dslope) # quantity demanded at price cap
+  Qmon: (params.dint) / ( (2)*(params.dslope) + (params.mcslope)) # monopolistic quantity
+  Pmon: ( (params.dint)*((params.dslope)+(params.mcslope)) ) / ( (2)*(params.dslope) + (params.mcslope)) # monopolistic price
+  Qcomp: (params.dint) / ( (params.dslope) + (params.mcslope) ) # competitive quantity
+  Pcomp: ( (params.dint)*(params.mcslope) ) / ( (params.dslope) + (params.mcslope) ) # competitive price
+
+  eqP: min ( params.cap , calcs.Pmon ) # equilibrium price
+  eqQ: min(max(calcs.Q0,calcs.Qmon),(params.cap)/(params.mcslope)) # equilibrium quantity
+
+  maxrev: (1.1)*(calcs.Pmon)*(calcs.Qmon)
+
+aspectRatio: 0.75
+
+layout:
+
+  type: TwoVerticalGraphsPlusSidebar
+
+  def:
+
+
+    topGraph:
+      xAxis:
+        orient: bottom
+        min: 0
+        max: calcs.maxQ
+        ticks: 0
+      yAxis:
+        orient: left
+        min: 0
+        max: calcs.maxrev
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [calcs.maxQ, 0]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, calcs.maxrev]
+            text: "` \\\\text{€}  `"
+            xPixelOffset: -5
+
+# revenue
+      - Segment:
+          a: [0,0]
+          b: [calcs.Q0,(params.cap)*(calcs.Q0)]
+          color: Green
+          strokeWidth: 2.5
+      - Curve:
+          fn: ( (params.dint) - (params.dslope)*(x) ) * (x)
+          min: calcs.Q0
+          color: Green
+          strokeWidth: 2.5
+          position: bl
+          label:
+            text: R
+            x: (0.9)*(calcs.maxQ)
+      - Point:
+          coordinates: [calcs.eqQ, (calcs.eqP)*(calcs.eqQ)]
+          droplines:
+            vertical: calcs.eqQ
+          color: Green
+          r: 0
+
+# shadow revenue
+      - Curve:
+          fn: ( (params.dint) - (params.dslope)*(x) ) * (x)
+          max: calcs.Q0
+          color: Green
+          strokeWidth: 0.75
+          lineStyle: dashed
+
+# cost
+      - Curve:
+          fn: ((params.mcslope)/2)*((x)^(2))
+          color: Red
+          strokeWidth: 2.5
+          position: tl
+          label:
+            text: C
+            x: sqrt((2)*(calcs.maxrev)/(params.mcslope))
+
+# tangent to R at monopolistic choice
+      - Segment:
+          a: [(calcs.Qmon)-(5),((calcs.Pmon)*(calcs.Qmon))-((params.dint)-(2)*(params.dslope)*(calcs.Qmon))*5]
+          b: [(calcs.Qmon)+(5),((calcs.Pmon)*(calcs.Qmon))+((params.dint)-(2)*(params.dslope)*(calcs.Qmon))*5]
+          color: grey
+          lineStyle: dotted
+
+# tangent to C at monopolistic choice
+      - Segment:
+          a: [(calcs.Qmon)-(5),((params.mcslope)/2)*((calcs.Qmon)^(2))-((params.mcslope)*(calcs.Qmon))*5]
+          b: [(calcs.Qmon)+(5),((params.mcslope)/2)*((calcs.Qmon)^(2))+((params.mcslope)*(calcs.Qmon))*5]
+          color: grey
+          lineStyle: dotted
+
+# vertical dropline at monopolistic choice
+      - Point:
+          coordinates: [calcs.Qmon, ((params.dint)-(params.dslope)*(calcs.Qmon))*(calcs.Qmon)]
+          droplines:
+            vertical: calcs.Qmon
+          color: grey
+          r: 0
+          show: calcs.eqQ !== calcs.Qmon
+
+
+
+
+    bottomGraph:
+      xAxis:
+        orient: bottom
+        min: 0
+        max: calcs.maxQ
+        ticks: 0
+      yAxis:
+        orient: left
+        min: calcs.minP
+        max: calcs.maxP
+        ticks: 0
+      objects:
+      - Label:
+            coordinates: [calcs.maxQ, 0]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, calcs.maxP]
+            text: "` \\\\text{€/unità}  `"
+            xPixelOffset: -5
+      - Label:
+            coordinates: [0, 0]
+            text: 0
+            position: r
+
+
+# market demand function
+      - Line:
+          yIntercept: params.dint
+          slope: -params.dslope
+          color: Blue
+          max: (params.dint)/(params.dslope)
+          strokeWidth: 2.5
+          position: bl
+          label:
+            text: D
+            x: (0.9)*(calcs.maxQ)
+
+# monopolist marginal cost function
+      - Curve:
+          fn: (params.mcslope)*(x)
+          color: Red
+          strokeWidth: 2.5
+          position: c
+          label:
+            text: MC
+            x: (0.97)*(calcs.maxQ)
+
+# marginal revenue
+      - Line:
+          yIntercept: params.dint
+          min: calcs.Q0 
+          slope: -(2)*(params.dslope)
+          color: Green
+          strokeWidth: 2.5
+          position: c
+          label:
+            text: MR
+            y: calcs.minP
+      - Segment:
+          a: [0,params.cap]
+          b: [calcs.Q0,params.cap+0.2]
+          color: Green
+          strokeWidth: 2.5
+      - Segment:
+          a: [calcs.Q0,params.cap]
+          b: [calcs.Q0,(30)-(2)*(params.dslope)*(calcs.Q0)]
+          color: Green
+          strokeWidth: 3
+          lineStyle: dashed
+      - Point:
+          coordinates: [calcs.Q0, (params.dint)-(2)*(params.dslope)*(calcs.Q0)]
+          droplines:
+            vertical: calcs.Q0
+          color: grey
+          r: 0
+          show: calcs.Q0 < calcs.Qmon
+      - Point:
+          coordinates: [calcs.Q0, 0]
+          droplines:
+            vertical: calcs.Q0
+          color: grey
+          r: 0
+          show: calcs.Q0 > calcs.Qcomp
+
+# shadow marginal revenue
+      - Line:
+          yIntercept: params.dint
+          slope: -(2)*(params.dslope)
+          color: Green
+          strokeWidth: 0.75
+          lineStyle: dashed
+
+# price cap
+      - Line:
+          yIntercept: params.cap
+          min: calcs.Q0
+          color: Purple
+          label:
+            text: P_\text{max}
+            x: calcs.maxQ
+            position: l
+          strokeWidth: 1
+          bgcolor: none
+          drag:
+            - vertical: cap
+      - Point:
+          coordinates: [0, params.cap]
+          droplines:
+            vertical: 
+            horizontal: params.cap
+          color: Purple
+          r: 0
+
+
+# monopolistic equilibrium with non-binding price cap
+      - Point:
+          coordinates: [calcs.Qmon, calcs.Pmon]
+          droplines:
+            vertical: calcs.Qmon
+            horizontal: calcs.Pmon
+          color: Green
+          r: 4
+          show: params.cap > calcs.Pmon
+
+# monopolistic equilibrium with binding price cap
+      - Point:
+          coordinates: [calcs.Q0, params.cap]
+          droplines:
+            horizontal: params.cap
+          color: Green
+          r: 4
+          show: params.cap <= calcs.Pmon && params.cap >= calcs.Pcomp
+      - Point:
+          coordinates: [calcs.Q0, (params.dint)-2*(params.dslope)*(calcs.Q0)]
+          droplines:
+            vertical: calcs.Q0
+          color: Green
+          r: 0
+          show: params.cap <= calcs.Pmon && params.cap >= calcs.Pcomp && (params.dint)-2*(params.dslope)*(calcs.Q0) >= 0
+      - Point:
+          coordinates: [calcs.Q0, 0]
+          droplines:
+            vertical: calcs.Q0
+          color: Green
+          r: 0
+          show: params.cap <= calcs.Pmon && params.cap >= calcs.Pcomp && (params.dint)-2*(params.dslope)*(calcs.Q0) < 0
+
+
+      - Point:
+          coordinates: [(params.cap)/(params.mcslope), params.cap]
+          droplines:
+            vertical: (params.cap)/(params.mcslope)
+            horizontal: params.cap
+          color: Green
+          r: 4
+          show: params.cap < calcs.Pcomp
+
+
+# consumer surplus
+      - Area:
+          fn1: (params.dint) - (params.dslope)*(x)
+          fn2: calcs.eqP
+          fill: blue
+          min: 0
+          max: calcs.eqQ
+          show: params.showCS == 1
+      - Segment:
+          a: [calcs.eqQ,(params.mcslope)*(calcs.eqQ)]
+          b: [calcs.eqQ,(params.dint)-(params.dslope)*(calcs.eqQ)]
+          color: grey
+          lineStyle: dotted
+          show: (params.showCS)+(params.showDWL) > 0 && params.cap < calcs.Pcomp
+
+# producer surplus
+      - Area:
+          fn1: calcs.eqP
+          fn2: (params.mcslope)*(x)
+          fill: green
+          min: 0
+          max: calcs.eqQ
+          show: params.showPS == 1
+
+# deadweight loss
+      - Area:
+          fn1: (params.dint) - (params.dslope)*(x)
+          fn2: (params.mcslope)*(x)
+          fill: grey
+          min: calcs.eqQ
+          max: calcs.Qcomp
+          show: params.showDWL == 1
+
+
+
+
+
+
+
+    sidebar:
+      controls:
+
+      - title: Prezzo massimo in un mercato monopolistico
+        sliders:
+        - param: cap
+          label: P_\text{max}
+        checkboxes:
+        - param: showCS
+          label: "` \\\\text{Mostra surplus del consumatore} `"
+        - param: showPS
+          label: "` \\\\text{Mostra surplus del monopolista} `"
+        - param: showDWL
+          label: "` \\\\text{Mostra perdita secca} `"
+
+        divs:
+        - html: "` `"
+        - html: "` Come in Figura 5.mon-opt-choice, se la funzione di costo marginale del monopolista è
+                  $$ MC(Q)=${params.mcslope}Q^2 $$
+                  e la funzione di domanda di mercato è
+                  $$ P=${params.dint}-Q$$
+                  allora, in assenza di interventi statali, il prezzo è $P^M=${calcs.Pmon}$
+                      e la quantità prodotta $Q^M=${calcs.Qmon}$. `"
+          show: params.dslope == 1
+        - html: "` Come in Figura 5.mon-opt-choice, se la funzione di costo marginale del monopolista è
+                  $$ MC(Q)=${params.mcslope}Q^2 $$
+                  e la funzione di domanda di mercato è
+                  $$ P=${params.dint}-${params.dslope}Q$$
+                  allora, in assenza di interventi statali, il prezzo è $P^M=${calcs.Pmon}$
+                      e la quantità prodotta $Q^M=${calcs.Qmon}$. `"
+          show: params.dslope !== 1
+        - html: "` L'introduzione di un prezzo massimo pari a $P_\\\\text{max}=${params.cap}$ non ha
+                    alcun effetto sul mercato. `"
+          show: params.cap >= calcs.Pmon
+        - html: "` L'introduzione di un prezzo massimo pari a $P_\\\\text{max}=${params.cap}$ 
+                  riduce il prezzo (che diventa $P=${params.cap}$), aumenta la quantità 
+                  (che diventa $Q=${calcs.eqQ}$) e riduce la perdita secca. `"
+          show: params.cap < calcs.Pmon && params.cap > calcs.Pcomp
+        - html: "` L'introduzione di un prezzo massimo pari a $P_\\\\text{max}=${params.cap}$ 
+                  riduce il prezzo (che diventa $P=${params.cap}$) e aumenta la 
+                  quantità (che diventa $Q=${calcs.eqQ}$). La perdita secca
+                  è ridotta a zero. `"
+          show: params.cap == calcs.Pcomp
+        - html: "` L'introduzione di un prezzo massimo pari a $P_\\\\text{max}=${params.cap}$ 
+                  riduce il prezzo (che diventa $P=${params.cap}$), aumenta la quantità 
+                  (che diventa $Q=${calcs.eqQ}$) e riduce la perdita secca. `"
+          show: params.cap < calcs.Pcomp && calcs.eqQ > calcs.Qmon
+        - html: "` L'introduzione di un prezzo massimo pari a $P_\\\\text{max}=${params.cap}$ 
+                  riduce il prezzo (che diventa $P=${calcs.eqQ}$) ma lascia invariata  
+                  la quantità ($Q=${calcs.Qmon}$, come in assenza dell'intervento). 
+                  La perdita secca è la stessa che si ha in assenza
+                  dell'intervento. L'unica differenza sta nella distribuzione del surplus totale
+                  (ora più a favore dei consumatori). `"
+          show: params.cap < calcs.Pcomp && calcs.eqQ == calcs.Qmon
+        - html: "` L'introduzione di un prezzo massimo pari a $P_\\\\text{max}=${params.cap}$ 
+                  riduce il prezzo (che diventa $P=${calcs.eqP}$) ma riduce  
+                  la quantità (che diventa $Q=${calcs.eqQ}$). La perdita secca è
+                   maggiore di quella in assenza dell'intervento.  `"
+          show: params.cap < calcs.Pcomp && calcs.eqQ < calcs.Qmon
+
+    explanation:
+      divs:
+        - html: "` In presenza di un prezzo massimo $P_\\\\text{max}=${params.cap}$ la curva di ricavo 
+                  marginale $MR$ è piatta fino alla quantità domandata al prezzo massimo, ovvero
+                   $Q=${((params.dint)-(params.cap))/(params.dslope)}$. 
+                  In corrispondenza di quella quantità, la curva $MR$ presenta una discontinuità.
+                  Oltre quella quantità, la curva coincide con la curva $MR$ in assenza di interventi.   `"
+
+
+
+
+
+
+
+
+
+
+
+
+

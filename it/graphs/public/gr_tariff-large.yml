@@ -1,7 +1,7 @@
 schema: EconSchema
 params:
 
-- {name: T, value: 0, min: 0, max: 8, round: 1}
+- {name: T, value: 0, min: 0, max: 6, round: 1}
 - {name: showPS, value: false}
 - {name: showCS, value: false}
 - {name: showREV, value: false}
@@ -21,17 +21,22 @@ params:
 calcs:
   eqQ: ((params.dint)-(params.T))/((params.dslope)+(params.wsslope)) # equilibrium quantity
   eqwP: (params.wsslope)*(calcs.eqQ) # equilibrium world price
+  eqwPT: ((params.wsslope)*(calcs.eqQ))+(params.T) # equilibrium world price plus tariff
   eqQs: ((calcs.eqwP)+(params.T))/(params.nsslope) # equilibrium national supplied quantity
+  imp: calcs.eqQ - calcs.eqQs # imports 
 
   eqQ0: (params.dint)/((params.dslope)+(params.wsslope)) # equilibrium quantity w/o tariff
   eqwP0: (params.wsslope)*(calcs.eqQ0) # equilibrium world price w/o tariff
   eqQ0s: (calcs.eqwP0)/(params.nsslope) # equilibrium national supplied quantity w/o tariff
+  imp0: calcs.eqQ0 - calcs.eqQ0s # imports w/o tariff
 
   maxQ: (1.25)*(calcs.eqQ0) # max displayed world quantity
   maxP: (1.1)*(params.dint) # max displayed price
 
-
-
+  CS: (((params.dint)-(calcs.eqwPT))*(calcs.eqQ))/2 # consumer surplus
+  PS: ((calcs.eqwPT)*(calcs.eqQs))/2 # producer surplus
+  rev: (params.T)*(calcs.imp) # tax revenues
+  TS: (calcs.CS)+(calcs.PS)+(calcs.rev) # total surplus
 
 layout:
   ThreeHorizontalGraphs:
@@ -61,11 +66,11 @@ layout:
           slope: -(params.dslope)
           color: Blue
           strokeWidth: 2
-          max: (0.9)*(calcs.maxQ)
+          max: (0.85)*(calcs.maxQ)
           label:
             text: D_N
-            x: (0.95)*(calcs.maxQ)
-            position: b
+            x: (0.65)*(calcs.maxQ)
+            position: bl
       - Point:
           coordinates: [0, (params.dint)]
           droplines: {horizontal: (params.dint)}
@@ -80,7 +85,7 @@ layout:
           strokeWidth: 2
           label:
             text: S_N
-            x: calcs.maxQ
+            y: calcs.maxP
       - Point:
           coordinates: [calcs.eqQ0s, (calcs.eqwP0)]
           color: Red
@@ -95,11 +100,25 @@ layout:
           slope: 0
           color: Green
           lineStyle: dotted
+          show: params.T == 0
       - Point:
           coordinates: [0, calcs.eqwP0]
           droplines: {horizontal: "` P_W=${calcs.eqwP0} `"}
           color: Green
           r: 0
+          show: params.T == 0
+      - Line:
+          yIntercept: (calcs.eqwP0)
+          slope: 0
+          color: grey
+          lineStyle: dotted
+          show: params.T > 0
+      - Point:
+          coordinates: [0, calcs.eqwP0]
+          droplines: {horizontal: "` P_W=${calcs.eqwP0} `"}
+          color: grey
+          r: 0
+          show: params.T > 0
 
 
 # national equilibrium quantity
@@ -156,12 +175,14 @@ layout:
       title: Mercato nazionale senza dazio
       checkboxes:
       - param: showCS
-        label: "\\text{Mostra surplus del cons.}"
+        label: "\\text{Mostra surplus cons.}"
       - param: showPS
-        label: "\\text{Mostra surplus del prod.}"
+        label: "\\text{Mostra surplus prod.}"
       - param: showREV
         label: "\\text{Mostra gettito fiscale}"
-
+      divs:
+        - html: "`  `"
+        - html: "`Surplus totale: 36.00 milioni € `"
 
 
 
@@ -201,6 +222,14 @@ layout:
               text: "` \\\\text{€/kg}  `"
               xPixelOffset: 0
 
+# world equilibrium w/o tariff
+      - Point:
+          coordinates: [calcs.eqQ0, calcs.eqwP0]
+          droplines: {horizontal: , vertical: calcs.eqQ0}
+          color: Gray
+          r: 3
+          show: params.T > 0
+
 # national demand
       - Line:
           yIntercept: (params.dint)-(params.T)
@@ -210,8 +239,7 @@ layout:
           max: (0.9)*(calcs.maxQ)
           label:
             text: D_N
-            x: (0.95)*(calcs.maxQ)
-            position: b
+            x: (0.9)*(calcs.maxQ)
       - Point:
           coordinates: [0, params.dint]
           droplines: {horizontal: params.dint}
@@ -233,23 +261,11 @@ layout:
           lineStyle: dashed
           show: params.T > 0
       - Point:
-          coordinates: [calcs.eqQ0, calcs.eqwP0]
-          color: Gray
-          r: 3
-          show: params.T > 0
-      - Point:
           coordinates: [calcs.eqQ, (calcs.eqwP)+(params.T)]
           color: Gray
           r: 3
           show: params.T > 0
 
-# shadow national demanded quantity
-      - Point:
-          coordinates: [calcs.eqQ0, calcs.eqwP0]
-          droplines: {vertical: calcs.eqQ0}
-          color: Gray
-          r: 0
-          show: params.T > 0
 
 # national supply
       - Line:
@@ -259,13 +275,13 @@ layout:
           strokeWidth: 2
           label:
             text: S_N
-            x: calcs.maxQ
+            y: calcs.maxP
       - Point:
           coordinates: [calcs.eqQs, (calcs.eqwP)+(params.T)]
           color: Red
-          droplines: {vertical: calcs.eqQs}
+          droplines: {vertical: calcs.eqQs.toFixed(2)}
           r: 3
-          xPixelOffset: 2
+          xPixelOffset: 4
           show: calcs.eqQs !== calcs.eqQ
       - Segment:
           a: [0, (calcs.eqwP)+(params.T)]
@@ -280,7 +296,7 @@ layout:
           droplines: {vertical: calcs.eqQ0s}
           color: Gray
           r: 0
-          xPixelOffset: -2
+          xPixelOffset: -5
           show: params.T > 0
 
 # world price line
@@ -291,16 +307,17 @@ layout:
           lineStyle: dotted
       - Point:
           coordinates: [0, calcs.eqwP]
-          droplines: {horizontal: "` P'_W=${calcs.eqwP} `"}
+          droplines: {horizontal: "` P'_W=${calcs.eqwP.toFixed(2)} `"}
           color: Green
           r: 0
+          show: params.T > 0
 
 # national equilibrium price
       - Point:
           coordinates: [0, calcs.eqwP+params.T]
           color: Green
           r: 0
-          droplines: {horizontal: "` P'_W+T=${calcs.eqwP+params.T} `"}
+          droplines: {horizontal: "` P'_W+T=${calcs.eqwPT.toFixed(2)} `"}
           show: params.T > 0
 
 # national equilibrium quantity
@@ -315,7 +332,7 @@ layout:
           lineStyle: dotted
       - Point:
           coordinates: [calcs.eqQ, 0]
-          droplines: {vertical: calcs.eqQ}
+          droplines: {vertical: calcs.eqQ.toFixed(2)}
           color: Green
           r: 0
 
@@ -385,6 +402,8 @@ layout:
       sliders:
       - param: T
         label: T
+      divs:
+        - html: "`Surplus totale: ${calcs.TS.toFixed(2)} milioni € `"
 
 
 
@@ -424,6 +443,9 @@ layout:
           slope: -(params.dslope)
           color: Blue
           strokeWidth: 2
+          label:
+            text: D_W
+            x: calcs.maxQ
       - Point:
           coordinates: [0, params.dint]
           droplines: {horizontal: params.dint}
@@ -452,9 +474,18 @@ layout:
 # world equilibrium 
       - Point:
           coordinates: [calcs.eqQ, calcs.eqwP]
-          droplines: {horizontal: calcs.eqwP, vertical: calcs.eqQ}
+          droplines: {horizontal: , vertical: calcs.eqQ.toFixed(2)}
           color: Green
-          r: 4
+          r: 3
+
+# world equilibrium w/o tariff
+      - Point:
+          coordinates: [calcs.eqQ0, calcs.eqwP0]
+          droplines: {horizontal: , vertical: calcs.eqQ0}
+          color: Gray
+          r: 3
+          show: params.T > 0
+
 
     rightControls:
       title: Mercato mondiale
@@ -465,23 +496,26 @@ layout:
     explanation:
 
       divs:
-        - html: "`La domanda nazionale è pari a 1/1000 di quella mondiale, 
-                  l'offerta nazionale a 1/4000 di quella mondiale. `"
+        - html: "`La domanda nazionale è pari a quella mondiale, 
+                  l'offerta nazionale a 1/4 di quella mondiale. `"
           show: params.T == 0
         - html: "`In assenza di dazi, il prezzo pagato
                   dai consumatori nazionali è il prezzo determinato a livello mondiale, 
                   $ P_W=${calcs.eqwP}$ €/kg.
                   A questo prezzo la domanda nazionale  è pari a 
-                  ${calcs.eqQ} tonnellate, mentre la produzione nazionale è pari a ${calcs.eqQs} tonnellate.
+                  ${calcs.eqQ0.toFixed(2)} migliaia di tonnellate, mentre la produzione nazionale è pari
+                   a ${calcs.eqQ0s.toFixed(2)} migliaia di tonnellate.
                   Le importazioni sono quindi pari a  
-                  $ ${calcs.eqQ}-${calcs.eqQs}=${calcs.eqQ-calcs.eqQs} $ tonnellate. `"
+                  $ ${calcs.eqQ0.toFixed(2)}-${calcs.eqQ0s.toFixed(2)}=
+                  ${calcs.imp0.toFixed(2)} $ migliaia di tonnellate. `"
           show: params.T == 0
 
-        - html: "` Un dazio di $T=${params.T}$ €/kg fa aumentare il prezzo pagato dai consumatori 
-                  nazionali a $ P_W+T= ${calcs.eqwP+params.T}$ €/kg.
-                  La produzione nazionale aumenta a ${calcs.eqQs} tonnellate.
+        - html: "` Un dazio di $T=${params.T}$ €/kg riduce il prezzo mondiale da $P_W=${calcs.eqwP0.toFixed(2)}$
+                  a $P'_W=${calcs.eqwP.toFixed(2)}$. Il prezzo pagato dai consumatori aumenta da
+                  $P_W=${calcs.eqwP0.toFixed(2)}$ a $ P'_W+T= ${calcs.eqwPT.toFixed(2)}$ €/kg.
+                  La produzione nazionale aumenta a ${calcs.eqQs.toFixed(2)} tonnellate.
                   Le importazioni diminuiscono a 
-                  $ ${calcs.eqQ}-${calcs.eqQs}=${calcs.eqQ-calcs.eqQs} $ tonnellate.
+                  $ ${calcs.imp.toFixed(2)} $ tonnellate.
                   Il gettito fiscale è quindi pari a 
                   $ ${params.T} * ${calcs.eqQ-calcs.eqQs} = ${(params.T)*(calcs.eqQ-calcs.eqQs)} $ 
                   migliaia di euro. `"
@@ -490,7 +524,7 @@ layout:
         - html: "` Un dazio di $T=${params.T}$ €/kg esclude completamente i produttori esteri
                   dal mercato nazionale. Le importazioni e quindi il gettito fiscale derivante
                   dal dazio sono quindi pari a zero.
-                  La perdita secca di benessere nel paese è massima.
+                  Il surplus totale nel paese è minimo.
                   Un dazio ancora più alto avrebbe esattamente gli stessi
                   effetti.
                   `"
