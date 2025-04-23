@@ -13,20 +13,19 @@ params:
 
 - {name: sslope, value: 0.1} #  slope of inverse supply
 
-- {name: showCS, value: 0}
-- {name: showPS, value: 0}
-- {name: showDWL, value: 0}
-- {name: showTAXREV, value: 0}
+- {name: showWELFARECHANGE, value: 0}
 
 - {name: who, value: 0} # who pays tax (0=nobody, 1=firm, 2=consumer)
 
 
 calcs:
 
+  subsidy: -(params.T)
+
   eqQ0: (params.dint)/((params.dslope)+(params.sslope)) # eq qty w/o tax
   eqP0: (params.dint)-(params.dslope)*(calcs.eqQ0) # eq price w/o tax
 
-  eqQ: ((params.dint)-(params.T))/((params.dslope)+(params.sslope))
+  eqQ: ((params.dint)-(calcs.subsidy))/((params.dslope)+(params.sslope))
   eqPcons: (params.dint)-(params.dslope)*(calcs.eqQ) # price paid by consumers
   eqPfirm: (params.sslope)*(calcs.eqQ) # price received by firms
 
@@ -89,7 +88,7 @@ layout:
           r: 0
           show: params.who !== 2
       - Line:
-          yIntercept: (params.dint)-(params.T)
+          yIntercept: (params.dint)-(calcs.subsidy)
           slope: -params.dslope
           color: Blue
           strokeWidth: 2
@@ -99,9 +98,9 @@ layout:
             x: (params.dint)/(params.dslope)
           show: params.who == 2
       - Point:
-          coordinates: [0, (params.dint)-(params.T)]
+          coordinates: [0, (params.dint)-(calcs.subsidy)]
           droplines:
-            horizontal: (params.dint)-(params.T)
+            horizontal: (params.dint)-(calcs.subsidy)
           color: Blue
           r: 0
           show: params.who == 2
@@ -113,15 +112,15 @@ layout:
           color: Blue
           strokeWidth: 0.75
           lineStyle: dashed
-          show: params.who == 2 && params.T > 0
+          show: params.who == 2 && calcs.subsidy < 0
       - Arrow:
           begin: [85,(params.dint)-(params.dslope)*(85)]
-          end: [85,(params.dint)-(params.dslope)*(85)-(params.T)]
+          end: [85,(params.dint)-(params.dslope)*(85)-(calcs.subsidy)]
 #          double: true
           color: black
           strokeWidth: 1
           trim: 0.1
-          show: params.who == 2 && params.T > 0
+          show: params.who == 2 && calcs.subsidy < 0
 
 
 # market supply
@@ -137,7 +136,7 @@ layout:
             x: (params.dint)/(params.dslope)
           show: params.who !== 1
       - Line:
-          yIntercept: params.T
+          yIntercept: calcs.subsidy
           slope: params.sslope
           color: Red
           max: (params.dint)/(params.dslope)
@@ -145,12 +144,12 @@ layout:
           position: c
           label:
             text: S
-            x: min( (params.dint)/(params.dslope) , ((calcs.maxP)-(params.T))/(params.sslope) )
+            x: min( (params.dint)/(params.dslope) , ((calcs.maxP)-(calcs.subsidy))/(params.sslope) )
           show: params.who == 1
       - Point:
-          coordinates: [0, params.T]
+          coordinates: [0, calcs.subsidy]
           droplines:
-            horizontal: params.T
+            horizontal: calcs.subsidy
           color: Red
           r: 0
           show: params.who == 1
@@ -163,15 +162,15 @@ layout:
           max: (params.dint)/(params.dslope)
           strokeWidth: 0.75
           lineStyle: dashed
-          show: params.who == 1 && params.T > 0
+          show: params.who == 1 && calcs.subsidy < 0
       - Arrow:
           begin: [85,(85)*(params.sslope)]
-          end: [85,(85)*(params.sslope)+(params.T)]
+          end: [85,(85)*(params.sslope)+(calcs.subsidy)]
 #          double: true
           color: black
           strokeWidth: 1
           trim: 0.1
-          show: params.who == 1 && params.T > 0
+          show: params.who == 1 && calcs.subsidy < 0
 
 
 # market equilibrium without intervention
@@ -182,7 +181,7 @@ layout:
             horizontal: calcs.eqP0
           color: Green
           r: 5
-          show: (params.who)*(params.T) == 0
+          show: (params.who)*(calcs.subsidy) == 0
       - Point:
           coordinates: [calcs.eqQ0, calcs.eqP0]
           droplines:
@@ -190,7 +189,7 @@ layout:
             horizontal: calcs.eqP0
           color: grey
           r: 3.5
-          show: params.who > 0 && params.T > 0
+          show: params.who > 0 && calcs.subsidy < 0
 
 # market equilibrium with tax on producer
       - Point:
@@ -200,14 +199,14 @@ layout:
             horizontal: calcs.eqPcons
           color: Green
           r: 5
-          show: (params.who) == 1 && (params.T) > 0
+          show: (params.who) == 1 && (calcs.subsidy) < 0
       - Point:
           coordinates: [calcs.eqQ, calcs.eqPfirm]
           droplines:
             horizontal: calcs.eqPfirm
           color: grey
           r: 3.5
-          show: (params.who) == 1 && (params.T) > 0
+          show: (params.who) == 1 && (calcs.subsidy) < 0
 
 # market equilibrium with tax on consumer
       - Point:
@@ -217,50 +216,50 @@ layout:
             horizontal: calcs.eqPfirm
           color: Green
           r: 5
-          show: (params.who) == 2 && (params.T) > 0
+          show: (params.who) == 2 && (calcs.subsidy) < 0
       - Point:
           coordinates: [calcs.eqQ, calcs.eqPcons]
           droplines:
             horizontal: calcs.eqPcons
           color: grey
           r: 3.5
-          show: (params.who) == 2 && (params.T) > 0
+          show: (params.who) == 2 && (calcs.subsidy) < 0
       - Segment:
           a: [calcs.eqQ, calcs.eqPcons]
           b: [calcs.eqQ, calcs.eqPfirm]
           color: grey
           lineStyle: dotted
-          show: (params.who) == 2 && (params.T) > 0
+          show: (params.who) == 2 && (calcs.subsidy) < 0
 
 
 
 
-# consumer surplus
+# consumer surplus variation
       - Area:
-          fn1: (params.dint)-(params.dslope)*(x)
+          fn1: min(calcs.eqP0,(params.dint)-(params.dslope)*(x))
           fn2: calcs.eqPcons
           fill: blue
           min: 0
           max: calcs.eqQ
-          show: params.showCS == 1 && params.who > 0
+          show: params.showWELFARECHANGE == 1
 
-# producer surplus
+# producer surplus variation
       - Area:
           fn1: calcs.eqPfirm
-          fn2: (params.sslope)*(x)
+          fn2: max(calcs.eqP0,(params.sslope)*(x))
           fill: green
           min: 0
           max: calcs.eqQ
-          show: params.showPS == 1 && params.who > 0
+          show: params.showWELFARECHANGE == 1
 
-# tax revenue
-      - Area:
-          fn1: calcs.eqPcons
-          fn2: calcs.eqPfirm
-          fill: Yellow
-          min: 0
-          max: calcs.eqQ
-          show: params.showTAXREV == 1 && params.who > 0
+# # tax revenue
+#       - Area:
+#           fn1: calcs.eqPcons
+#           fn2: calcs.eqPfirm
+#           fill: Yellow
+#           min: 0
+#           max: calcs.eqQ
+#           show: params.showTAXREV == 1
 
 # deadweight loss
       - Area:
@@ -269,14 +268,14 @@ layout:
           fill: grey
           min: calcs.eqQ
           max: calcs.eqQ0
-          show: params.showDWL == 1 && params.who > 0
+          show: params.showWELFARECHANGE == 1
 
-#       - Segment:
-#           a: [calcs.Q0s,params.cap]
-#           b: [calcs.Q0s,(params.dint)-(params.dslope)*(calcs.Q0s)]
-#           color: grey
-#           lineStyle: dotted
-#           show: (params.showCS)+(params.showDWL) > 0 && params.cap < calcs.eqP
+      - Segment:
+          a: [calcs.eqQ,(params.sslope)*(calcs.eqQ)]
+          b: [calcs.eqQ,(params.dint)-(params.dslope)*(calcs.eqQ)]
+          color: grey
+          lineStyle: dotted
+          show: params.who == 1 && params.T > 0
 
 
 
@@ -286,15 +285,15 @@ layout:
     sidebar:
       controls:
 
-      - title: Tipo di tassa
-        description: Scegliere il tipo di tassa e poi la sua aliquota per vederne gli effetti
+      - title: Tipo di sussidio
+        description: Scegliere il tipo di sussidio e poi il suo ammontare unitario per vederne gli effetti
                       su equilibrio e benessere.
         radioGroup:
           param: who
           options:
-            - Nessuna tassa
-            - Accisa sulla produzione
-            - Accisa sul consumo
+            - Nessuna sussidio
+            - Sussidio alla produzione
+            - Sussidio al consumo
 
       - title:
         sliders:
@@ -302,33 +301,14 @@ layout:
           label: T
 
         checkboxes:
-        - param: showCS
-          label: "` \\\\text{Mostra surplus del consumatore} `"
-        - param: showPS
-          label: "` \\\\text{Mostra surplus del produttore} `"
-        - param: showTAXREV
-          label: "` \\\\text{Mostra gettito fiscale} `"
-        - param: showDWL
-          label: "` \\\\text{Mostra perdita secca} `"
+        - param: showWELFARECHANGE
+          label: "` \\\\text{Mostra variazioni di benessere} `"
         show: params.who > 0
 
         divs:
         - html: "` `"
         - html: "` `"
         - html: "` `"
-
-        - html: "`
-                  L'introduzione di un'accisa di aliquota $T=${params.T}$ sulla produzione 
-                  sposta la curva di offerta parallelamente in alto di ${params.T} euro.
-                `"
-          show: params.who == 1 && params.T > 0
-
-        - html: "`
-                  L'introduzione di un'accisa di aliquota $T=${params.T}$ sul consumo 
-                  sposta la curva di domanda parallelamente in basso di ${params.T} euro.
-                `"
-          show: params.who == 2 && params.T > 0
-
         - html: "` `"
         - html: "` `"
 
@@ -358,6 +338,14 @@ layout:
                 `"
           show: params.who > 0 && params.T > 0
 
+        - html: "`
+                  Il surplus del consumatore aumenta (variazione = area azzurra). 
+                  Il surplus del produttore aumenta (variazione = area verde). Il gettito fiscale però è
+                  negativo (somma delle aree verde, azzurra e grigia). Il surplus totale quindi
+                  diminuisce (perdita secca = area grigia).
+                `"
+          show: params.who > 0 && params.T > 0 && params.showWELFARECHANGE == 1
+
 
 
     explanation:
@@ -372,6 +360,29 @@ layout:
                   In assenza di interventi, prezzo e quantità di equilibrio sono $P=${calcs.eqP0}$
                       e $Q=${calcs.eqQ0}$.
                 `"
+
+        - html: "` `"
+          show: params.who == 0
+        - html: "` `"
+          show: params.who == 0
+        - html: "` `"
+          show: params.who == 0
+        - html: "` `"
+          show: params.who == 0
+        - html: "` `"
+          show: params.who == 0
+
+        - html: "`
+                  L'introduzione di un sussidio alle imprese pari a $T=${params.T}$ euro per unità
+                  prodotta sposta la curva di offerta parallelamente in basso di ${params.T} euro.
+                `"
+          show: params.who == 1 && params.T > 0
+
+        - html: "`
+                  L'introduzione di un sussidio ai consumatori pari a $T=${params.T}$ euro per unità
+                  acquistata sposta la curva di domanda parallelamente in alto di ${params.T} euro.
+                `"
+          show: params.who == 2 && params.T > 0
 
 
 
