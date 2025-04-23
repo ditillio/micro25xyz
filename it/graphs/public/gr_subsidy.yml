@@ -291,7 +291,7 @@ layout:
         radioGroup:
           param: who
           options:
-            - Nessuna sussidio
+            - Nessun sussidio
             - Sussidio alla produzione
             - Sussidio al consumo
 
