@@ -168,7 +168,7 @@ layout:
 
 
 
-# # consumer surplus
+# consumer surplus
       - Area:
           fn1: (params.dint)-(params.dslope)*(x)
           fn2: max(params.floor,calcs.eqP)

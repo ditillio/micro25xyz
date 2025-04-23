@@ -4,7 +4,7 @@ params:
 - {name: T, value: 0, min: 0, max: 4, round: 1}
 - {name: showPS, value: false}
 - {name: showCS, value: false}
-- {name: showREV, value: false}
+- {name: showTAXREV, value: false}
 - {name: showDWL, value: false}
 
 - {name: nd, value: 20} # number of domestic firms
@@ -206,9 +206,9 @@ layout:
           fn2: (calcs.eqwP)
           min: calcs.eqQs
           max: calcs.eqQ
-          fill: red
+          fill: Yellow
           above: false
-          show: params.showREV == true
+          show: params.showTAXREV == true
 
 # deadweight loss
       - Area:
@@ -250,7 +250,7 @@ layout:
         label: "\\text{Mostra surplus cons.}"
       - param: showPS
         label: "\\text{Mostra surplus prod.}"
-      - param: showREV
+      - param: showTAXREV
         label: "\\text{Mostra gettito fiscale}"
       - param: showDWL
         label: "\\text{Mostra perdita secca}"
