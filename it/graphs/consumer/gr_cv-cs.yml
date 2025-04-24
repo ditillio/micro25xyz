@@ -1,0 +1,426 @@
+---
+schema: EconSchema
+version: 1
+aspectRatio: 0.75
+params:
+
+- {name: p1, value: 10}
+- {name: p1new, value: 30}
+- {name: p2, value: 10}
+- {name: m, value: 1200}
+
+- {name: a, value: 1}
+- {name: b, value: 1}
+
+- {name: showMORE, value: false}
+- {name: showLESS, value: false}
+
+- {name: howmuch, value: 0}
+
+calcs:
+  s1: (params.a)/((params.a)+(params.b)) # share of income spent on good 1
+  s2: (1)-(calcs.s1) # share of income spent on good 2
+  x1old: (calcs.s1)*(params.m)/(params.p1) # optimal qty good 1 at old prices
+  x2old: (calcs.s2)*(params.m)/(params.p2) # optimal qty good 2 at old prices
+  uold: ((calcs.x1old)^(params.a))*((calcs.x2old)^(params.b)) # max utility at old prices
+
+  x1new: (calcs.s1)*(params.m)/(params.p1new) # optimal qty good 1 at new prices
+  x2new: (calcs.s2)*(params.m)/(params.p2) # optimal qty good 2 at new prices
+  unew: ((calcs.x1new)^(params.a))*((calcs.x2new)^(params.b)) # max utility at new prices
+
+  deltaCS: (calcs.s1)*(params.m)*log((params.p1new)/(params.p1))
+  x1deltaCS: (calcs.s1)*((params.m)+(calcs.deltaCS))/(params.p1new) 
+  x2deltaCS: (calcs.s2)*((params.m)+(calcs.deltaCS))/(params.p2) 
+  udeltaCS: ((calcs.x1deltaCS)^(params.a))*((calcs.x2deltaCS)^(params.b))
+
+  CV: ((calcs.uold)^(1/((params.a)+(params.b))))/((((calcs.s1)/(params.p1new))^(calcs.s1))*(((calcs.s2)/(params.p2))^(calcs.s2)))-(params.m)
+  x1newhicks: (calcs.s1)*((params.m)+(calcs.CV))/(params.p1new) # CV-compensated demand of good 1 at new prices
+  x2newhicks: (calcs.s2)*((params.m)+(calcs.CV))/(params.p2) # CV-compensated demand of good 1 at new prices
+
+  toomuch: ((params.p1new)-(params.p1))*(calcs.x1old)
+  x1toomuch: (calcs.s1)*((params.m)+(calcs.toomuch))/(params.p1new) 
+  x2toomuch: (calcs.s2)*((params.m)+(calcs.toomuch))/(params.p2) 
+  utoomuch: ((calcs.x1toomuch)^(params.a))*((calcs.x2toomuch)^(params.b))
+
+  toolittle: ((params.p1new)-(params.p1))*(calcs.x1new)
+  x1toolittle: (calcs.s1)*((params.m)+(calcs.toolittle))/(params.p1new) 
+  x2toolittle: (calcs.s2)*((params.m)+(calcs.toolittle))/(params.p2) 
+  x2toolittlebis: ((params.m)-(params.p1)*(calcs.x1new))/(params.p2) 
+  utoolittle: ((calcs.x1toolittle)^(params.a))*((calcs.x2toolittle)^(params.b))
+
+
+
+
+#   u1: (10^(params.a))*(10^(params.b))
+#   u2: (20^(params.a))*(20^(params.b))
+#   u3: (30^(params.a))*(30^(params.b))
+#   u4: (40^(params.a))*(40^(params.b))
+#   u5: (50^(params.a))*(50^(params.b))
+#   u6: (60^(params.a))*(60^(params.b))
+#   u7: (70^(params.a))*(70^(params.b))
+#   u8: (80^(params.a))*(80^(params.b))
+#   u9: (90^(params.a))*(90^(params.b))
+#   u10: (100^(params.a))*(100^(params.b))
+#   u11: (110^(params.a))*(110^(params.b))
+#   u12: (120^(params.a))*(120^(params.b))
+
+layout:
+  TwoVerticalGraphsPlusSidebar:
+
+    topGraph:
+      xAxis:
+        max: 125
+        ticks: 0
+      yAxis:
+        max: 150
+        ticks: 0
+      objects:
+
+      - Label:
+            coordinates: [125, 0]
+            text: "` \\\\text{Cibo (kg)} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, 150]
+            text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
+            yPixelOffset: 0
+
+# old optimal bundle
+      - Point:
+          coordinates: [calcs.x1old, calcs.x2old]
+          droplines:
+            horizontal: calcs.x2old.toFixed(0)
+            vertical: calcs.x1old.toFixed(0)
+          color: Blue
+          r: 3
+      - Label:
+          coordinates: [calcs.x1old+3, calcs.x2old+4]
+          text: "` A `"
+#          position: l
+          color: Blue
+          bgcolor: none
+
+# indifference curve at old optimal bundle
+      - Curve:
+          fn: ((calcs.uold)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1.25
+      
+# old budget constraint 
+      - Line:
+          yIntercept: (params.m)/(params.p2)
+          slope: -(params.p1)/(params.p2)
+          color: Blue
+          strokeWidth: 1.25
+      - Point:
+          coordinates: [(params.m)/(params.p1), 0]
+          droplines:
+            vertical: (params.m)/(params.p1)
+          color: Blue
+          r: 0
+      - Point:
+          coordinates: [0,(params.m)/(params.p2)]
+          droplines:
+            horizontal: (params.m)/(params.p2)
+          color: Blue
+          r: 0
+      
+# new budget constraint 
+      - Line:
+          yIntercept: (params.m)/(params.p2)
+          slope: -(params.p1new)/(params.p2)
+          color: Blue
+          strokeWidth: 1.25
+      - Point:
+          coordinates: [(params.m)/(params.p1new), 0]
+          droplines:
+            vertical: (params.m)/(params.p1new)
+          color: Blue
+          r: 0
+
+# new optimal bundle
+      - Point:
+          coordinates: [calcs.x1new, calcs.x2new]
+          droplines:
+            horizontal: calcs.x2new.toFixed(0)
+            vertical: calcs.x1new.toFixed(0)
+          color: Blue
+          r: 3
+      - Label:
+          coordinates: [calcs.x1new+3, calcs.x2new+4]
+          text: "` B `"
+#          position: l
+          color: Blue
+          bgcolor: none
+
+# indifference curve at new optimal bundle
+      - Curve:
+          fn: ((calcs.unew)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1.25
+
+# compensated budget constraint (toolittle)
+      - Line:
+          yIntercept: ((params.m)+(calcs.toolittle))/(params.p2)
+          slope: -(params.p1new)/(params.p2)
+          color: Red
+          strokeWidth: 1.25
+          show: params.howmuch == 1
+      - Point:
+          coordinates: [calcs.x1toolittle, calcs.x2toolittle]
+          droplines:
+            horizontal: calcs.x2toolittle.toFixed(1)
+            vertical: calcs.x1toolittle.toFixed(1)
+          color: Red
+          r: 3
+          show: params.howmuch == 1
+      - Label:
+          coordinates: [calcs.x1toolittle+2, calcs.x2toolittle+3]
+          text: "` D `"
+#          position: l
+          color: Red
+          bgcolor: none
+          show: params.howmuch == 1
+      - Point:
+          coordinates: [calcs.x1new, calcs.x2toolittlebis]
+          droplines:
+            horizontal: calcs.x2toolittlebis.toFixed(1)
+          color: grey
+          r: 3
+          show: params.howmuch == 1
+      - Segment:
+          a: [calcs.x1new, calcs.x2toolittlebis]
+          b: [calcs.x1new, calcs.x2new]
+          color: grey
+          lineStyle: dotted
+          show: params.howmuch == 1
+      - Curve:
+          fn: ((calcs.utoolittle)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1.25
+          show: params.howmuch == 1
+
+
+# compensated budget constraint (CS)
+      - Line:
+          yIntercept: ((params.m)+(calcs.deltaCS))/(params.p2)
+          slope: -(params.p1new)/(params.p2)
+          color: Red
+          strokeWidth: 1.25
+          show: params.howmuch == 2
+      - Point:
+          coordinates: [calcs.x1deltaCS, calcs.x2deltaCS]
+          droplines:
+            horizontal: calcs.x2deltaCS.toFixed(1)
+            vertical: calcs.x1deltaCS.toFixed(1)
+          color: Red
+          r: 3
+          show: params.howmuch == 2
+      - Label:
+          coordinates: [calcs.x1deltaCS+2, calcs.x2deltaCS+3]
+          text: "` E `"
+#          position: l
+          color: Red
+          bgcolor: none
+          show: params.howmuch == 2
+      - Curve:
+          fn: ((calcs.udeltaCS)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1.25
+          show: params.howmuch == 2
+
+# compensated budget constraint (CV)
+      - Line:
+          yIntercept: ((params.m)+(calcs.CV))/(params.p2)
+          slope: -(params.p1new)/(params.p2)
+          color: Red
+          strokeWidth: 1.25
+          show: params.howmuch == 3
+      - Point:
+          coordinates: [calcs.x1newhicks, calcs.x2newhicks]
+          droplines:
+            horizontal: calcs.x2newhicks.toFixed(1)
+            vertical: calcs.x1newhicks.toFixed(1)
+          color: Red
+          r: 3
+          show: params.howmuch == 3
+      - Label:
+          coordinates: [calcs.x1newhicks+3, calcs.x2newhicks+4]
+          text: "` C `"
+#          position: l
+          color: Red
+          bgcolor: none
+          show: params.howmuch == 3
+
+# compensated budget constraint (toomuch)
+      - Line:
+          yIntercept: ((params.m)+(calcs.toomuch))/(params.p2)
+          slope: -(params.p1new)/(params.p2)
+          color: Red
+          strokeWidth: 1.25
+          show: params.howmuch == 4
+      - Point:
+          coordinates: [calcs.x1toomuch, calcs.x2toomuch]
+          droplines:
+            horizontal: calcs.x2toomuch.toFixed(1)
+            vertical: calcs.x1toomuch.toFixed(1)
+          color: Red
+          r: 3
+          show: params.howmuch == 4
+      - Label:
+          coordinates: [calcs.x1toomuch+2, calcs.x2toomuch+3]
+          text: "` F `"
+#          position: l
+          color: Red
+          bgcolor: none
+          show: params.howmuch == 4
+      - Curve:
+          fn: ((calcs.utoomuch)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1.25
+          show: params.howmuch == 4
+
+
+
+
+
+
+
+
+
+
+
+    bottomGraph:
+      xAxis:
+        max: 125
+        ticks: 0
+      yAxis:
+        max: 40
+        ticks: 0
+      objects:
+
+      - Label:
+            coordinates: [125, 0]
+            text: "` \\\\text{Cibo (kg)} `"
+            yPixelOffset: 0
+            position: l
+      - Label:
+            coordinates: [0, 40]
+            text: "` \\\\text{€/kg}  `"
+            yPixelOffset: 0
+
+# inverse demand for good 1
+      - Curve:
+          fn: (calcs.s1)*(params.m)/(x)
+          color: Blue
+          strokeWidth: 1.5
+
+# old demand for good 1
+      - Point:
+          coordinates: [calcs.x1old, params.p1]
+          droplines:
+            horizontal: "` P_X=${params.p1} `"
+            vertical: "` ${calcs.x1old.toFixed(0)} `"
+          color: Blue
+          r: 3.5
+
+# new demand for good 1
+      - Point:
+          coordinates: [calcs.x1new, params.p1new]
+          droplines:
+            horizontal: "` P^\\\\prime_X=${params.p1new} `"
+            vertical: "` ${calcs.x1new.toFixed(0)} `"
+          color: Blue
+          r: 3.5
+
+# compensation (toolittle)
+      - Area:
+          fn1: (params.p1new)
+          fn2: (params.p1)
+          fill: blue
+          min: 0
+          max: calcs.x1new
+          show: params.howmuch == 1
+
+# compensation (CS)
+      - Area:
+          fn1: min((params.p1new),(calcs.s1)*(params.m)/(x))
+          fn2: (params.p1)
+          fill: blue
+          min: 0.001
+          max: calcs.x1old
+          show: params.howmuch == 2
+
+# compensation (toomuch)
+      - Area:
+          fn1: (params.p1new)
+          fn2: (params.p1)
+          fill: blue
+          min: 0
+          max: calcs.x1old
+          show: params.howmuch == 4
+      - Segment:
+          a: [calcs.x1old, params.p1]
+          b: [calcs.x1old, params.p1new]
+          color: Blue
+          lineStyle: dotted
+          show: params.howmuch == 4
+      - Segment:
+          a: [calcs.x1old, params.p1new]
+          b: [calcs.x1new, params.p1new]
+          color: Blue
+          lineStyle: dotted
+          show: params.howmuch == 4
+
+
+
+    sidebar:
+      controls:
+
+      - title: Domanda compensata
+        description: Scegliere il tipo di compensazione per visualizzare 
+                      vincolo di bilancio e scelta ottima corrispondenti ai nuovi prezzi e al 
+                      reddito compensato.
+
+        radioGroup:
+          param: howmuch
+          options:
+            - Nessuna compensazione
+            - Compensazione basata su nuova domanda
+            - Variazione di surplus
+            - Variazione compensativa
+            - Compensazione basata su vecchia domanda
+
+        # checkboxes:
+        # - param: showMORE
+        #   label: "\\text{Mostra panieri preferiti ad $A$}"
+        # - param: showLESS
+        #   label: "\\text{Mostra panieri meno preferiti di $A$}"
+
+        # sliders:
+        # - param: a
+        #   label: a
+        # - param: b
+        #   label: b
+
+        divs:
+          - html: "` `"
+          - html: "` `"
+          - html: "` `"
+          - html: "`
+                  In assenza di compensazione, ai nuovi prezzi il consumatore
+                  sceglie il paniere $B$.
+                  `"
+            show: params.howmuch == 0
+
+
+
+
+
+
+
+
+
+
+
