@@ -3,30 +3,12 @@ schema: EconSchema
 version: 1
 aspectRatio: 1.3
 params:
-  - name: x1
-    value: 65
-    min: 0
-    max: 120
-    round: 5
-  - name: x2
-    value: 75
-    min: 0
-    max: 120
-    round: 5
-  - name: p1
-    value: 10
-  - name: p2
-    value: 10
-  - name: m
-    value: 1200
-  - name: a
-    value: 1
-    min: 1
-    max: 4
-  - name: b
-    value: 1
-    min: 1
-    max: 4
+  - {name: x1, value: 65, min: 0, max: 120, round: 0.1}
+  - {name: x2, value: 75, min: 0, max: 120, round: 0.1}
+
+  - {name: a, value: 1, min: 1, max: 4}
+  - {name: b, value: 1, min: 1, max: 4}
+
   - {name: showMORE, value: false}
   - {name: showLESS, value: false}
 
@@ -70,26 +52,26 @@ layout:
       - Point:
           coordinates: [params.x1, params.x2]
           droplines:
-            horizontal: params.x2
-            vertical: params.x1
-          color: Blue
+            horizontal: params.x2.toFixed(1)
+            vertical: params.x1.toFixed(1)
+          color: Black
           draggable: true
       - Label:
           coordinates: [params.x1, params.x2+3]
           text: "` A `"
           position: l
-          color: Blue
+          color: Black
           bgcolor: none
 
       # Preferred and less preferred bundles
       - Area:
           fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
-          fill: purple
+          fill: blue
           above: true
           show: params.showMORE == true
       - Area:
           fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
-          fill: grey
+          fill: red
           above: false
           show: params.showLESS == true
           min: 0.5
@@ -105,51 +87,62 @@ layout:
           fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
-          min: 0.8
+          min: 0.2
       - Curve:
           fn:   ((calcs.u2)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.1
       - Curve:
           fn:   ((calcs.u3)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.1
       - Curve:
           fn:   ((calcs.u4)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
       - Curve:
           fn:   ((calcs.u5)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
       - Curve:
           fn:   ((calcs.u6)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
       - Curve:
           fn:   ((calcs.u7)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
       - Curve:
           fn:   ((calcs.u8)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
       - Curve:
           fn:   ((calcs.u9)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
       - Curve:
           fn:   ((calcs.u10)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
       - Curve:
           fn:   ((calcs.u11)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
       - Curve:
           fn:   ((calcs.u12)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
+          min: 0.01
 
       
 
@@ -158,12 +151,12 @@ layout:
 
     sidebar:
       controls:
-      - title: Scelta ottima del consumatore
+      - title: Preferenze del consumatore per beni divisibili (Esempio 1)
         checkboxes:
         - param: showMORE
           label: "\\text{Mostra panieri preferiti ad $A$}"
         - param: showLESS
-          label: "\\text{Mostra panieri meno preferiti di $A$}"
+          label: "\\text{Mostra panieri cui $A$ è preferito}"
         sliders:
         - param: a
           label: a

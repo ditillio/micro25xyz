@@ -4,40 +4,28 @@ version: 1
 aspectRatio: 1.3
 
 params:
-  - name: x1
-    value: 3.9
-    min: 0
-    max: 10
-    round: 0.1
-  - name: x2
-    value: 1.8
-    min: 0
-    max: 10
-    round: 0.1
-  - name: s
-    value: 4
-    min: 0
-    max: 10
-  - name: m
-    value: 6
-  - name: p1
-    value: 1
-  - name: p2
-    value: 4
+
+  - {name: x1, value: 2.2, min: 0, max: 10, round: 0.1}
+  - {name: x2, value: 1.8, min: 0, max: 10, round: 0.1}
+  - {name: s, value: 4, min: 0, max: 10}
+
   - {name: showMORE, value: false}
   - {name: showLESS, value: false}
-  - name: a
-    value: 1
-    min: 1
-    max: 4
-  - name: b
-    value: 1
-    min: 1
-    max: 4
 
 calcs:
   u: (params.x1) * (params.x2) + (params.s) * ( (params.x1) + (params.x2) )
-  cost: (params.x1) * (params.p1) + (params.x2) * (params.p2)
+
+  u1: (0.5) * ( (0.5) + (2) * (params.s) )
+  u2: (1) * ( (1) + (2) * (params.s) )
+  u3: ( (1) * (2) ) + ( (params.s) * ( (1) + (2) ) )
+  u4: (2) * ( (2) + (2) * (params.s) )
+  u5: (2.5) * ( (2.5) + (2) * (params.s) )
+  u6: (3) * ( (3) + (2) * (params.s) )
+  u7: (3.5) * ( (3.5) + (2) * (params.s) )
+  u8: (4) * ( (4) + (2) * (params.s) )
+  u9: (4.5) * ( (4.5) + (2) * (params.s) )
+
+  xequiv: ((2)+(params.s)*(3))/(params.s)
 
 layout:
   OneGraphPlusSidebar:
@@ -46,24 +34,24 @@ layout:
       xAxis:
         orient: bottom
         min: 0
-        max: 7
+        max: 5.5
         ticks: 0
       yAxis:
         orient: left
         min: 0
-        max: 3
+        max: 5.5
         ticks: 0
 
 
       objects:
 
       - Label:
-            coordinates: [7, 0]
+            coordinates: [5.5, 0]
             text: "` \\\\text{Mele (kg)} `"
             yPixelOffset: 0
             position: l
       - Label:
-            coordinates: [0, 3]
+            coordinates: [0, 5.5]
             text: "` \\\\text{Arance (kg)}  `"
             xPixelOffset: 0
             yPixelOffset: 10
@@ -73,14 +61,15 @@ layout:
       # Preferred and less preferred bundles
       - Area:
           fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
-          fill: purple
+          fill: blue
           above: true
           show: params.showMORE == true
       - Area:
           fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
-          fill: grey
+          fill: red
           above: false
           show: params.showLESS == true
+          min: 0.001
 
       # Indifference Curve at X
       - Curve:
@@ -90,35 +79,40 @@ layout:
       
       # Indifference Map
       - Curve:
-          fn:   ( 24 - params.s * (x) ) / ( (x) + params.s )
+          fn:   ((calcs.u1)-(params.s)*(x))/((x)+(params.s))
+          color: Grey
+          strokeWidth: 0.5
+          min: 0.01
+      - Curve:
+          fn:   ((calcs.u2)-(params.s)*(x))/((x)+(params.s))
           color: Grey
           strokeWidth: 0.5
       - Curve:
-          fn:   ( 18 - params.s * (x) ) / ( (x) + params.s )
+          fn:   ((calcs.u3)-(params.s)*(x))/((x)+(params.s))
           color: Grey
           strokeWidth: 0.5
       - Curve:
-          fn:   ( 12 - params.s * (x) ) / ( (x) + params.s )
+          fn:   ((calcs.u4)-(params.s)*(x))/((x)+(params.s))
           color: Grey
           strokeWidth: 0.5
       - Curve:
-          fn:   ( 6 - params.s * (x) ) / ( (x) + params.s )
+          fn:   ((calcs.u5)-(params.s)*(x))/((x)+(params.s))
           color: Grey
           strokeWidth: 0.5
       - Curve:
-          fn:   ( 29.82 - params.s * (x) ) / ( (x) + params.s )
+          fn:   ((calcs.u6)-(params.s)*(x))/((x)+(params.s))
           color: Grey
           strokeWidth: 0.5
       - Curve:
-          fn:   ( 36 - params.s * (x) ) / ( (x) + params.s )
+          fn:   ((calcs.u7)-(params.s)*(x))/((x)+(params.s))
           color: Grey
           strokeWidth: 0.5
       - Curve:
-          fn:   ( 44 - params.s * (x) ) / ( (x) + params.s )
+          fn:   ((calcs.u8)-(params.s)*(x))/((x)+(params.s))
           color: Grey
           strokeWidth: 0.5
       - Curve:
-          fn:   ( 53 - params.s * (x) ) / ( (x) + params.s )
+          fn:   ((calcs.u9)-(params.s)*(x))/((x)+(params.s))
           color: Grey
           strokeWidth: 0.5
 
@@ -129,44 +123,61 @@ layout:
           droplines:
             horizontal: params.x2.toFixed(1)
             vertical: params.x1.toFixed(1)
-          color: Blue
+          color: Black
           draggable: true
       - Label:
           coordinates: [params.x1, params.x2+0.1]
-          text: "` ( ${params.x1.toFixed(1)} , ${params.x2.toFixed(1)} ) `"
+          text: "` A `"
           position: l
-          color: Blue
+          color: Black
           bgcolor: none
               
 
 
     explanation:
       divs:
-        - html: "` Le preferenze del consumatore sono descritte dalla funzione di utilità 
-                  $$U(X,Y)=XY+4X+4Y$$
-                     dove $X$ e $Y$ indicano rispettivamente il consumo settimanale di mele
-                      e arance (entrambe misurate in chili).  `"
-        - html: "` Il consumatore ha un reddito settimanale di  $M=6$ euro. Mele e arance si
-                   vendono rispettivamente a $P_X=1$ euro/kg e $P_Y=4$ euro/kg.  `"
-        - html: "` La figura mostra i panieri ammissibili  (area verde), un generico paniere (punto blu), 
-                  la curva di indifferenza che passa per quel paniere,
-                     e l'insieme dei panieri ad esso preferiti 
-                     (area rosa).  `"
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo settimanale di mele 
+                  e arance (entrambe misurate in chili), le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY+${params.s}(X+Y)$$
+                  Diversamente dall'Esempio 1, in questo caso le curve
+                  d'indifferenza toccano gli assi. Per esempio, il paniere $(1,2)$
+                  e il paniere $(${calcs.xequiv.toFixed(1)},0)$, che si trova
+                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
+                  (entrambi danno un'utilità pari a ${((2)+(params.s)*(3))}).
+                    `"
+          show: params.s > 1
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo settimanale di mele 
+                  e arance (entrambe misurate in chili), le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY+X+Y$$
+                  `"
+          show: params.s == 1
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo settimanale di mele 
+                  e arance (entrambe misurate in chili), le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY$$
+                  Tali preferenze sono identiche a quelle dell'Esempio 1 nel caso $a=b$.
 
+                `"
+          show: params.s == 0
 
     sidebar:
+
       controls:
-      - title: Scelta ottima del consumatore
+
+      - title: Preferenze del consumatore per beni divisibili (Esempio 2)
+
         checkboxes:
         - param: showMORE
           label: "\\text{Mostra panieri preferiti ad $A$}"
         - param: showLESS
-          label: "\\text{Mostra panieri meno preferiti di $A$}"
+          label: "\\text{Mostra panieri cui $A$ è preferito}"
+
         sliders:
-        - param: a
-          label: a
-        - param: b
-          label: b
-        divs:
-          - html: "`  `"
-            show: calcs.u < 0
+        - param: s
+          label: s
+
+        # divs:
+        #   - html: "`  `"
+        #     show: calcs.u < 0
