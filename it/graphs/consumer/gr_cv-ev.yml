@@ -1,8 +1,10 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 0.7
+aspectRatio: 1.2
 params:
+
+- {name: dlt, value: 0.5} # dotted drop lines thickness
 
 - {name: p1, value: 4}
 - {name: p1new, value: 9}
@@ -12,10 +14,11 @@ params:
 - {name: a, value: 1}
 - {name: b, value: 1}
 
-- {name: showMORE, value: false}
-- {name: showLESS, value: false}
+- {name: showCVEV, value: 0}
 
-- {name: howmuch, value: 0}
+- {name: s, value: 80, min: 0, max: 300, round: 10}
+- {name: t, value: 40, min: 0, max: 320, round: 10}
+
 
 calcs:
   s1: (params.a)/((params.a)+(params.b)) # share of income spent on good 1
@@ -46,6 +49,18 @@ calcs:
   # expenditure function at new utility and new prices (=income)
   expunewpnew: ((calcs.unew)^(1/((params.a)+(params.b))))*(((params.p1new)/(calcs.s1))^(calcs.s1))*(((params.p2)/(calcs.s2))^(calcs.s2))
 
+
+
+# tax
+  x1t: (calcs.s1)*((params.m)-(params.t))/(params.p1) # demand of good 1 with tax at old prices
+  x2t: (calcs.s2)*((params.m)-(params.t))/(params.p2) # demand of good 2 with tax at old prices
+  xmaxT: ((params.m)-(params.t))/params.p1
+  ymaxT: ((params.m)-(params.t))/params.p2
+  MplusT: (params.m)-(params.t)
+  tcheck: (params.t)-(calcs.EV.toFixed(0))
+  utax: ((calcs.x1t)^(params.a))*((calcs.x2t)^(params.b)) # max utility with tax
+
+# tax = EV
   EV: (calcs.expunewpnew)-(calcs.expunewpold)
   x1cunew: (calcs.s1)*((params.m)-(calcs.EV))/(params.p1) # hicksian demand of good 1 at new util and old prices
   x2cunew: (calcs.s2)*((params.m)-(calcs.EV))/(params.p2) # hicksian demand of good 2 at new util and old prices
@@ -53,6 +68,16 @@ calcs:
   ymaxEV: ((params.m)-(calcs.EV))/params.p2
   MminusEV: (params.m)-(calcs.EV)
 
+# subsidy
+  x1s: (calcs.s1)*((params.m)+(params.s))/(params.p1new) # demand of good 1 with subsidy at new prices
+  x2s: (calcs.s2)*((params.m)+(params.s))/(params.p2) # demand of good 2 with subsidy at new prices
+  xmaxS: ((params.m)+(params.s))/params.p1new
+  ymaxS: ((params.m)+(params.s))/params.p2
+  MplusS: (params.m)+(params.s)
+  scheck: (params.s)-(calcs.CV.toFixed(0))
+  usub: ((calcs.x1s)^(params.a))*((calcs.x2s)^(params.b)) # max utility with subsidy
+
+# subsidy = CV
   CV: (calcs.expuoldpnew)-(calcs.expuoldpold)
   x1cuold: (calcs.s1)*((params.m)+(calcs.CV))/(params.p1new) # hicksian demand of good 1 at old util and new prices
   x2cuold: (calcs.s2)*((params.m)+(calcs.CV))/(params.p2) # hicksian demand of good 2 at old util and new prices
@@ -63,14 +88,13 @@ calcs:
 
   maxX: (1.1)*(params.m)/(params.p1) # max displayed qty good 1
   maxY: (1.1)*(params.m)/(params.p2) # max displayed qty good 2
-  maxEUR: (1.3)*(params.p1new) # max displayed price good 1
-  maxM: (2)*(params.m) # max displayed income (bottom graph)
-  maxU: (1.5)*(calcs.uold) # max displayed utility (bottom graph)
+  maxEUR: (1.5)*(params.p1new) # max displayed price good 1 (bottom graph)
+  maxE: (1.1)*((params.m)+(calcs.CV)) # max displayed expenditure (bottom graph)
 
 layout:
-  TwoVerticalGraphsPlusSidebar:
+  OneGraphPlusSidebar:
 
-    topGraph:
+    graph:
       xAxis:
         max: calcs.maxX
         ticks: 0
@@ -95,14 +119,12 @@ layout:
           droplines:
             horizontal: calcs.x2old.toFixed(0)
             vertical: calcs.x1old.toFixed(0)
+          strokeWidth: params.dlt
           color: Blue
           r: 3
-      - Label:
-          coordinates: [(1.05)*(calcs.x1old), (1.06)*(calcs.x2old)]
-          text: "` A `"
-#          position: l
-          color: Blue
-          bgcolor: none
+          label:
+            text: "` \\\\large A `"
+            position: bl
 
 # indifference curve at old optimal bundle
       - Curve:
@@ -120,12 +142,14 @@ layout:
           coordinates: [(params.m)/(params.p1), 0]
           droplines:
             vertical: (params.m)/(params.p1)
+          strokeWidth: params.dlt
           color: grey
           r: 0
       - Point:
           coordinates: [0,(params.m)/(params.p2)]
           droplines:
             horizontal: (params.m)/(params.p2)
+          strokeWidth: params.dlt
           color: grey
           r: 0
       
@@ -139,6 +163,7 @@ layout:
           coordinates: [(params.m)/(params.p1new), 0]
           droplines:
             vertical: (params.m)/(params.p1new)
+          strokeWidth: params.dlt
           color: grey
           r: 0
 
@@ -148,14 +173,12 @@ layout:
           droplines:
             horizontal: calcs.x2new.toFixed(0)
             vertical: calcs.x1new.toFixed(0)
+          strokeWidth: params.dlt
           color: Blue
           r: 3
-      - Label:
-          coordinates: [(1.1)*(calcs.x1new), (1.06)*(calcs.x2new)]
-          text: "` B `"
-#          position: l
-          color: Blue
-          bgcolor: none
+          label:
+            text: "` \\\\large B `"
+            position: tr
 
 # indifference curve at new optimal bundle
       - Curve:
@@ -165,217 +188,272 @@ layout:
 
 
 
-# budget constraint with CV
+
+
+
+
+
+# budget constraint with subsidy
       - Line:
-          yIntercept: ((params.m)+(calcs.CV))/(params.p2)
+          yIntercept: ((params.m)+(params.s))/(params.p2)
           slope: -(params.p1new)/(params.p2)
           color: Red
           strokeWidth: 1.25
-          show: params.howmuch == 2
+          show: params.showCVEV == 1 && params.s !== calcs.CV.toFixed(0)
       - Point:
-          coordinates: [calcs.x1cuold, calcs.x2cuold]
+          coordinates: [calcs.x1s, calcs.x2s]
           droplines:
-            horizontal: calcs.x2cuold.toFixed(0)
-            vertical: calcs.x1cuold.toFixed(0)
+            horizontal: calcs.x2s.toFixed(1)
+            vertical: calcs.x1s.toFixed(1)
           color: Red
+          strokeWidth: params.dlt
           r: 3
-          show: params.howmuch == 2
+          label:
+            text: "` \\\\large C `"
+            position: bl
+          show: params.showCVEV == 1
       - Point:
-          coordinates: [calcs.xmaxCV, 0]
+          coordinates: [calcs.xmaxS, 0]
           droplines:
-            vertical: calcs.xmaxCV.toFixed(0)
-          color: Red
+            vertical: calcs.xmaxS.toFixed(1)
+          color: grey
+          strokeWidth: params.dlt
           r: 0
-          show: params.howmuch == 2
+          show: params.showCVEV == 1
       - Point:
-          coordinates: [0,calcs.ymaxCV]
+          coordinates: [0,calcs.ymaxS]
           droplines:
-            horizontal: calcs.ymaxCV.toFixed(0)
-          color: Red
+            horizontal: calcs.ymaxS.toFixed(1)
+          color: grey
+          strokeWidth: params.dlt
           r: 0
-          show: params.howmuch == 2
+          show: params.showCVEV == 1
       - Label:
-          coordinates: [(1.08)*(calcs.x1cuold), (1.04)*(calcs.x2cuold)]
-          text: "` C `"
-#          position: l
+          coordinates: [(0.7)*(calcs.maxX), (0.7)*(calcs.maxY)]
+          text: \text{\LARGE BINGO!}
           color: Red
+          position: c
           bgcolor: none
-          show: params.howmuch == 2
+          show: params.showCVEV == 1 && calcs.scheck == 0
 
 
-# budget constraint with EV
+# indifference curve at optimal bundle with subsidy
+      - Curve:
+          fn: ((calcs.usub)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1.25
+          show: params.showCVEV == 1 && calcs.scheck !== 0
+
+
+
+
+
+# budget constraint with subsidy
       - Line:
-          yIntercept: ((params.m)-(calcs.EV))/(params.p2)
+          yIntercept: ((params.m)-(params.t))/(params.p2)
           slope: -(params.p1)/(params.p2)
           color: Red
           strokeWidth: 1.25
-          show: params.howmuch == 3
+          show: params.showCVEV == 2 && params.t !== calcs.EV.toFixed(0)
       - Point:
-          coordinates: [calcs.x1cunew, calcs.x2cunew]
+          coordinates: [calcs.x1t, calcs.x2t]
           droplines:
-            horizontal: calcs.x2cunew.toFixed(0)
-            vertical: calcs.x1cuold.toFixed(0)
+            horizontal: calcs.x2t.toFixed(1)
+            vertical: calcs.x1t.toFixed(1)
           color: Red
+          strokeWidth: params.dlt
           r: 3
-          show: params.howmuch == 3
+          label:
+            text: "` \\\\large E `"
+            position: tr
+          show: params.showCVEV == 2 && params.t <= 80
       - Point:
-          coordinates: [calcs.xmaxEV, 0]
+          coordinates: [calcs.x1t, calcs.x2t]
           droplines:
-            vertical: calcs.xmaxEV.toFixed(0)
+            horizontal: calcs.x2t.toFixed(1)
+            vertical: calcs.x1t.toFixed(1)
           color: Red
-          r: 0
-          show: params.howmuch == 3
+          strokeWidth: params.dlt
+          r: 3
+          label:
+            text: "` \\\\large E `"
+            position: bl
+          show: params.showCVEV == 2 && params.t > 80
       - Point:
-          coordinates: [0,calcs.ymaxEV]
+          coordinates: [calcs.xmaxT, 0]
           droplines:
-            horizontal: calcs.ymaxEV.toFixed(0)
-          color: Red
+            vertical: calcs.xmaxT.toFixed(1)
+          color: grey
+          strokeWidth: params.dlt
           r: 0
-          show: params.howmuch == 3
+          show: params.showCVEV == 2
+      - Point:
+          coordinates: [0,calcs.ymaxT]
+          droplines:
+            horizontal: calcs.ymaxT.toFixed(1)
+          color: grey
+          strokeWidth: params.dlt
+          r: 0
+          show: params.showCVEV == 2
       - Label:
-          coordinates: [(1.075)*(calcs.x1cunew), (1.075)*(calcs.x2cunew)]
-          text: "` E `"
-#          position: l
+          coordinates: [(0.7)*(calcs.maxX), (0.7)*(calcs.maxY)]
+          text: \text{\LARGE BINGO!}
           color: Red
+          position: c
           bgcolor: none
-          show: params.howmuch == 3
+          show: params.showCVEV == 2 && calcs.tcheck == 0
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    bottomGraph:
-      xAxis:
-        max: calcs.maxM
-        ticks: 0
-      yAxis:
-        max: calcs.maxU
-        ticks: 0
-      objects:
-
-      - Label:
-            coordinates: [calcs.maxM, 0]
-            text: "` \\\\text{Reddito} `"
-            yPixelOffset: 0
-            position: l
-      - Label:
-            coordinates: [0, calcs.maxU]
-            text: "` \\\\text{Utilità}  `"
-            yPixelOffset: 0
-
-# indirect utility at old prices
+# indifference curve at optimal bundle with tax
       - Curve:
-          fn: (((calcs.s1)*(x)/(params.p1))^(params.a))*(((calcs.s2)*(x)/(params.p2))^(params.b))
-          color: Green
-          strokeWidth: 1.5
-
-# indirect utility at new prices
-      - Curve:
-          fn: (((calcs.s1)*(x)/(params.p1new))^(params.a))*(((calcs.s2)*(x)/(params.p2))^(params.b))
-          color: Green
-          strokeWidth: 1.5
-
-      - Line:
-          yIntercept: calcs.uold
-          slope: 0
-          color: Red
+          fn: ((calcs.utax)/((x)^(params.a)))^(1/(params.b))
+          color: Black
           strokeWidth: 1.25
+          show: params.showCVEV == 2 && calcs.tcheck !== 0
 
-      - Point:
-          coordinates: [params.m,calcs.uold]
-          droplines:
-            horizontal: calcs.uold.toFixed(0)
-            vertical: params.m
-          color: Blue
-          r: 4
 
-      - Line:
-          yIntercept: calcs.unew
-          slope: 0
-          color: Red
-          strokeWidth: 1.25
 
-      - Point:
-          coordinates: [params.m,calcs.unew]
-          droplines:
-            horizontal: calcs.unew.toFixed(0)
-            vertical: params.m
-          color: Blue
-          r: 4
 
-      - Point:
-          coordinates: [calcs.MplusCV,calcs.uold]
-          droplines:
-            horizontal: calcs.uold.toFixed(0)
-            vertical: calcs.MplusCV.toFixed(0)
-          color: Red
-          r: 4
 
-      - Point:
-          coordinates: [calcs.MminusEV,calcs.unew]
-          droplines:
-            horizontal: calcs.unew.toFixed(0)
-            vertical: calcs.MminusEV.toFixed(0)
-          color: Red
-          r: 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     sidebar:
       controls:
 
-      - title: Domanda compensata
-        description: Scegliere il tipo di compensazione per visualizzare 
-                      vincolo di bilancio e scelta ottima corrispondenti ai nuovi prezzi e al 
-                      reddito compensato.
-
+      - title: Variazione compensativa e variazione equivalente
+        # description: Scegliere il tipo di compensazione per visualizzare 
+        #               vincolo di bilancio e scelta ottima corrispondenti ai nuovi prezzi e al 
+        #               reddito compensato.
         radioGroup:
-          param: howmuch
+          param: showCVEV
           options:
-            - Nessuna compensazione
-            - Variazione di surplus
-            - Variazione compensativa
-            - Variazione equivalente
+            - Mostra solo scelta ottima
+            - Calcola variazione compensativa
+            - Calcola variazione equivalente
+        # divs:
+        #   - html: "`  `"
+        #   - html: "` `"
+        #   - html: "` Il reddito del consumatore è $M=${params.m}$. `"
+        #   - html: "` Quando $P_X=${params.p1}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $A$ 
+        #                $$ X=${calcs.x1old}  \\\\qquad  Y=${calcs.x2old}  $$ `"
+        #   - html: "` Quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $B$ 
+        #                $$ X=${calcs.x1new}  \\\\qquad  Y=${calcs.x2new}  $$ `"
+        #   - html: "` `"
+
+
+      - title: Variazione compensativa
+        description: Trova la compensazione necessaria a riportare il consumatore al livello di
+                        utilità che aveva prima il prezzo del cibo aumentasse. 
+        sliders:
+        - param: s
+          label: "` \\\\text{Sussidio} `"
+        divs:
+          - html: "` `"
+          - html: "` Una compensazione di ${params.s} euro aumenta il reddito del consumatore a 
+                      ${(params.m)+(params.s)} euro. `"
+          - html: "` <i>Ciò però non basta a riportare il consumatore al livello di benessere 
+                      precedente.</i> `"
+            show: calcs.scheck < 0
+          - html: "` <i>Ciò è esattamente quanto basta a riportare il consumatore al livello di benessere 
+                      precedente.</i> `"
+            show: calcs.scheck == 0
+          - html: "` <i>Ciò però è più di quanto serve a riportare il consumatore al livello di benessere 
+                      precedente.</i> `"
+            show: calcs.scheck > 0
+          - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $C$ 
+                       $$ X=${calcs.x1s.toFixed(1)}  \\\\qquad  Y=${calcs.x2s.toFixed(1)}  $$ `"
+          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $A$. `"
+            show: calcs.scheck < 0
+          - html: "` che si trova sulla curva di indifferenza passante per $A$. `"
+            show: calcs.scheck == 0
+          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $A$. `"
+            show: calcs.scheck > 0
+          - html: "` `"
+          - html: "` `"
+        show: params.showCVEV == 1
 
         # checkboxes:
-        # - param: showMORE
-        #   label: "\\text{Mostra panieri preferiti ad $A$}"
-        # - param: showLESS
-        #   label: "\\text{Mostra panieri meno preferiti di $A$}"
-
+        # - param: showCV
+        #   label: "\\text{Mostra variazione compensativa}"
+        # - param: showEV
+        #   label: "\\text{Mostra variazione equivalente}"
         # sliders:
         # - param: a
         #   label: a
         # - param: b
         #   label: b
+        # divs:
+        #   - html: "` `"
+        #   - html: "` `"
+        #   - html: "` `"
+        #   - html: "` `"
+        #     show: params.showCV == 1
 
+      - title: Variazione equivalente
+        description: Trova la compensazione necessaria a riportare il consumatore al livello di
+                        utilità che aveva prima che aumentasse il prezzo del cibo. 
+        sliders:
+        - param: t
+          label: "` \\\\text{Tassa} `"
         divs:
           - html: "` `"
+          - html: "` Con una riduzione di reddito di ${params.s} euro  il reddito del consumatore a 
+                      ${(params.m)-(params.t)} euro. `"
+          - html: "` <i>Questa variazione di reddito non è equivalente all'aumento di prezzo del cibo
+                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</i> `"
+            show: calcs.tcheck !== 0
+          - html: "` <i>Questa variazione di reddito è equivalente all'aumento di prezzo del cibo
+                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</i> `"
+            show: calcs.tcheck.toFixed(0) == 0
+          - html: "` Infatti, quando $P_X=${params.p1}$ e $P_Y=${params.p2}$, la scelta ottima è il 
+                    paniere rappresentato dal punto $E$ 
+                       $$ X=${calcs.x1t.toFixed(1)}  \\\\qquad  Y=${calcs.x2t.toFixed(1)}  $$ `"
+          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $B$. `"
+            show: calcs.tcheck > 0
+          - html: "` che si trova sulla curva di indifferenza passante per $B$. `"
+            show: calcs.tcheck.toFixed(0) == 0
+          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $B$. `"
+            show: calcs.tcheck < 0
           - html: "` `"
           - html: "` `"
-          - html: "` `"
-          - html: "` $E(p,u)=${calcs.expuoldpold}$ `"
-          - html: "` $E(p',u)=${calcs.expuoldpnew}$ `"
-          - html: "` $E(p,u')=${calcs.expunewpold}$ `"
-          - html: "` $E(p',u')=${calcs.expunewpnew}$ `"
-          - html: "` $EV = ${calcs.EV}$ `"
-          - html: "` $\\\\Delta CS = ${calcs.deltaCS}    $ `"
-          - html: "` $CV = ${calcs.CV}$ `"
-          - html: "` `"
-          - html: "`
-                  In assenza di compensazione, ai nuovi prezzi il consumatore
-                  sceglie il paniere $B$.
-                  `"
-            show: params.howmuch == 0
+        show: params.showCVEV == 2
 
+        # checkboxes:
+        # - param: showCV
+        #   label: "\\text{Mostra variazione compensativa}"
+        # - param: showEV
+        #   label: "\\text{Mostra variazione equivalente}"
+        # sliders:
+        # - param: a
+        #   label: a
+        # - param: b
+        #   label: b
+        # divs:
+        #   - html: "` `"
+        #   - html: "` `"
+        #   - html: "` `"
+        #   - html: "` `"
+        #     show: params.showCV == 1
 
 
 
