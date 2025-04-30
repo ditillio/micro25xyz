@@ -14,18 +14,18 @@ params:
     max: 230
     round: 5
   - name: p1
-    value: 10
-    min: 5
-    max: 20
+    value: 3
+    min: 1
+    max: 9
   - name: p2
-    value: 10
-    min: 5
-    max: 20
+    value: 3
+    min: 1
+    max: 9
   - name: m
-    value: 1200
-    min: 600
-    max: 1800
-    round: 100
+    value: 360
+    min: 180
+    max: 540
+    round: 20
   - {name: showAFFORDABLE, value: true}
 
 calcs:
@@ -37,20 +37,20 @@ layout:
   OneGraphPlusSidebar:
     graph:
       xAxis:
-        max: 240
+        max: 190
         ticks: 5
       yAxis:
-        max: 240
+        max: 190
         ticks: 5
       objects:
 
       - Label:
-            coordinates: [240, 0]
+            coordinates: [190, 0]
             text: "` \\\\text{Cibo (kg)} `"
             yPixelOffset: 0
             position: l
       - Label:
-            coordinates: [0, 240]
+            coordinates: [0, 190]
             text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
             yPixelOffset: 0
 
@@ -88,16 +88,12 @@ layout:
           droplines:
             horizontal: params.x2
             vertical: params.x1
-          color: Blue
+          color: Darkgreen
+          r: 5
           draggable: true
           show: calcs.e <= params.m
-      - Label:
-          coordinates: [params.x1, params.x2+5]
-          text: "` A `"
-          position: l
-          color: Blue
-          bgcolor: none
-          show: calcs.e <= params.m
+          label:
+            text: "` \\\\large{A} `"
 
       - Point:
           coordinates: [params.x1, params.x2]
@@ -105,14 +101,10 @@ layout:
             horizontal: params.x2
             vertical: params.x1
           color: Red
+          r: 5
           draggable: true
-          show: calcs.e > params.m
-      - Label:
-          coordinates: [params.x1, params.x2+5]
-          text: "` A `"
-          position: l
-          color: Red
-          bgcolor: none
+          label:
+            text: "` \\\\large{A} `"
           show: calcs.e > params.m
 
 
@@ -138,20 +130,19 @@ layout:
           - html: "` `"
           - html: "` `"
           - html: "` Il paniere $A=(${params.x1},${params.x2})$
-                      $\\\\color{${colors.red}}\\\\textbf{non}$
-                      è accessibile, dato che
+                      $\\\\color{${colors.red}} \\\\text{non è accessibile}$ poiché
                     $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
                           = ${calcs.e} > ${params.m} .$$
                      `"
             show: calcs.e > params.m
           - html: "` Il paniere $A=(${params.x1},${params.x2})$ è accessibile ma non si trova
-                      sul vincolo di bilancio, dato che
+                      sul vincolo di bilancio poiché
                     $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
                           = ${calcs.e} < ${params.m} .$$
                      `"
             show: calcs.e < params.m
           - html: "` Il paniere $A=(${params.x1},${params.x2})$ è accessibile e si trova
-                      sul vincolo di bilancio, dato che
+                      sul vincolo di bilancio poiché
                     $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
                           = ${calcs.e} = ${params.m} .$$
                      `"
