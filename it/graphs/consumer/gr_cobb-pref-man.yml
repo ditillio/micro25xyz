@@ -1,13 +1,13 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 1.3
+aspectRatio: 1.5
 params:
-  - {name: x1, value: 50, min: 0, max: 120, round: 0.1}
-  - {name: x2, value: 50, min: 0, max: 120, round: 0.1}
+  - {name: x1, value: 65, min: 0, max: 120, round: 0.1}
+  - {name: x2, value: 75, min: 0, max: 120, round: 0.1}
 
-  - {name: a, value: 1}
-  - {name: b, value: 1}
+  - {name: a, value: 1, min: 1, max: 4}
+  - {name: b, value: 1, min: 1, max: 4}
 
   - {name: showMORE, value: false}
   - {name: showLESS, value: false}
@@ -152,19 +152,17 @@ layout:
 
     sidebar:
       controls:
-      - title: Preferenze del consumatore per beni divisibili
-        description: Muovere i due cursori (o trascinare il punto <i>A</i>) per selezionare un paniere e poi vedere quali panieri sono preferiti
-                    ad esso e a quali esso è preferito.
+      - title: Preferenze del consumatore per beni divisibili (Esempio 1)
         checkboxes:
         - param: showMORE
           label: "\\text{Mostra panieri preferiti ad $A$}"
         - param: showLESS
           label: "\\text{Mostra panieri cui $A$ è preferito}"
         sliders:
-        - param: x1
-          label: "` \\\\text{Cibo} `"
-        - param: x2
-          label: "` \\\\text{Affitto} `"
+        - param: a
+          label: a
+        - param: b
+          label: b
         divs:
           - html: "`  `"
             show: calcs.u < 0

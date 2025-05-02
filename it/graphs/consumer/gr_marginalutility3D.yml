@@ -1,0 +1,189 @@
+---
+schema: EconSchema
+version: 1
+aspectRatio: 2
+params:
+- name: x
+  value: 65
+  min: 0
+  max: 120
+  round: 1
+- name: y
+  value: 75
+  min: 0
+  max: 120
+  round: 1
+
+calcs:
+  z: (params.x)*(params.y)
+  MU1: params.y
+
+layout:
+  MathboxPlusGraphPlusSidebar:
+    mathbox:
+      xAxis:
+        min: 0
+        max: 125
+        step: 1
+        title: Cibo
+      yAxis:
+        min: 0
+        max: 125
+        step: 1
+        title: Affitto
+      zAxis:
+        min: 0
+        max: 15000
+        step: 10
+        title: Utilità
+
+      objects:
+
+# plane at Y = chosen level
+      - MathboxPlane:
+            y: params.y
+            fill: colors.orange
+            opacity: 0.2
+            shaded: false
+
+# intersection of plane with utility surface
+      - MathboxCurve:
+          fn:
+            fn: " params.y "
+            fnZ: "(x)*(params.y)"
+          strokeWidth: 5
+          stroke: colors.red
+          opacity: 0.4
+
+      - MathboxFunctionSurface:
+          fn:
+            fn: "(x)*(y)"
+            samplePoints: 40
+          shaded: false
+          fill: colors.blue
+          opacity: 0.4
+      - MathboxPoint:
+          x: params.x
+          y: params.y
+          z: calcs.z
+          stroke: colors.blue
+      - MathboxLine:
+          x1: params.x
+          x2: params.x
+          y2: params.y
+          stroke: colors.black
+          strokeWidth: 10
+          lineStyle: dotted
+      - MathboxLine:
+          y1: params.y
+          x2: params.x
+          y2: params.y
+          stroke: colors.black
+          strokeWidth: 10
+          lineStyle: dotted
+      - MathboxLine:
+          x1: params.x
+          y1: params.y
+          x2: params.x
+          y2: params.y
+          z2: calcs.z
+          stroke: colors.black
+          strokeWidth: 10
+          lineStyle: dotted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    graph: 
+      xAxis:
+        max: 120
+        ticks: 0
+      yAxis:
+        max: 800000
+        ticks: 0
+
+      objects:
+
+        - Curve:
+            fn: "((x)^2)*(params.y)"
+            strokeWidth: 1.5
+            color: Red
+            opacity: 0.4
+
+        - Label:
+              coordinates: [120, 0]
+              text: "` \\\\text{Cibo (kg)} `"
+              position: l
+        - Label:
+              coordinates: [0, 120]
+              text: "` \\\\text{Utilità}  `"
+
+        - Point:
+            coordinates: [params.x,calcs.z]
+            droplines:
+              vertical: params.x
+              horizontal: 
+            color: Blue
+            r: 4
+
+# tangent
+        - Line:
+            point: [params.x,calcs.z]
+            slope: 0.5 * ( params.y / params.x )^0.5
+            color: Black
+            min: (params.x)-40
+            max: (params.x)+40
+            strokeWidth: 1
+
+
+
+
+
+
+
+
+    sidebar:
+      controls:
+      - title: Utilità
+        description: The plot to the left shows the surface plot for the multivariable functions below. Try selecting different functions, and changing the x- and y-coordinates.
+        sliders:
+          - param: x
+            label: X
+          - param: y
+            label: Y
+
+        divs:
+          - html: "` `"
+          - html: "` `"
+          - html: "` `"
+          - html: "`Le preferenze del consumatore sono rappresentate dalla funzione di utilità
+                    $$ U(X,Y) = XY $$`"
+          - html: "`L'utilità del paniere $(${params.x.toFixed(0)},${params.y.toFixed(0)})$
+                    è quindi`"
+          - html: "`$$U(${params.x.toFixed(0)},${params.y.toFixed(0)}) = ${calcs.z.toFixed(0)}$$`"
+
+
+
+
+
+
+
+
+

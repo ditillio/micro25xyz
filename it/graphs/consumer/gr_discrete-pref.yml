@@ -1,7 +1,7 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 1.5
+aspectRatio: 2
 params:
   - {name: x1, value: 2, min: 0, max: 6}
   - {name: x2, value: 2, min: 0, max: 6}

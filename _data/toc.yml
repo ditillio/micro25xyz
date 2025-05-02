@@ -34,11 +34,11 @@ parts:
           it: Preferenze, vincoli e scelte dei consumatori
         sections:
           - title:
-              en: Consumer's Preferences and Budget Constraint
-              it: Preferenze e vincolo di bilancio del consumatore
+              en: Preferences and Utility
+              it: Preferenze e utilità
           - title:
-              en: Consumer's Optimal Choice and Demand
-              it: Scelta ottima e domanda del consumatore
+              en: Budget Constraint, Optimal Choice and Demand Functions
+              it: Vincolo di bilancio, scelta ottima e funzioni di domanda
           - title:
               en: Consumer Surplus and Welfare
               it: Benessere e surplus del consumatore
