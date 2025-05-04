@@ -48,20 +48,22 @@ layout:
       xAxis:
         max: (calcs.maxQ)
         ticks: 0
+        title: tonnellate
       yAxis:
         max: calcs.maxP
         ticks: 0
+        title: euro/chilo
 
       objects:
-      - Label:
-              coordinates: [(calcs.maxQ), 0]
-              text: "` \\\\text{t} `"
-              yPixelOffset: 0
-              xPixelOffset: 0
-      - Label:
-              coordinates: [0, calcs.maxP]
-              text: "` \\\\text{€/kg}  `"
-              xPixelOffset: 0
+      # - Label:
+      #         coordinates: [(calcs.maxQ), 0]
+      #         text: "` \\\\text{t} `"
+      #         yPixelOffset: 0
+      #         xPixelOffset: 0
+      # - Label:
+      #         coordinates: [0, calcs.maxP]
+      #         text: "` \\\\text{€/kg}  `"
+      #         xPixelOffset: 0
 
 # national demand
       - Line:
@@ -154,7 +156,8 @@ layout:
           lineStyle: dotted
       - Point:
           coordinates: [0, calcs.eqwP]
-          droplines: {horizontal: "` P_W=${calcs.eqwP} `"}
+          droplines: {horizontal: calcs.eqwP}
+          # droplines: {horizontal: "` P_W=${calcs.eqwP} `"}
           color: Green
           r: 0
 
@@ -268,20 +271,22 @@ layout:
       xAxis:
         max: (calcs.maxwQ)
         ticks: 0
+        title: migliaia di tonnellate
       yAxis:
         max: calcs.maxP
         ticks: 0
+        title: euro/chilo
 
       objects:
-      - Label:
-              coordinates: [(calcs.maxwQ), 0]
-              text: "` \\\\text{kt} `"
-              yPixelOffset: 0
-              xPixelOffset: 0
-      - Label:
-              coordinates: [0, calcs.maxP]
-              text: "` \\\\text{€/kg}  `"
-              xPixelOffset: 0
+      # - Label:
+      #         coordinates: [(calcs.maxwQ), 0]
+      #         text: "` \\\\text{kt} `"
+      #         yPixelOffset: 0
+      #         xPixelOffset: 0
+      # - Label:
+      #         coordinates: [0, calcs.maxP]
+      #         text: "` \\\\text{€/kg}  `"
+      #         xPixelOffset: 0
 
 # world demand
       - Line:

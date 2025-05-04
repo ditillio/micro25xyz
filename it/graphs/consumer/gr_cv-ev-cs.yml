@@ -8,7 +8,7 @@ params:
 
 - {name: p1, value: 4}
 - {name: p1new, value: 9}
-- {name: p2, value: 2}
+- {name: p2, value: 4}
 - {name: m, value: 360}
 
 - {name: a, value: 1}
@@ -115,7 +115,7 @@ layout:
 
 # expenditure function at old utility
       - Curve:
-          fn: 180*sqrt(x)
+          fn: ((calcs.uold)^(1/((params.a)+(params.b))))*(((x)/(calcs.s1))^(calcs.s1))*(((params.p2)/(calcs.s2))^(calcs.s2))
           color: Green
           strokeWidth: 1.5
           label:
@@ -123,8 +123,9 @@ layout:
             x: calcs.maxEUR
             position: c
 
+# expenditure function at new utility
       - Curve:
-          fn: 120*sqrt(x)
+          fn: ((calcs.unew)^(1/((params.a)+(params.b))))*(((x)/(calcs.s1))^(calcs.s1))*(((params.p2)/(calcs.s2))^(calcs.s2))
           color: Green
           strokeWidth: 1.5
           label:
@@ -151,45 +152,46 @@ layout:
 
 # compensating variation
       - Arrow:
-          begin: [params.p1new, (120)*sqrt(params.p1new)]
-          end: [params.p1new, (180)*sqrt(params.p1new)]
+          begin: [0.4, (120)*sqrt(params.p1new)]
+          end: [0.4, (180)*sqrt(params.p1new)]
           color: Red
           strokeWidth: 2
           trim: 0.05
           double: true
-          show: params.showCVEV == 1
+          show: params.showCVEV == 1 || params.showCVEV == 3
       - Label:
-          coordinates: [params.p1new, (150)*sqrt(params.p1new)]
+          coordinates: [0.3, (150)*sqrt(params.p1new)]
           text: "` CV  `"
           color: Red
           position: l
           bgcolor: none
-          show: params.showCVEV == 1
+          show: params.showCVEV == 1 || params.showCVEV == 3
       - Point:
           coordinates: [params.p1new, (180)*sqrt(params.p1new)]
           droplines:
             horizontal: (180)*sqrt(params.p1new)
+            vertical: 
           color: Red
           strokeWidth: params.dlt
           r: 4
-          show: params.showCVEV == 1
+          show: params.showCVEV == 1 || params.showCVEV == 3
 
 # equivalent variation
       - Arrow:
-          begin: [params.p1, (120)*sqrt(params.p1)]
-          end: [params.p1, (180)*sqrt(params.p1)]
+          begin: [0.4, (120)*sqrt(params.p1)]
+          end: [0.4, (180)*sqrt(params.p1)]
           color: Red
           strokeWidth: 2
           trim: 0.1
           double: true
-          show: params.showCVEV == 2
+          show: params.showCVEV == 2 || params.showCVEV == 3
       - Label:
-          coordinates: [params.p1, (150)*sqrt(params.p1)]
+          coordinates: [0.3, (150)*sqrt(params.p1)]
           text: "` EV  `"
           color: Red
           position: l
           bgcolor: none
-          show: params.showCVEV == 2
+          show: params.showCVEV == 2 || params.showCVEV == 3
       - Point:
           coordinates: [params.p1, (120)*sqrt(params.p1)]
           droplines:
@@ -197,7 +199,7 @@ layout:
           color: Red
           strokeWidth: params.dlt
           r: 4
-          show: params.showCVEV == 2
+          show: params.showCVEV == 2 || params.showCVEV == 3
 
 
 
@@ -237,7 +239,7 @@ layout:
       - Point:
           coordinates: [params.p1, calcs.x1old]
           droplines:
-            vertical: "` P_X=${params.p1} `"
+            vertical: params.p1
             horizontal: "` ${calcs.x1old.toFixed(0)} `"
           color: Blue
           strokeWidth: params.dlt
@@ -247,7 +249,7 @@ layout:
       - Point:
           coordinates: [params.p1new, calcs.x1new]
           droplines:
-            vertical: "` P^\\\\prime_X=${params.p1new} `"
+            vertical: params.p1new
             horizontal: "` ${calcs.x1new.toFixed(0)} `"
           color: Blue
           strokeWidth: params.dlt
@@ -262,7 +264,7 @@ layout:
             text: "` X = 180 / (2\\\\sqrt{P_X}) `"
             x: calcs.maxEUR
             position: l
-          show: params.showCVEV == 1
+          show: params.showCVEV == 1 || params.showCVEV == 3
       - Point:
           coordinates: [params.p1new, calcs.x1cuold]
           droplines:
@@ -270,7 +272,7 @@ layout:
           color: Red
           strokeWidth: params.dlt
           r: 3.5
-          show: params.showCVEV == 1
+          show: params.showCVEV == 1 || params.showCVEV == 3
 
 # compensating variation
       - Area:
@@ -295,7 +297,7 @@ layout:
             text: "` X = 120 / (2\\\\sqrt{P_X}) `"
             x: calcs.maxEUR
             position: l
-          show: params.showCVEV == 2
+          show: params.showCVEV == 2 || params.showCVEV == 3
       - Point:
           coordinates: [params.p1, calcs.x1cunew]
           droplines:
@@ -303,7 +305,7 @@ layout:
           color: Red
           strokeWidth: params.dlt
           r: 3.5
-          show: params.showCVEV == 2
+          show: params.showCVEV == 2 || params.showCVEV == 3
 
 # equivalent variation
       - Area:
@@ -334,6 +336,27 @@ layout:
           show: params.showCVEV == 0
 
 
+# three areas cv ev cs
+      - Area:
+          fn2: min(calcs.x1old,sqrt((calcs.uold)*(params.p2)/(x)))
+          fn1: (calcs.s1)*(params.m)/(x)
+          fill: green
+          min: params.p1
+          max: params.p1new
+          show: params.showCVEV == 3
+      - Area:
+          fn: sqrt((calcs.unew)*(params.p2)/(x))
+          fill: red
+          min: params.p1
+          max: params.p1new
+          show: params.showCVEV == 3
+      - Area:
+          fn1: (calcs.s1)*(params.m)/(x)
+          fn2: sqrt((calcs.unew)*(params.p2)/(x))
+          fill: blue
+          min: params.p1
+          max: params.p1new
+          show: params.showCVEV == 3
 
 
 
@@ -361,50 +384,66 @@ layout:
         radioGroup:
           param: showCVEV
           options:
-            - Calcola variazione surplus consumatore
-            - Calcola variazione compensativa
-            - Calcola variazione equivalente
+            - Mostra variazione surplus consumatore
+            - Mostra variazione compensativa
+            - Mostra variazione equivalente
+            - Mostra tutte e tre
         divs:
           - html: "`  `"
+          - html: "`  `"
           - html: "` `"
-          - html: "` Il reddito del consumatore è $M=${params.m}$. `"
-          - html: "` Quando $P_X=${params.p1}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $A$ 
-                       $$ X=${calcs.x1old}  \\\\qquad  Y=${calcs.x2old}  $$ `"
-          - html: "` Quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $B$ 
-                       $$ X=${calcs.x1new}  \\\\qquad  Y=${calcs.x2new}  $$ `"
+          - html: "` Quando $P_X=${params.p1}$ e $P_Y=${params.p2}$, la scelta ottima è  
+                       $$X=${calcs.x1old} \\\\qquad Y=${calcs.x2old}$$ `"
+            show: params.showCVEV < 3
+          - html: "` La corrispondente utilità è
+                       $$U(${calcs.x1old},${calcs.x2old})=${calcs.uold}$$ `"
+            show: params.showCVEV < 3
           - html: "` `"
 
+            show: params.showCVEV < 3
+          - html: "`Quando il prezzo del cibo aumenta a $P_X=${params.p1new}$, 
+                    la variazione di surplus del consumatore è pari al negativo dell'area azzurra
+                    nel grafico di sotto:
+                      $$ \\\\Delta CS = - ${calcs.deltaCS.toFixed(1)} $$ `"
+            show: params.showCVEV == 0
 
-      - title: Variazione compensativa
-        description: Trova la compensazione necessaria a riportare il consumatore al livello di
-                        utilità che aveva prima il prezzo del cibo aumentasse. 
-        sliders:
-        - param: s
-          label: "` \\\\text{Sussidio} `"
-        divs:
-          - html: "` `"
-          - html: "` Una compensazione di ${params.s} euro aumenta il reddito del consumatore a 
-                      ${(params.m)+(params.s)} euro. `"
-          - html: "` <i>Ciò però non basta a riportare il consumatore al livello di benessere 
-                      precedente.</i> `"
-            show: calcs.scheck < 0
-          - html: "` <i>Ciò è esattamente quanto basta a riportare il consumatore al livello di benessere 
-                      precedente.</i> `"
-            show: calcs.scheck == 0
-          - html: "` <i>Ciò però è più di quanto serve a riportare il consumatore al livello di benessere 
-                      precedente.</i> `"
-            show: calcs.scheck > 0
-          - html: "` Infatti, quando $P_X=${params.p1new}$ e $P_Y=${params.p2}$, la scelta ottima è il paniere rappresentato dal punto $C$ 
-                       $$ X=${calcs.x1s.toFixed(1)}  \\\\qquad  Y=${calcs.x2s.toFixed(1)}  $$ `"
-          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $A$. `"
-            show: calcs.scheck < 0
-          - html: "` che si trova sulla curva di indifferenza passante per $A$. `"
-            show: calcs.scheck == 0
-          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $A$. `"
-            show: calcs.scheck > 0
-          - html: "` `"
-          - html: "` `"
-        show: params.showCVEV == 1
+          - html: "` La funzione di spesa corrispondente a questo livello di utilità è
+                      $$ E = 180\\\\sqrt{P_X} $$ `"
+            show: params.showCVEV == 1
+          - html: "` Quando il prezzo del cibo aumenta a $P_X=${params.p1new}$, per raggiungere
+                      il livello di utilità $U=${calcs.uold}$ sono quindi necessari
+                      $180\\\\sqrt{9}=540$ euro di spesa. `"
+            show: params.showCVEV == 1
+          - html: "` La variazione compensativa è dunque $$CV=540-${params.m}=${540-(params.m)}$$ `"
+            show: params.showCVEV == 1
+
+          - html: "` Quando il prezzo del cibo aumenta a $P_X=${params.p1new}$, la scelta ottima è  
+                       $$X=${calcs.x1new} \\\\qquad Y=${calcs.x2new}$$ `"
+            show: params.showCVEV == 2
+          - html: "` La corrispondente utilità è
+                       $$U(${calcs.x1new},${calcs.x2new})=${calcs.unew}$$ `"
+            show: params.showCVEV == 2
+          - html: "` La funzione di spesa corrispondente a questo livello di utilità è
+                      $$ E = 120\\\\sqrt{P_X} $$ `"
+            show: params.showCVEV == 2
+          - html: "` Se il prezzo del cibo fosse ancora $P_X=${params.p1}$, per raggiungere
+                      il livello di utilità $U=${calcs.unew}$ sarebbero quindi necessari
+                      $120\\\\sqrt{4}=240$ euro di spesa. `"
+            show: params.showCVEV == 2
+          - html: "` La variazione equivalente è dunque $$EV=360-240=120$$ `"
+            show: params.showCVEV == 2
+
+          - html: "`  `"
+            show: params.showCVEV == 3
+          - html: "`  `"
+            show: params.showCVEV == 3
+          - html: "` La variazione equivalente è pari all'area rossa.    `"
+            show: params.showCVEV == 3
+          - html: "` La riduzione di surplus è pari alla somma delle aree rossa e blu. `"
+            show: params.showCVEV == 3
+          - html: "` La variazione compensativa è pari alla somma delle aree rossa, blu e verde `"
+            show: params.showCVEV == 3
+
 
         # checkboxes:
         # - param: showCV
@@ -422,59 +461,4 @@ layout:
         #   - html: "` `"
         #   - html: "` `"
         #     show: params.showCV == 1
-
-      - title: Variazione equivalente
-        description: Trova la compensazione necessaria a riportare il consumatore al livello di
-                        utilità che aveva prima che aumentasse il prezzo del cibo. 
-        sliders:
-        - param: t
-          label: "` \\\\text{Tassa} `"
-        divs:
-          - html: "` `"
-          - html: "` Con una riduzione di reddito di ${params.s} euro  il reddito del consumatore a 
-                      ${(params.m)-(params.t)} euro. `"
-          - html: "` <i>Questa variazione di reddito non è equivalente all'aumento di prezzo del cibo
-                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</i> `"
-            show: calcs.tcheck !== 0
-          - html: "` <i>Questa variazione di reddito è equivalente all'aumento di prezzo del cibo
-                  da $P_X=${params.p1}$ a $P_X=${params.p1new}$.</i> `"
-            show: calcs.tcheck.toFixed(0) == 0
-          - html: "` Infatti, quando $P_X=${params.p1}$ e $P_Y=${params.p2}$, la scelta ottima è il 
-                    paniere rappresentato dal punto $E$ 
-                       $$ X=${calcs.x1t.toFixed(1)}  \\\\qquad  Y=${calcs.x2t.toFixed(1)}  $$ `"
-          - html: "` che si trova su una curva di indifferenza più bassa di quella passante per $B$. `"
-            show: calcs.tcheck > 0
-          - html: "` che si trova sulla curva di indifferenza passante per $B$. `"
-            show: calcs.tcheck.toFixed(0) == 0
-          - html: "` che si trova su una curva di indifferenza più alta di quella passante per $B$. `"
-            show: calcs.tcheck < 0
-          - html: "` `"
-          - html: "` `"
-        show: params.showCVEV == 2
-
-        # checkboxes:
-        # - param: showCV
-        #   label: "\\text{Mostra variazione compensativa}"
-        # - param: showEV
-        #   label: "\\text{Mostra variazione equivalente}"
-        # sliders:
-        # - param: a
-        #   label: a
-        # - param: b
-        #   label: b
-        # divs:
-        #   - html: "` `"
-        #   - html: "` `"
-        #   - html: "` `"
-        #   - html: "` `"
-        #     show: params.showCV == 1
-
-
-
-
-
-
-
-
-
 

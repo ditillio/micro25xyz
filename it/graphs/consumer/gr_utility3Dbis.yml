@@ -8,7 +8,7 @@ params:
 - {name: showINDIFF, value: 0}
 
 
-- {name: e, value: 1}
+- {name: e, value: 0.5}
 
 
 calcs:
@@ -31,7 +31,7 @@ layout:
       zAxis:
         min: 0
         max: calcs.maxU
-        step: 100
+        step: 1
         title: Utilità
       objects:
       - MathboxFunctionSurface:
@@ -117,7 +117,7 @@ layout:
           - html: "` `"
           - html: "` `"
           - html: "`Le preferenze del consumatore sono rappresentate dalla funzione di utilità
-                    $$ U(X,Y) = XY $$`"
+                    $$ U(X,Y) = X^{0.5} Y^{0.5} $$`"
           - html: "`L'utilità del paniere $(${params.x.toFixed(1)},${params.y.toFixed(1)})$
                     è quindi`"
           - html: "`$$U(${params.x.toFixed(1)},${params.y.toFixed(1)}) = ${calcs.z.toFixed(1)}$$`"

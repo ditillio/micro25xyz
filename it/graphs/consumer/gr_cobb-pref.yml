@@ -1,10 +1,10 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 1.3
+aspectRatio: 1.5
 params:
-  - {name: x1, value: 50, min: 0, max: 120, round: 0.1}
-  - {name: x2, value: 50, min: 0, max: 120, round: 0.1}
+  - {name: x1, value: 40, min: 0, max: 100, round: 0.5}
+  - {name: x2, value: 40, min: 0, max: 100, round: 0.5}
 
   - {name: a, value: 1}
   - {name: b, value: 1}
@@ -12,41 +12,53 @@ params:
   - {name: showMORE, value: false}
   - {name: showLESS, value: false}
 
+# consumption levels on 45° line
+  - {name: c1, value: 10}
+  - {name: c2, value: 20}
+  - {name: c3, value: 30}
+  - {name: c4, value: 40}
+  - {name: c5, value: 50}
+  - {name: c6, value: 60}
+  - {name: c7, value: 70}
+  - {name: c8, value: 80}
+  - {name: c9, value: 90}
+
+
+
 calcs:
+
+# utility at selected bundle
   u: ((params.x1)^(params.a))*((params.x2)^(params.b))
-  u1: (10^(params.a))*(10^(params.b))
-  u2: (20^(params.a))*(20^(params.b))
-  u3: (30^(params.a))*(30^(params.b))
-  u4: (40^(params.a))*(40^(params.b))
-  u5: (50^(params.a))*(50^(params.b))
-  u6: (60^(params.a))*(60^(params.b))
-  u7: (70^(params.a))*(70^(params.b))
-  u8: (80^(params.a))*(80^(params.b))
-  u9: (90^(params.a))*(90^(params.b))
-  u10: (100^(params.a))*(100^(params.b))
-  u11: (110^(params.a))*(110^(params.b))
-  u12: (120^(params.a))*(120^(params.b))
+
+
+  u1: ((params.c1)^(params.a))*((params.c1)^(params.b))
+  u2: ((params.c2)^(params.a))*((params.c2)^(params.b))
+  u3: ((params.c3)^(params.a))*((params.c3)^(params.b))
+  u4: ((params.c4)^(params.a))*((params.c4)^(params.b))
+  u5: ((params.c5)^(params.a))*((params.c5)^(params.b))
+  u6: ((params.c6)^(params.a))*((params.c6)^(params.b))
+  u7: ((params.c7)^(params.a))*((params.c7)^(params.b))
+  u8: ((params.c8)^(params.a))*((params.c8)^(params.b))
+  u9: ((params.c9)^(params.a))*((params.c9)^(params.b))
 
 layout:
   OneGraphPlusSidebar:
     graph:
       xAxis:
-        max: 130
-        ticks: 10
+        max: 95
+        ticks: 5
       yAxis:
-        max: 130
-        ticks: 10
+        max: 95
+        ticks: 5
       objects:
 
       - Label:
-            coordinates: [130, 0]
+            coordinates: [95, 0]
             text: "` \\\\text{Cibo (kg)} `"
-            yPixelOffset: 0
             position: l
       - Label:
-            coordinates: [0, 130]
-            text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
-            yPixelOffset: 0
+            coordinates: [0, 95]
+            text: "` \\\\text{Alloggio (m$^2$)}  `"
 
       # Bundle
       - Point:
@@ -54,15 +66,13 @@ layout:
           droplines:
             horizontal: params.x2.toFixed(1)
             vertical: params.x1.toFixed(1)
-          color: Black
-          r: 5
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
           draggable: true
-      - Label:
-          coordinates: [params.x1, params.x2+3]
-          text: "` A `"
-          position: l
-          color: Black
-          bgcolor: none
+          label:
+            text: "` \\\\large{A} `"
+            bgcolor: none
 
       # Preferred and less preferred bundles
       - Area:
@@ -75,7 +85,7 @@ layout:
           fill: red
           above: false
           show: params.showLESS == true
-          min: 0.5
+          min: 0.01
 
       # Indifference curve at bundle
       - Curve:
@@ -88,17 +98,17 @@ layout:
           fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
-          min: 0.2
+          min: 0.4
       - Curve:
           fn:   ((calcs.u2)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
-          min: 0.1
+          min: 0.5
       - Curve:
           fn:   ((calcs.u3)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
-          min: 0.1
+          min: 0.05
       - Curve:
           fn:   ((calcs.u4)/((x)^(params.a)))^(1/(params.b))
           color: Grey
@@ -129,21 +139,6 @@ layout:
           color: Grey
           strokeWidth: 0.5
           min: 0.01
-      - Curve:
-          fn:   ((calcs.u10)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.5
-          min: 0.01
-      - Curve:
-          fn:   ((calcs.u11)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.5
-          min: 0.01
-      - Curve:
-          fn:   ((calcs.u12)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.5
-          min: 0.01
 
       
 
@@ -164,7 +159,7 @@ layout:
         - param: x1
           label: "` \\\\text{Cibo} `"
         - param: x2
-          label: "` \\\\text{Affitto} `"
+          label: "` \\\\text{Alloggio} `"
         divs:
           - html: "`  `"
             show: calcs.u < 0

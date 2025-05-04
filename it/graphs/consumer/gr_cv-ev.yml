@@ -8,7 +8,7 @@ params:
 
 - {name: p1, value: 4}
 - {name: p1new, value: 9}
-- {name: p2, value: 2}
+- {name: p2, value: 4}
 - {name: m, value: 360}
 
 - {name: a, value: 1}
@@ -98,20 +98,22 @@ layout:
       xAxis:
         max: calcs.maxX
         ticks: 0
+        title: Cibo (chili)
       yAxis:
         max: calcs.maxY
         ticks: 0
+        title: Alloggio (decine di metri quadri)
       objects:
 
-      - Label:
-            coordinates: [calcs.maxX, 0]
-            text: "` \\\\text{Cibo (kg)} `"
-            yPixelOffset: 0
-            position: l
-      - Label:
-            coordinates: [0, calcs.maxY]
-            text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
-            yPixelOffset: 0
+      # - Label:
+      #       coordinates: [calcs.maxX, 0]
+      #       text: "` \\\\text{Cibo (kg)} `"
+      #       yPixelOffset: 0
+      #       position: l
+      # - Label:
+      #       coordinates: [0, calcs.maxY]
+      #       text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
+      #       yPixelOffset: 0
 
 # old optimal bundle
       - Point:

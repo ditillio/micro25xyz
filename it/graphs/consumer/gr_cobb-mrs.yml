@@ -1,0 +1,292 @@
+---
+schema: EconSchema
+version: 1
+aspectRatio: 1.3
+params:
+  - {name: x1, value: 50, min: 10, max: 80, round: 1}
+  - {name: x2, value: 72, min: 10, max: 100, round: 1}
+  - {name: dx1, value: 10, min: -20, max: 20, round: 0.5}
+
+  - {name: a, value: 1}
+  - {name: b, value: 1}
+
+# consumption levels on 45° line
+  - {name: c1, value: 10}
+  - {name: c2, value: 20}
+  - {name: c3, value: 30}
+  - {name: c4, value: 40}
+  - {name: c5, value: 50}
+  - {name: c6, value: 60}
+  - {name: c7, value: 70}
+  - {name: c8, value: 80}
+  - {name: c9, value: 90}
+
+
+
+calcs:
+
+# utility at selected bundle
+  u: ((params.x1)^(params.a))*((params.x2)^(params.b))
+
+# MRS at selected bundle
+  MRS: ((params.a)/(params.b))*((params.x2)/(params.x1))
+
+
+  u1: ((params.c1)^(params.a))*((params.c1)^(params.b))
+  u2: ((params.c2)^(params.a))*((params.c2)^(params.b))
+  u3: ((params.c3)^(params.a))*((params.c3)^(params.b))
+  u4: ((params.c4)^(params.a))*((params.c4)^(params.b))
+  u5: ((params.c5)^(params.a))*((params.c5)^(params.b))
+  u6: ((params.c6)^(params.a))*((params.c6)^(params.b))
+  u7: ((params.c7)^(params.a))*((params.c7)^(params.b))
+  u8: ((params.c8)^(params.a))*((params.c8)^(params.b))
+  u9: ((params.c9)^(params.a))*((params.c9)^(params.b))
+
+  dx2: (params.x2)*((((params.x1)+(params.dx1))/(params.x1))^(-(params.a)/(params.b))-1)
+
+  ratio: (calcs.dx2)/(params.dx1)
+
+  x1new: (params.x1)+(params.dx1)
+  x2new: (params.x2)+(calcs.dx2)
+
+layout:
+  OneGraphPlusSidebar:
+    graph:
+      xAxis:
+        max: 95
+        ticks: 0
+      yAxis:
+        max: 95
+        ticks: 0
+
+
+
+      objects:
+
+      - Label:
+            coordinates: [95, 0]
+            text: "` \\\\text{Cibo (kg)} `"
+            position: l
+      - Label:
+            coordinates: [0, 95]
+            text: "` \\\\text{Alloggio (m$^2$)}  `"
+
+# bundle
+      - Point:
+          coordinates: [params.x1, params.x2]
+          droplines:
+            horizontal: params.x2.toFixed(1)
+            vertical: params.x1.toFixed(1)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          draggable: true
+          label:
+            text: "` \\\\large{A} `"
+            bgcolor: none
+
+# new bundle
+      - Point:
+          coordinates: [calcs.x1new, calcs.x2new]
+          droplines:
+            horizontal: calcs.x2new.toFixed(2)
+            vertical: calcs.x1new.toFixed(1)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          draggable: true
+          label:
+            text: "` \\\\large{B} `"
+            bgcolor: none
+          show: params.dx1 !== 0
+
+      # Preferred and less preferred bundles
+      - Area:
+          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
+          fill: blue
+          above: true
+          show: params.showMORE == true
+      - Area:
+          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
+          fill: red
+          above: false
+          show: params.showLESS == true
+          min: 0.01
+
+      # Indifference curve at bundle
+      - Curve:
+          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1.5
+      
+      # Indifference Map
+      - Curve:
+          fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.04
+      - Curve:
+          fn:   ((calcs.u2)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.15
+      - Curve:
+          fn:   ((calcs.u3)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.05
+      - Curve:
+          fn:   ((calcs.u4)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.01
+      - Curve:
+          fn:   ((calcs.u5)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.01
+      - Curve:
+          fn:   ((calcs.u6)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.01
+      - Curve:
+          fn:   ((calcs.u7)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.01
+      - Curve:
+          fn:   ((calcs.u8)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.01
+      - Curve:
+          fn:   ((calcs.u9)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.01
+
+
+# positive variation in X
+      - Arrow:
+          begin: [params.x1,3]
+          end: [calcs.x1new,3]
+          trim: 0.02
+          color: Green
+          show: params.dx1 > 0
+      - Label:
+          coordinates: [((params.x1)+(calcs.x1new))/2, 6]
+          text: "` \\\\Delta X = ${params.dx1.toFixed(1)} `"
+          color: Green
+          show: params.dx1 > 0
+# negative variation in X
+      - Arrow:
+          begin: [params.x1,3]
+          end: [calcs.x1new,3]
+          trim: 0.02
+          color: Red
+          show: params.dx1 < 0
+      - Label:
+          coordinates: [((params.x1)+(calcs.x1new))/2, 6]
+          text: "` \\\\Delta X = ${params.dx1.toFixed(1)}  `"
+          color: Red
+          show: params.dx1 < 0
+
+
+# positive variation in Y
+      - Arrow:
+          begin: [3,((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
+          end: [3,(calcs.dx2)+((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
+          trim: 0.02
+          color: Green
+          show: calcs.dx2 > 0
+      - Label:
+          coordinates: [3, ((params.x2)+(calcs.x2new))/2]
+          text: "` \\\\Delta Y = ${calcs.dx2.toFixed(2)}`"
+          color: Green
+          position: l
+          show: calcs.dx2 > 0
+
+# negative variation in Y
+      - Arrow:
+          begin: [3,((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
+          end: [3,(calcs.dx2)+((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
+          trim: 0.02
+          color: Red
+          show: calcs.dx2 < 0
+      - Label:
+          coordinates: [3, ((params.x2)+(calcs.x2new))/2]
+          text: "` \\\\Delta Y = ${calcs.dx2.toFixed(2)}`"
+          color: Red
+          position: l
+          show: calcs.dx2 < 0
+
+# tangent at bundle
+      - Line:
+          point: [params.x1,params.x2]
+          slope: -(calcs.MRS)
+          color: Blue
+          min: params.x1-30
+          max: params.x1+30
+          strokeWidth: 0.5
+          lineStyle: dashed
+
+
+
+    sidebar:
+      controls:
+      - title: Preferenze del consumatore per beni divisibili
+        description: Muovere i primi due cursori (o trascinare il punto <i>A</i>) per selezionare un paniere.
+                    Muovere poi il terzo cursore per variare il consumo del bene <i>X</i> e vedere
+                    di quanto deve variare il consumo di <i>Y</i> affinché l'utilità
+                    rimanga invariata.
+        divs:
+          - html: "`  `"
+          - html: "` Le variazioni $$ \\\\Delta X=${params.dx1.toFixed(1)} \\\\qquad
+                    \\\\Delta Y=${calcs.dx2.toFixed(2)} $$ si compensano in termini di
+                    utilità. I panieri $A$ e $B$ si trovano sulla stessa curva di 
+                    indifferenza.  `"
+        # checkboxes:
+        # - param: showTANGENT
+        #   label: "\\text{Mostra retta tangente nel punto $A$}"
+        sliders:
+        - param: x1
+          label: X
+        - param: x2
+          label: Y
+        - param: dx1
+          label: \Delta X
+
+
+    explanation:
+        divs:
+          - html: "`  `"
+          - html: "` A partire dal paniere $A$, il consumatore è disposto a rinunciare a
+                    ${-(calcs.dx2.toFixed(2))} unità di $Y$
+                   per avere ${params.dx1.toFixed(1)} unità di $X$ in più:
+                   $$ \\\\dfrac{\\\\Delta Y}{\\\\Delta X} = 
+                   \\\\dfrac{${calcs.dx2.toFixed(2)}}{${params.dx1.toFixed(1)}} =
+                    ${calcs.ratio.toFixed(2)} $$  `"
+            show: params.dx1 > 0
+          - html: "` A partire dal paniere $A$, il consumatore è disposto a rinunciare a
+                    ${-(params.dx1.toFixed(1))} unità di $X$
+                   per avere ${calcs.dx2.toFixed(2)} unità di $Y$ in più:
+                   $$ \\\\dfrac{\\\\Delta Y}{\\\\Delta X} = 
+                   \\\\dfrac{${calcs.dx2.toFixed(2)}}{${params.dx1.toFixed(1)}} =
+                    ${calcs.ratio.toFixed(2)} $$  `"
+            show: params.dx1 < 0
+          - html: "` In corrispondenza del paniere $A$, il saggio marginale di sostituzione 
+                      del bene $X$ col bene $Y$, valore assoluto della pendenza della retta
+                      tratteggiata,
+                      è $$MRS_{XY}(${params.x1},${params.x2}) = ${calcs.MRS.toFixed(2)}$$ `"
+
+
+
+
+
+
+
+
+
+
+
