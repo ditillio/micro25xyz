@@ -5,8 +5,8 @@ aspectRatio: 1.5
 
 params:
 
-  - {name: x1, value: 2.2, min: 0, max: 5, round: 0.1}
-  - {name: x2, value: 1.8, min: 0, max: 5, round: 0.1}
+  - {name: x1, value: 2, min: 0, max: 5, round: 0.1}
+  - {name: x2, value: 1.5, min: 0, max: 5, round: 0.1}
   - {name: s, value: 4, min: 0, max: 10}
 
   - {name: showMORE, value: false}
@@ -123,7 +123,7 @@ layout:
           droplines:
             horizontal: params.x2.toFixed(1)
             vertical: params.x1.toFixed(1)
-          color: Black
+          color: Blue
           r: 5
           draggable: true
       - Label:

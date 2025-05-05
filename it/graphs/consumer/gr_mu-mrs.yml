@@ -3,11 +3,11 @@ schema: EconSchema
 version: 1
 aspectRatio: 1.3
 params:
-  - {name: x1, value: 40, min: 25, max: 75, round: 1}
-  - {name: x2, value: 45, min: 10, max: 90, round: 1}
-  - {name: dx1, value: 20, min: -20, max: 20, round: 0.5}
+  - {name: x1, value: 50, min: 10, max: 80, round: 1}
+  - {name: x2, value: 60, min: 10, max: 100, round: 1}
+  - {name: dx1, value: 10, min: -20, max: 20, round: 0.5}
 
-  - {name: a, value: 1}
+  - {name: a, value: 2}
   - {name: b, value: 1}
 
 # consumption levels on 45° line
@@ -78,7 +78,7 @@ layout:
             horizontal: params.x2.toFixed(1)
             vertical: params.x1.toFixed(1)
           color: Blue
-          r: 3
+          r: 4
           strokeWidth: 0.5
           draggable: true
           label:
@@ -92,7 +92,7 @@ layout:
             horizontal: calcs.x2new.toFixed(2)
             vertical: calcs.x1new.toFixed(1)
           color: Blue
-          r: 3
+          r: 4
           strokeWidth: 0.5
           draggable: true
           label:
@@ -226,21 +226,20 @@ layout:
           point: [params.x1,params.x2]
           slope: -(calcs.MRS)
           color: Blue
-          min: params.x1-30
-          max: params.x1+30
-          strokeWidth: 0.8
+          min: params.x1-100
+          max: params.x1+100
+          strokeWidth: 0.5
           lineStyle: dashed
 
-# red dashed line
+# line
       - Line:
           point: [params.x1,params.x2]
           point2: [calcs.x1new,calcs.x2new]
           color: Red
           min: params.x1-30
           max: params.x1+30
-          strokeWidth: 0.8
+          strokeWidth: 0.5
           lineStyle: dashed
-
 
 
     sidebar:
@@ -271,33 +270,13 @@ layout:
     explanation:
         divs:
           - html: "`  `"
-          - html: "` A partire dal paniere $A$, il consumatore è disposto a rinunciare a
+          - html: "` Il rapporto $\\\\Delta Y/\\\\Delta X$ è la pendenza della retta che unisce $A$ e $B$ 
+                    (retta tratteggiata rossa).  A partire dal paniere $A$, il consumatore è disposto a rinunciare a
                     ${-(calcs.dx2.toFixed(2))} unità di $Y$
-                   per avere ${params.dx1.toFixed(1)} unità di $X$ in più. La pendenza della retta 
-                   (tratteggiata rossa)
-                   che unisce i punti $A$ e $B$ è
+                   per avere ${params.dx1.toFixed(1)} unità di $X$ in più:
                    $$ \\\\dfrac{\\\\Delta Y}{\\\\Delta X} = 
                    \\\\dfrac{${calcs.dx2.toFixed(2)}}{${params.dx1.toFixed(1)}} =
                     ${calcs.ratio.toFixed(2)} $$  `"
-            show: params.dx1 > 0
-          - html: "` A partire dal paniere $A$, il consumatore è disposto a rinunciare a
-                    ${-(params.dx1.toFixed(1))} unità di $X$
-                   per avere ${calcs.dx2.toFixed(2)} unità di $Y$ in più. La pendenza della retta 
-                   (tratteggiata rossa)
-                   che unisce i punti $A$ e $B$ è
-                   $$ \\\\dfrac{\\\\Delta Y}{\\\\Delta X} = 
-                   \\\\dfrac{${calcs.dx2.toFixed(2)}}{${params.dx1.toFixed(1)}} =
-                    ${calcs.ratio.toFixed(2)} $$  `"
-            show: params.dx1 < 0
-          - html: "` In corrispondenza di $A$, il saggio marginale di sostituzione 
-                      del bene $X$ col bene $Y$, valore assoluto della pendenza della retta
-                      (tratteggiata blu) tangente in $A$
-                      è $$MRS_{XY}(${params.x1},${params.x2}) = ${calcs.MRS.toFixed(3)}$$ `"
-          - html: "` Riducendo il valore assoluto di $\\\\Delta X$ si verifica che 
-                    il saggio marginale di sostituzione è il limite a cui tende il rapporto
-                    $\\\\Delta Y / \\\\Delta X$ al tendere di $\\\\Delta X$ a zero. `"
-
-
 
 
 

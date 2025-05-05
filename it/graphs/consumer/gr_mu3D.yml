@@ -4,37 +4,37 @@ version: 1
 aspectRatio: 2
 params:
 - name: x
-  value: 65
+  value: 50
   min: 0
-  max: 120
+  max: 90
   round: 1
 - name: y
-  value: 75
-  min: 0
-  max: 120
+  value: 60
+  min: 5
+  max: 90
   round: 1
 
 calcs:
-  z: (params.x)*(params.y)
-  MU1: params.y
+  z: ((params.x)^2)*(params.y)
+  MUx: (2)*(params.x)*(params.y)
 
 layout:
   MathboxPlusGraphPlusSidebar:
     mathbox:
       xAxis:
         min: 0
-        max: 125
+        max: 100
         step: 1
         title: Cibo
       yAxis:
         min: 0
-        max: 125
+        max: 100
         step: 1
-        title: Affitto
+        title: Alloggio
       zAxis:
         min: 0
-        max: 15000
-        step: 10
+        max: 729000
+        step: 100
         title: Utilità
 
       objects:
@@ -50,14 +50,14 @@ layout:
       - MathboxCurve:
           fn:
             fn: " params.y "
-            fnZ: "(x)*(params.y)"
+            fnZ: "((x)^2)*(params.y)"
           strokeWidth: 5
           stroke: colors.red
           opacity: 0.4
 
       - MathboxFunctionSurface:
           fn:
-            fn: "(x)*(y)"
+            fn: "((x)^2)*(y)"
             samplePoints: 40
           shaded: false
           fill: colors.blue
@@ -113,10 +113,10 @@ layout:
 
     graph: 
       xAxis:
-        max: 120
+        max: 95
         ticks: 0
       yAxis:
-        max: 800000
+        max: 729000
         ticks: 0
 
       objects:
@@ -126,31 +126,37 @@ layout:
             strokeWidth: 1.5
             color: Red
             opacity: 0.4
+            label:
+              text: "` U = ${params.y} X^2 `"
+              x: 95
+              position: c
 
         - Label:
-              coordinates: [120, 0]
-              text: "` \\\\text{Cibo (kg)} `"
+              coordinates: [95, 0]
+              text: "` \\\\text{kg} `"
               position: l
         - Label:
-              coordinates: [0, 120]
+              coordinates: [0, 729000]
               text: "` \\\\text{Utilità}  `"
 
         - Point:
             coordinates: [params.x,calcs.z]
             droplines:
               vertical: params.x
-              horizontal: 
+              horizontal:
+            strokeWidth: 0.5
             color: Blue
             r: 4
 
 # tangent
         - Line:
             point: [params.x,calcs.z]
-            slope: 0.5 * ( params.y / params.x )^0.5
-            color: Black
-            min: (params.x)-40
-            max: (params.x)+40
-            strokeWidth: 1
+            slope: 2*(params.x)*(params.y)
+            color: Blue
+            min: (params.x)-35
+            max: (params.x)+35
+            strokeWidth: 0.8
+            lineStyle: dashed
 
 
 
@@ -161,8 +167,9 @@ layout:
 
     sidebar:
       controls:
-      - title: Utilità
-        description: The plot to the left shows the surface plot for the multivariable functions below. Try selecting different functions, and changing the x- and y-coordinates.
+      - title: Utilità marginale del bene 𝑋
+        description: Scegliere un paniere per calcolare l'utilità marginale del bene <i>X</i>
+                      in corrispondenza di quel paniere.
         sliders:
           - param: x
             label: X
@@ -171,14 +178,18 @@ layout:
 
         divs:
           - html: "` `"
-          - html: "` `"
-          - html: "` `"
-          - html: "`Le preferenze del consumatore sono rappresentate dalla funzione di utilità
-                    $$ U(X,Y) = XY $$`"
-          - html: "`L'utilità del paniere $(${params.x.toFixed(0)},${params.y.toFixed(0)})$
-                    è quindi`"
-          - html: "`$$U(${params.x.toFixed(0)},${params.y.toFixed(0)}) = ${calcs.z.toFixed(0)}$$`"
+          - html: "`L'utilità marginale del bene $X$ in corrispondenza del paniere $(${params.x},${params.y})$
+                    è la pendenza della curva rossa in corrispondenza di $X=${params.x}$ (= pendenza della retta 
+                    tratteggiata):  $MU_X = ${(2)*(params.x)*(params.y)}$. `"
 
+    explanation:
+
+        divs:
+          - html: "` `"
+          - html: "` La funzione di utilità del consumatore è $U(X,Y)=X^2Y$. Tenendo fermo il consumo del bene $Y$
+                      a $Y=${params.y}$ unità, l'utilità diventa una funzione del solo consumo di $X$, ovvero
+                      $U=${params.y}X^2$ (curva rossa). L'utilità marginale del bene $X$ è la derivata di tale 
+                      funzione: $MU_X=${2*params.y}X$.   `"
 
 
 

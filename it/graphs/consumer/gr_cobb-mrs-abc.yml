@@ -5,16 +5,16 @@ version: 1
 params:
 
 # Alice bundle
-  - {name: x1a, value: 40, min: 0, max: 90, round: 10}
-  - {name: x2a, value: 50, min: 0, max: 90, round: 10}
+  - {name: x1a, value: 50, min: 10, max: 90, round: 10}
+  - {name: x2a, value: 50, min: 10, max: 90, round: 10}
 
 # Bruno bundle
-  - {name: x1b, value: 40, min: 0, max: 90, round: 10}
-  - {name: x2b, value: 50, min: 0, max: 90, round: 10}
+  - {name: x1b, value: 50, min: 10, max: 90, round: 10}
+  - {name: x2b, value: 50, min: 10, max: 90, round: 10}
 
 # Carmen bundle
-  - {name: x1c, value: 40, min: 0, max: 90, round: 10}
-  - {name: x2c, value: 50, min: 0, max: 90, round: 10}
+  - {name: x1c, value: 50, min: 10, max: 90, round: 10}
+  - {name: x2c, value: 50, min: 10, max: 90, round: 10}
 
 # consumption levels of X
   - {name: c1, value: 10}
