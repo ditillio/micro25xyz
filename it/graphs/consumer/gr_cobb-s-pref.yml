@@ -5,27 +5,40 @@ aspectRatio: 1.5
 
 params:
 
-  - {name: x1, value: 2, min: 0, max: 5, round: 0.1}
-  - {name: x2, value: 1.5, min: 0, max: 5, round: 0.1}
+  - {name: x1, value: 5, min: 0, max: 9, round: 0.1}
+  - {name: x2, value: 5, min: 0, max: 9, round: 0.1}
   - {name: s, value: 4, min: 0, max: 10}
 
   - {name: showMORE, value: false}
   - {name: showLESS, value: false}
 
+# consumption levels on 45° line
+  - {name: c1, value: 1}
+  - {name: c2, value: 2}
+  - {name: c3, value: 3}
+  - {name: c4, value: 4}
+  - {name: c5, value: 5}
+  - {name: c6, value: 6}
+  - {name: c7, value: 7}
+  - {name: c8, value: 8}
+  - {name: c9, value: 9}
+
+
 calcs:
   u: (params.x1) * (params.x2) + (params.s) * ( (params.x1) + (params.x2) )
 
-  u1: (0.5) * ( (0.5) + (2) * (params.s) )
-  u2: (1) * ( (1) + (2) * (params.s) )
-  u3: ( (1) * (2) ) + ( (params.s) * ( (1) + (2) ) )
-  u4: (2) * ( (2) + (2) * (params.s) )
-  u5: (2.5) * ( (2.5) + (2) * (params.s) )
-  u6: (3) * ( (3) + (2) * (params.s) )
-  u7: (3.5) * ( (3.5) + (2) * (params.s) )
-  u8: (4) * ( (4) + (2) * (params.s) )
-  u9: (4.5) * ( (4.5) + (2) * (params.s) )
+# utility levels
+  u1: ((params.c1)*(params.c1))+((params.s)*((params.c1)+(params.c1)))
+  u2: ((params.c2)*(params.c2))+((params.s)*((params.c2)+(params.c2)))
+  u3: ((params.c3)*(params.c3))+((params.s)*((params.c3)+(params.c3)))
+  u4: ((params.c4)*(params.c4))+((params.s)*((params.c4)+(params.c4)))
+  u5: ((params.c5)*(params.c5))+((params.s)*((params.c5)+(params.c5)))
+  u6: ((params.c6)*(params.c6))+((params.s)*((params.c6)+(params.c6)))
+  u7: ((params.c7)*(params.c7))+((params.s)*((params.c7)+(params.c7)))
+  u8: ((params.c8)*(params.c8))+((params.s)*((params.c8)+(params.c8)))
+  u9: ((params.c9)*(params.c9))+((params.s)*((params.c9)+(params.c9)))
 
-  xequiv: ((2)+(params.s)*(3))/(params.s)
+  xequiv: ((9)+(params.s)*(6))/(params.s)
 
 layout:
   OneGraphPlusSidebar:
@@ -34,27 +47,24 @@ layout:
       xAxis:
         orient: bottom
         min: 0
-        max: 5
+        max: 9.5
         ticks: 0
       yAxis:
         orient: left
         min: 0
-        max: 5
+        max: 9.5
         ticks: 0
 
 
       objects:
 
       - Label:
-            coordinates: [5, 0]
+            coordinates: [9.5, 0]
             text: "` \\\\text{Mele (kg)} `"
-            yPixelOffset: 0
             position: l
       - Label:
-            coordinates: [0, 5]
+            coordinates: [0, 9.5]
             text: "` \\\\text{Arance (kg)}  `"
-            xPixelOffset: 0
-            yPixelOffset: 10
 
 
 
@@ -142,10 +152,11 @@ layout:
                   sono descritte dalla funzione di utilità 
                   $$U(X,Y)=XY+${params.s}(X+Y)$$
                   Diversamente dall'Esempio 1, in questo caso le curve
-                  d'indifferenza toccano gli assi. Per esempio, il paniere $(1,2)$
-                  e il paniere $(${calcs.xequiv.toFixed(1)},0)$, che si trova
+                  d'indifferenza toccano gli assi. Per esempio, si può verificare che 
+                  quando $s=4$ il paniere $(2,2)$
+                  e il paniere $(5,0)$, che si trova
                   sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
-                  (entrambi danno un'utilità pari a ${((2)+(params.s)*(3))}).
+                  (entrambi danno un'utilità pari a $20$).
                     `"
           show: params.s > 1
         - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo settimanale di mele 
@@ -153,19 +164,17 @@ layout:
                   sono descritte dalla funzione di utilità 
                   $$U(X,Y)=XY+(X+Y)$$
                   Diversamente dall'Esempio 1, in questo caso le curve
-                  d'indifferenza toccano gli assi. Per esempio, il paniere $(1,2)$
-                  e il paniere $(${calcs.xequiv.toFixed(1)},0)$, che si trova
+                  d'indifferenza toccano gli assi. Per esempio, il paniere $(2,2)$
+                  e il paniere $(8,0)$, che si trova
                   sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
-                  (entrambi danno un'utilità pari a ${((2)+(params.s)*(3))}).
+                  (entrambi danno un'utilità pari a $8$).
                     `"
           show: params.s == 1
         - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo settimanale di mele 
                   e arance (entrambe misurate in chili), le preferenze del consumatore
                   sono descritte dalla funzione di utilità 
                   $$U(X,Y)=XY$$
-                  Tali preferenze sono identiche a quelle dell'Esempio 1 nel caso $a=b$.
-
-                `"
+                  Tali preferenze sono identiche a quelle della Figura 2.2.`"
           show: params.s == 0
 
     sidebar:

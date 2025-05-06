@@ -5,27 +5,27 @@ version: 1
 params:
 
 # Alice bundle
-  - {name: x1a, value: 50, min: 10, max: 90, round: 10}
-  - {name: x2a, value: 50, min: 10, max: 90, round: 10}
+  - {name: x1a, value: 5, min: 1, max: 9, round: 1}
+  - {name: x2a, value: 5, min: 1, max: 9, round: 1}
 
 # Bruno bundle
-  - {name: x1b, value: 50, min: 10, max: 90, round: 10}
-  - {name: x2b, value: 50, min: 10, max: 90, round: 10}
+  - {name: x1b, value: 5, min: 1, max: 9, round: 1}
+  - {name: x2b, value: 5, min: 1, max: 9, round: 1}
 
 # Carmen bundle
-  - {name: x1c, value: 50, min: 10, max: 90, round: 10}
-  - {name: x2c, value: 50, min: 10, max: 90, round: 10}
+  - {name: x1c, value: 5, min: 1, max: 9, round: 1}
+  - {name: x2c, value: 5, min: 1, max: 9, round: 1}
 
 # consumption levels of X
-  - {name: c1, value: 10}
-  - {name: c2, value: 20}
-  - {name: c3, value: 30}
-  - {name: c4, value: 40}
-  - {name: c5, value: 50}
-  - {name: c6, value: 60}
-  - {name: c7, value: 70}
-  - {name: c8, value: 80}
-  - {name: c9, value: 90}
+  - {name: c1, value: 1}
+  - {name: c2, value: 2}
+  - {name: c3, value: 3}
+  - {name: c4, value: 4}
+  - {name: c5, value: 5}
+  - {name: c6, value: 6}
+  - {name: c7, value: 7}
+  - {name: c8, value: 8}
+  - {name: c9, value: 9}
 
 
 
@@ -86,33 +86,33 @@ layout:
 
     leftGraph:
       xAxis:
-        max: 95
+        max: 9.5
         ticks: 0
       yAxis:
-        max: 95
+        max: 9.5
         ticks: 0
 
 
       objects:
 
       - Label:
-            coordinates: [95, 0]
+            coordinates: [9.5, 0]
             text: "` \\\\text{kg} `"
             position: l
       - Label:
-            coordinates: [0, 95]
-            text: "` \\\\text{m$^2$}  `"
+            coordinates: [0, 9.5]
+            text: "` \\\\text{d m$^2$}  `"
 
 # Alice indifference map
-      - Curve: {fn: ((calcs.u1a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u2a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u3a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u4a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u5a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u6a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u7a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u8a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u9a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
+      - Curve: {fn: ((calcs.u1a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u2a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u3a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u4a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u5a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u6a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u7a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u8a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u9a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
 
 # Alice bundle
       - Point:
@@ -168,34 +168,34 @@ layout:
 
     middleGraph:
       xAxis:
-        max: 95
+        max: 9.5
         ticks: 0
       yAxis:
-        max: 95
+        max: 9.5
         ticks: 0
 
 
       objects:
 
       - Label:
-            coordinates: [95, 0]
+            coordinates: [9.5, 0]
             text: "` \\\\text{kg} `"
             position: l
       - Label:
-            coordinates: [0, 95]
-            text: "` \\\\text{m$^2$}  `"
+            coordinates: [0, 9.5]
+            text: "` \\\\text{d m$^2$}  `"
 
 
 # Bruno Indifference Map
-      - Curve: {fn: ((calcs.u1b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u2b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u3b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u4b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u5b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u6b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u7b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u8b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u9b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.4}
+      - Curve: {fn: ((calcs.u1b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u2b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u3b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u4b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u5b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u6b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u7b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u8b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u9b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
 
 # Bruno bundle
       - Point:
@@ -244,33 +244,33 @@ layout:
 
     rightGraph:
       xAxis:
-        max: 95
+        max: 9.5
         ticks: 0
       yAxis:
-        max: 95
+        max: 9.5
         ticks: 0
 
 
       objects:
 
       - Label:
-            coordinates: [95, 0]
+            coordinates: [9.5, 0]
             text: "` \\\\text{kg} `"
             position: l
       - Label:
-            coordinates: [0, 95]
-            text: "` \\\\text{m$^2$}  `"
+            coordinates: [0, 9.5]
+            text: "` \\\\text{d m$^2$}  `"
 
 # Carmen Indifference Map
-      - Curve: {fn: ((calcs.u1c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u2c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u3c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u4c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u5c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u6c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u7c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u8c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
-      - Curve: {fn: ((calcs.u9c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.4}
+      - Curve: {fn: ((calcs.u1c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u2c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u3c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u4c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u5c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u6c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u7c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u8c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u9c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
 
 # Carmen bundle
       - Point:

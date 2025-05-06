@@ -3,23 +3,23 @@ schema: EconSchema
 version: 1
 aspectRatio: 1.3
 params:
-  - {name: x1, value: 40, min: 25, max: 75, round: 1}
-  - {name: x2, value: 45, min: 10, max: 90, round: 1}
-  - {name: dx1, value: 20, min: -20, max: 20, round: 0.1}
+  - {name: x1, value: 4, min: 2.5, max: 7.5, round: 0.1}
+  - {name: x2, value: 4, min: 1, max: 9, round: 0.1}
+  - {name: dx1, value: 2, min: -2, max: 2, round: 0.01}
 
   - {name: a, value: 1}
   - {name: b, value: 1}
 
 # consumption levels on 45° line
-  - {name: c1, value: 10}
-  - {name: c2, value: 20}
-  - {name: c3, value: 30}
-  - {name: c4, value: 40}
-  - {name: c5, value: 50}
-  - {name: c6, value: 60}
-  - {name: c7, value: 70}
-  - {name: c8, value: 80}
-  - {name: c9, value: 90}
+  - {name: c1, value: 1}
+  - {name: c2, value: 2}
+  - {name: c3, value: 3}
+  - {name: c4, value: 4}
+  - {name: c5, value: 5}
+  - {name: c6, value: 6}
+  - {name: c7, value: 7}
+  - {name: c8, value: 8}
+  - {name: c9, value: 9}
 
 
 
@@ -53,10 +53,10 @@ layout:
   OneGraphPlusSidebar:
     graph:
       xAxis:
-        max: 95
+        max: 9.5
         ticks: 0
       yAxis:
-        max: 95
+        max: 9.5
         ticks: 0
 
 
@@ -64,12 +64,12 @@ layout:
       objects:
 
       - Label:
-            coordinates: [95, 0]
+            coordinates: [9.5, 0]
             text: "` \\\\text{Cibo (kg)} `"
             position: l
       - Label:
-            coordinates: [0, 95]
-            text: "` \\\\text{Alloggio (m$^2$)}  `"
+            coordinates: [0, 9.5]
+            text: "` \\\\text{Alloggio (decine di m$^2$)}  `"
 
 # bundle
       - Point:
@@ -100,26 +100,15 @@ layout:
             bgcolor: none
           show: params.dx1 !== 0
 
-      # Preferred and less preferred bundles
-      - Area:
-          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
-          fill: blue
-          above: true
-          show: params.showMORE == true
-      - Area:
-          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
-          fill: red
-          above: false
-          show: params.showLESS == true
-          min: 0.01
 
-      # Indifference curve at bundle
+# Indifference curve at bundle
       - Curve:
           fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
           color: Black
           strokeWidth: 1.5
       
-      # Indifference Map
+
+# Indifference Map
       - Curve:
           fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
           color: Grey
@@ -169,25 +158,25 @@ layout:
 
 # positive variation in X
       - Arrow:
-          begin: [params.x1,3]
-          end: [calcs.x1new,3]
+          begin: [params.x1,0.3]
+          end: [calcs.x1new,0.3]
           trim: 0.02
           color: Green
           show: params.dx1 > 0
       - Label:
-          coordinates: [((params.x1)+(calcs.x1new))/2, 6]
+          coordinates: [((params.x1)+(calcs.x1new))/2, 0.6]
           text: "` \\\\Delta X = ${params.dx1.toFixed(1)} `"
           color: Green
           show: params.dx1 > 0
 # negative variation in X
       - Arrow:
-          begin: [params.x1,3]
-          end: [calcs.x1new,3]
+          begin: [params.x1,0.3]
+          end: [calcs.x1new,0.3]
           trim: 0.02
           color: Red
           show: params.dx1 < 0
       - Label:
-          coordinates: [((params.x1)+(calcs.x1new))/2, 6]
+          coordinates: [((params.x1)+(calcs.x1new))/2, 0.6]
           text: "` \\\\Delta X = ${params.dx1.toFixed(1)}  `"
           color: Red
           show: params.dx1 < 0
@@ -195,13 +184,13 @@ layout:
 
 # positive variation in Y
       - Arrow:
-          begin: [3,((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
-          end: [3,(calcs.dx2)+((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
+          begin: [0.3,((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
+          end: [0.3,(calcs.dx2)+((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
           trim: 0.02
           color: Green
           show: calcs.dx2 > 0
       - Label:
-          coordinates: [3, ((params.x2)+(calcs.x2new))/2]
+          coordinates: [0.3, ((params.x2)+(calcs.x2new))/2]
           text: "` \\\\Delta Y = ${calcs.dx2.toFixed(2)}`"
           color: Green
           position: l
@@ -209,13 +198,13 @@ layout:
 
 # negative variation in Y
       - Arrow:
-          begin: [3,((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
-          end: [3,(calcs.dx2)+((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
+          begin: [0.3,((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
+          end: [0.3,(calcs.dx2)+((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
           trim: 0.02
           color: Red
           show: calcs.dx2 < 0
       - Label:
-          coordinates: [3, ((params.x2)+(calcs.x2new))/2]
+          coordinates: [0.3, ((params.x2)+(calcs.x2new))/2]
           text: "` \\\\Delta Y = ${calcs.dx2.toFixed(2)}`"
           color: Red
           position: l

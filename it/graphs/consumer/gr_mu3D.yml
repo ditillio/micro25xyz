@@ -4,15 +4,15 @@ version: 1
 aspectRatio: 2
 params:
 - name: x
-  value: 50
+  value: 5
   min: 0
-  max: 90
-  round: 1
+  max: 9
+  round: 0.1
 - name: y
-  value: 60
-  min: 5
-  max: 90
-  round: 1
+  value: 6
+  min: 0.5
+  max: 9
+  round: 0.1
 
 calcs:
   z: ((params.x)^2)*(params.y)
@@ -23,19 +23,19 @@ layout:
     mathbox:
       xAxis:
         min: 0
-        max: 100
+        max: 9.5
         step: 1
-        title: Cibo
+        title: X
       yAxis:
         min: 0
-        max: 100
+        max: 9.5
         step: 1
-        title: Alloggio
+        title: Y
       zAxis:
         min: 0
-        max: 729000
-        step: 100
-        title: Utilità
+        max: 1000
+        step: 10
+        title: U
 
       objects:
 
@@ -113,10 +113,10 @@ layout:
 
     graph: 
       xAxis:
-        max: 95
+        max: 9.5
         ticks: 0
       yAxis:
-        max: 729000
+        max: 1000
         ticks: 0
 
       objects:
@@ -128,15 +128,15 @@ layout:
             opacity: 0.4
             label:
               text: "` U = ${params.y} X^2 `"
-              x: 95
+              x: 9.5
               position: c
 
         - Label:
-              coordinates: [95, 0]
-              text: "` \\\\text{kg} `"
-              position: l
+              coordinates: [9.5, 0]
+              text: "` \\\\text{Unità di $X$} `"
+#              position: l
         - Label:
-              coordinates: [0, 729000]
+              coordinates: [0, 1000]
               text: "` \\\\text{Utilità}  `"
 
         - Point:
@@ -153,8 +153,8 @@ layout:
             point: [params.x,calcs.z]
             slope: 2*(params.x)*(params.y)
             color: Blue
-            min: (params.x)-35
-            max: (params.x)+35
+            min: (params.x)-3.5
+            max: (params.x)+3.5
             strokeWidth: 0.8
             lineStyle: dashed
 

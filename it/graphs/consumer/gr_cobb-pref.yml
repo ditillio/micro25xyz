@@ -3,8 +3,8 @@ schema: EconSchema
 version: 1
 aspectRatio: 1.5
 params:
-  - {name: x1, value: 40, min: 0, max: 100, round: 0.5}
-  - {name: x2, value: 40, min: 0, max: 100, round: 0.5}
+  - {name: x1, value: 4, min: 0, max: 9, round: 0.1}
+  - {name: x2, value: 4, min: 0, max: 9, round: 0.1}
 
   - {name: a, value: 1}
   - {name: b, value: 1}
@@ -13,15 +13,15 @@ params:
   - {name: showLESS, value: false}
 
 # consumption levels on 45° line
-  - {name: c1, value: 10}
-  - {name: c2, value: 20}
-  - {name: c3, value: 30}
-  - {name: c4, value: 40}
-  - {name: c5, value: 50}
-  - {name: c6, value: 60}
-  - {name: c7, value: 70}
-  - {name: c8, value: 80}
-  - {name: c9, value: 90}
+  - {name: c1, value: 1}
+  - {name: c2, value: 2}
+  - {name: c3, value: 3}
+  - {name: c4, value: 4}
+  - {name: c5, value: 5}
+  - {name: c6, value: 6}
+  - {name: c7, value: 7}
+  - {name: c8, value: 8}
+  - {name: c9, value: 9}
 
 
 
@@ -45,20 +45,20 @@ layout:
   OneGraphPlusSidebar:
     graph:
       xAxis:
-        max: 95
+        max: 9.5
         ticks: 5
       yAxis:
-        max: 95
+        max: 9.5
         ticks: 5
       objects:
 
       - Label:
-            coordinates: [95, 0]
+            coordinates: [9.5, 0]
             text: "` \\\\text{Cibo (kg)} `"
             position: l
       - Label:
-            coordinates: [0, 95]
-            text: "` \\\\text{Alloggio (m$^2$)}  `"
+            coordinates: [0, 9.5]
+            text: "` \\\\text{Alloggio (decine di m$^2$)}  `"
 
       # Bundle
       - Point:
@@ -98,12 +98,12 @@ layout:
           fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
-          min: 0.4
+          min: 0.04
       - Curve:
           fn:   ((calcs.u2)/((x)^(params.a)))^(1/(params.b))
           color: Grey
           strokeWidth: 0.5
-          min: 0.5
+          min: 0.05
       - Curve:
           fn:   ((calcs.u3)/((x)^(params.a)))^(1/(params.b))
           color: Grey
