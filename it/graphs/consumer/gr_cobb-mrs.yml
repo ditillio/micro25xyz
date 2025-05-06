@@ -5,7 +5,7 @@ aspectRatio: 1.3
 params:
   - {name: x1, value: 40, min: 25, max: 75, round: 1}
   - {name: x2, value: 45, min: 10, max: 90, round: 1}
-  - {name: dx1, value: 20, min: -20, max: 20, round: 0.5}
+  - {name: dx1, value: 20, min: -20, max: 20, round: 0.1}
 
   - {name: a, value: 1}
   - {name: b, value: 1}
@@ -278,7 +278,7 @@ layout:
                    che unisce i punti $A$ e $B$ è
                    $$ \\\\dfrac{\\\\Delta Y}{\\\\Delta X} = 
                    \\\\dfrac{${calcs.dx2.toFixed(2)}}{${params.dx1.toFixed(1)}} =
-                    ${calcs.ratio.toFixed(2)} $$  `"
+                    ${calcs.ratio.toFixed(3)} $$  `"
             show: params.dx1 > 0
           - html: "` A partire dal paniere $A$, il consumatore è disposto a rinunciare a
                     ${-(params.dx1.toFixed(1))} unità di $X$
@@ -287,14 +287,14 @@ layout:
                    che unisce i punti $A$ e $B$ è
                    $$ \\\\dfrac{\\\\Delta Y}{\\\\Delta X} = 
                    \\\\dfrac{${calcs.dx2.toFixed(2)}}{${params.dx1.toFixed(1)}} =
-                    ${calcs.ratio.toFixed(2)} $$  `"
+                    ${calcs.ratio.toFixed(3)} $$  `"
             show: params.dx1 < 0
           - html: "` In corrispondenza di $A$, il saggio marginale di sostituzione 
                       del bene $X$ col bene $Y$, valore assoluto della pendenza della retta
                       (tratteggiata blu) tangente in $A$
                       è $$MRS_{XY}(${params.x1},${params.x2}) = ${calcs.MRS.toFixed(3)}$$ `"
           - html: "` Riducendo il valore assoluto di $\\\\Delta X$ si verifica che 
-                    il saggio marginale di sostituzione è il limite a cui tende il rapporto
+                    il saggio marginale di sostituzione è il negativo del limite a cui tende il rapporto
                     $\\\\Delta Y / \\\\Delta X$ al tendere di $\\\\Delta X$ a zero. `"
 
 

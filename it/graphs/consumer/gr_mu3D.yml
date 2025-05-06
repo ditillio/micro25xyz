@@ -188,8 +188,8 @@ layout:
           - html: "` `"
           - html: "` La funzione di utilità del consumatore è $U(X,Y)=X^2Y$. Tenendo fermo il consumo del bene $Y$
                       a $Y=${params.y}$ unità, l'utilità diventa una funzione del solo consumo di $X$, ovvero
-                      $U=${params.y}X^2$ (curva rossa). L'utilità marginale del bene $X$ è la derivata di tale 
-                      funzione: $MU_X=${2*params.y}X$.   `"
+                      $U=${params.y}X^2$ (curva rossa). L'utilità marginale del bene $X$ è la derivata
+                      di questa funzione: $MU_X=${2*params.y}X$.   `"
 
 
 

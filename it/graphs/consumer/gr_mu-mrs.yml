@@ -3,11 +3,11 @@ schema: EconSchema
 version: 1
 aspectRatio: 1.3
 params:
-  - {name: x1, value: 50, min: 10, max: 80, round: 1}
-  - {name: x2, value: 60, min: 10, max: 100, round: 1}
+  - {name: x1, value: 50, min: 10, max: 90, round: 1}
+  - {name: x2, value: 50, min: 10, max: 90, round: 1}
   - {name: dx1, value: 10, min: -20, max: 20, round: 0.5}
 
-  - {name: a, value: 2}
+  - {name: a, value: 1}
   - {name: b, value: 1}
 
 # consumption levels on 45° line
@@ -21,6 +21,12 @@ params:
   - {name: c8, value: 80}
   - {name: c9, value: 90}
 
+  - {name: s, value: 4}
+
+
+# which utility function
+  - {name: whichU, value: 0}
+
 
 
 calcs:
@@ -29,18 +35,58 @@ calcs:
   u: ((params.x1)^(params.a))*((params.x2)^(params.b))
 
 # MRS at selected bundle
-  MRS: ((params.a)/(params.b))*((params.x2)/(params.x1))
+  MRS0: (params.x2)/(params.x1)
+  MRS1: (2)*(params.x2)/(params.x1)
+  MRS2: (0.5)*(params.x2)/(params.x1)
+  MRS3: ((params.x2)+(params.s))/((params.x1)+(params.s))
+
+# utility levels (params.whichU=0)
+  u1: ((params.c1))*((params.c1))
+  u2: ((params.c2))*((params.c2))
+  u3: ((params.c3))*((params.c3))
+  u4: ((params.c4))*((params.c4))
+  u5: ((params.c5))*((params.c5))
+  u6: ((params.c6))*((params.c6))
+  u7: ((params.c7))*((params.c7))
+  u8: ((params.c8))*((params.c8))
+  u9: ((params.c9))*((params.c9))
+
+# utility levels (params.whichU=1)
+  u11: ((params.c1)^(2))*((params.c1))
+  u21: ((params.c2)^(2))*((params.c2))
+  u31: ((params.c3)^(2))*((params.c3))
+  u41: ((params.c4)^(2))*((params.c4))
+  u51: ((params.c5)^(2))*((params.c5))
+  u61: ((params.c6)^(2))*((params.c6))
+  u71: ((params.c7)^(2))*((params.c7))
+  u81: ((params.c8)^(2))*((params.c8))
+  u91: ((params.c9)^(2))*((params.c9))
+
+# utility levels (params.whichU=2)
+  u12: ((params.c1))*((params.c1)^(2))
+  u22: ((params.c2))*((params.c2)^(2))
+  u32: ((params.c3))*((params.c3)^(2))
+  u42: ((params.c4))*((params.c4)^(2))
+  u52: ((params.c5))*((params.c5)^(2))
+  u62: ((params.c6))*((params.c6)^(2))
+  u72: ((params.c7))*((params.c7)^(2))
+  u82: ((params.c8))*((params.c8)^(2))
+  u92: ((params.c9))*((params.c9)^(2))
+
+# utility levels (params.whichU=3)
+  u13: ((params.c1)*(params.c1))+((params.s)*((params.c1)+(params.c1)))
+  u23: ((params.c2)*(params.c2))+((params.s)*((params.c2)+(params.c2)))
+  u33: ((params.c3)*(params.c3))+((params.s)*((params.c3)+(params.c3)))
+  u43: ((params.c4)*(params.c4))+((params.s)*((params.c4)+(params.c4)))
+  u53: ((params.c5)*(params.c5))+((params.s)*((params.c5)+(params.c5)))
+  u63: ((params.c6)*(params.c6))+((params.s)*((params.c6)+(params.c6)))
+  u73: ((params.c7)*(params.c7))+((params.s)*((params.c7)+(params.c7)))
+  u83: ((params.c8)*(params.c8))+((params.s)*((params.c8)+(params.c8)))
+  u93: ((params.c9)*(params.c9))+((params.s)*((params.c9)+(params.c9)))
 
 
-  u1: ((params.c1)^(params.a))*((params.c1)^(params.b))
-  u2: ((params.c2)^(params.a))*((params.c2)^(params.b))
-  u3: ((params.c3)^(params.a))*((params.c3)^(params.b))
-  u4: ((params.c4)^(params.a))*((params.c4)^(params.b))
-  u5: ((params.c5)^(params.a))*((params.c5)^(params.b))
-  u6: ((params.c6)^(params.a))*((params.c6)^(params.b))
-  u7: ((params.c7)^(params.a))*((params.c7)^(params.b))
-  u8: ((params.c8)^(params.a))*((params.c8)^(params.b))
-  u9: ((params.c9)^(params.a))*((params.c9)^(params.b))
+
+
 
   dx2: (params.x2)*((((params.x1)+(params.dx1))/(params.x1))^(-(params.a)/(params.b))-1)
 
@@ -81,37 +127,10 @@ layout:
           r: 4
           strokeWidth: 0.5
           draggable: true
-          label:
-            text: "` \\\\large{A} `"
-            bgcolor: none
+          # label:
+          #   text: "` \\\\large{A} `"
+          #   bgcolor: none
 
-# new bundle
-      - Point:
-          coordinates: [calcs.x1new, calcs.x2new]
-          droplines:
-            horizontal: calcs.x2new.toFixed(2)
-            vertical: calcs.x1new.toFixed(1)
-          color: Blue
-          r: 4
-          strokeWidth: 0.5
-          draggable: true
-          label:
-            text: "` \\\\large{B} `"
-            bgcolor: none
-          show: params.dx1 !== 0
-
-      # Preferred and less preferred bundles
-      - Area:
-          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
-          fill: blue
-          above: true
-          show: params.showMORE == true
-      - Area:
-          fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
-          fill: red
-          above: false
-          show: params.showLESS == true
-          min: 0.01
 
       # Indifference curve at bundle
       - Curve:
@@ -167,116 +186,161 @@ layout:
           min: 0.01
 
 
-# positive variation in X
-      - Arrow:
-          begin: [params.x1,3]
-          end: [calcs.x1new,3]
-          trim: 0.02
-          color: Green
-          show: params.dx1 > 0
-      - Label:
-          coordinates: [((params.x1)+(calcs.x1new))/2, 6]
-          text: "` \\\\Delta X = ${params.dx1.toFixed(1)} `"
-          color: Green
-          show: params.dx1 > 0
-# negative variation in X
-      - Arrow:
-          begin: [params.x1,3]
-          end: [calcs.x1new,3]
-          trim: 0.02
-          color: Red
-          show: params.dx1 < 0
-      - Label:
-          coordinates: [((params.x1)+(calcs.x1new))/2, 6]
-          text: "` \\\\Delta X = ${params.dx1.toFixed(1)}  `"
-          color: Red
-          show: params.dx1 < 0
 
 
-# positive variation in Y
-      - Arrow:
-          begin: [3,((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
-          end: [3,(calcs.dx2)+((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
-          trim: 0.02
-          color: Green
-          show: calcs.dx2 > 0
-      - Label:
-          coordinates: [3, ((params.x2)+(calcs.x2new))/2]
-          text: "` \\\\Delta Y = ${calcs.dx2.toFixed(2)}`"
-          color: Green
-          position: l
-          show: calcs.dx2 > 0
-
-# negative variation in Y
-      - Arrow:
-          begin: [3,((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
-          end: [3,(calcs.dx2)+((calcs.u)/((params.x1)^(params.a)))^(1/(params.b))]
-          trim: 0.02
-          color: Red
-          show: calcs.dx2 < 0
-      - Label:
-          coordinates: [3, ((params.x2)+(calcs.x2new))/2]
-          text: "` \\\\Delta Y = ${calcs.dx2.toFixed(2)}`"
-          color: Red
-          position: l
-          show: calcs.dx2 < 0
 
 # tangent at bundle
       - Line:
           point: [params.x1,params.x2]
-          slope: -(calcs.MRS)
+          slope: -(calcs.MRS0)
           color: Blue
           min: params.x1-100
           max: params.x1+100
           strokeWidth: 0.5
           lineStyle: dashed
-
-# line
+          show: params.whichU == 0
       - Line:
           point: [params.x1,params.x2]
-          point2: [calcs.x1new,calcs.x2new]
-          color: Red
-          min: params.x1-30
-          max: params.x1+30
+          slope: -(calcs.MRS1)
+          color: Blue
+          min: params.x1-100
+          max: params.x1+100
           strokeWidth: 0.5
           lineStyle: dashed
+          show: params.whichU == 1
+      - Line:
+          point: [params.x1,params.x2]
+          slope: -(calcs.MRS2)
+          color: Blue
+          min: params.x1-100
+          max: params.x1+100
+          strokeWidth: 0.5
+          lineStyle: dashed
+          show: params.whichU == 2
+      - Line:
+          point: [params.x1,params.x2]
+          slope: -(calcs.MRS3)
+          color: Blue
+          min: params.x1-100
+          max: params.x1+100
+          strokeWidth: 0.5
+          lineStyle: dashed
+          show: params.whichU == 3
+
+
+
+
 
 
     sidebar:
       controls:
-      - title: Preferenze del consumatore per beni divisibili
-        description: Muovere i primi due cursori (o trascinare il punto <i>A</i>) per selezionare un paniere.
-                    Muovere poi il terzo cursore per variare il consumo del bene <i>X</i> e vedere
-                    di quanto deve variare il consumo di <i>Y</i> affinché l'utilità
-                    rimanga invariata.
+      - title: Utilità marginali e saggio marginale di sostituzione
+        radioGroup:
+          param: whichU
+          options:
+            - $U=XY$
+            - $U=X^2Y$
+            - $U=XY^2$
+            - $U=XY+4(X+Y)$
+        description: Selezionare una funzione di utilità e poi un paniere per calcolare utilità marginali e 
+                    saggio marginale di sostituzione di 𝑋 con 𝑌 in quel paniere.
+
+      - title: "` `"
         divs:
           - html: "`  `"
-          - html: "` Le variazioni $$ \\\\Delta X=${params.dx1.toFixed(1)} \\\\qquad
-                    \\\\Delta Y=${calcs.dx2.toFixed(2)} $$ si compensano in termini di
-                    utilità. I panieri $A$ e $B$ si trovano sulla stessa curva di 
-                    indifferenza.  `"
-        # checkboxes:
-        # - param: showTANGENT
-        #   label: "\\text{Mostra retta tangente nel punto $A$}"
+          - html: "` In questo caso abbiamo $MU_X=Y$ e $MU_Y=X$, quindi 
+                    $$ MRS_{XY} = \\\\dfrac{Y}{X} $$  `"
         sliders:
         - param: x1
           label: X
         - param: x2
           label: Y
-        - param: dx1
-          label: \Delta X
+        show: params.whichU == 0
+
+      - title: "` `"
+        divs:
+          - html: "`  `"
+          - html: "` In questo caso abbiamo $MU_X=2XY$ e $MU_Y=X^2$, quindi 
+                    $$ MRS_{XY} = \\\\dfrac{2Y}{X} $$  `"
+        sliders:
+        - param: x1
+          label: X
+        - param: x2
+          label: Y
+        show: params.whichU == 1
+
+      - title: "` `"
+        divs:
+          - html: "`  `"
+          - html: "` In questo caso abbiamo $MU_X=Y^2$ e $MU_Y=2XY$, quindi 
+                    $$ MRS_{XY} = \\\\dfrac{Y}{2X} $$  `"
+        sliders:
+        - param: x1
+          label: X
+        - param: x2
+          label: Y
+        show: params.whichU == 2
+
+      - title: "` `"
+        divs:
+          - html: "`  `"
+          - html: "` In questo caso abbiamo $MU_X=Y+4$ e $MU_Y=X+4$, quindi 
+                    $$ MRS_{XY} = \\\\dfrac{Y+4}{X+4} $$  `"
+        sliders:
+        - param: x1
+          label: X
+        - param: x2
+          label: Y
+        show: params.whichU == 3
+
+
+
+
+
+
+
 
 
     explanation:
+
         divs:
-          - html: "`  `"
-          - html: "` Il rapporto $\\\\Delta Y/\\\\Delta X$ è la pendenza della retta che unisce $A$ e $B$ 
-                    (retta tratteggiata rossa).  A partire dal paniere $A$, il consumatore è disposto a rinunciare a
-                    ${-(calcs.dx2.toFixed(2))} unità di $Y$
-                   per avere ${params.dx1.toFixed(1)} unità di $X$ in più:
-                   $$ \\\\dfrac{\\\\Delta Y}{\\\\Delta X} = 
-                   \\\\dfrac{${calcs.dx2.toFixed(2)}}{${params.dx1.toFixed(1)}} =
-                    ${calcs.ratio.toFixed(2)} $$  `"
+
+          - html: "` `"
+
+          - html: "` In corrispondenza del paniere $(${params.x1},${params.x2})$
+                      le utilità marginali sono $MU_X=${params.x2}$ e $MU_Y=${params.x1}$.
+                     Il saggio marginale di sostituzione di $X$ con $Y$ è quindi
+                     $MRS_{XY} = ${params.x2} / ${params.x1} = ${calcs.MRS0}. $
+                     `"
+            show: params.whichU == 0
+
+          - html: "` In corrispondenza del paniere $(${params.x1},${params.x2})$
+                      le utilità marginali sono $MU_X=${(2)*(params.x1)*(params.x2)}$ e
+                      $MU_Y=${(params.x1)*(params.x1)}$.
+                     Il saggio marginale di sostituzione di $X$ con $Y$ è quindi
+                     $MRS_{XY} = 2 ${params.x2} / ${params.x1} = ${calcs.MRS1}. $
+                     `"
+            show: params.whichU == 1
+
+          - html: "` In corrispondenza del paniere $(${params.x1},${params.x2})$
+                      le utilità marginali sono $MU_X=${(params.x2)*(params.x2)}$
+                      e $MU_Y=${(2)*(params.x1)*(params.x2)}$.
+                     Il saggio marginale di sostituzione di $X$ con $Y$ è quindi
+                     $MRS_{XY} = ${params.x2} / (2 \\\\times ${params.x1} ) = ${calcs.MRS2}. $
+                     `"
+            show: params.whichU == 2
+
+          - html: "` In corrispondenza del paniere $(${params.x1},${params.x2})$
+                      le utilità marginali sono $MU_X=${(params.x2)+(params.s)}$
+                      e $MU_Y=${(params.x1)+(params.s)}$.
+                     Il saggio marginale di sostituzione di $X$ con $Y$ è quindi
+                     $MRS_{XY} = (${params.x2}+${params.s}) / (${params.x1}+${params.s}) = ${calcs.MRS3}. $
+                     `"
+            show: params.whichU == 3
+
+
+
+
 
 
 
