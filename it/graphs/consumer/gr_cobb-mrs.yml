@@ -165,7 +165,7 @@ layout:
           show: params.dx1 > 0
       - Label:
           coordinates: [((params.x1)+(calcs.x1new))/2, 0.6]
-          text: "` \\\\Delta X = ${params.dx1.toFixed(1)} `"
+          text: "` \\\\Delta X = +${params.dx1.toFixed(2)} `"
           color: Green
           show: params.dx1 > 0
 # negative variation in X
@@ -177,7 +177,7 @@ layout:
           show: params.dx1 < 0
       - Label:
           coordinates: [((params.x1)+(calcs.x1new))/2, 0.6]
-          text: "` \\\\Delta X = ${params.dx1.toFixed(1)}  `"
+          text: "` \\\\Delta X = ${params.dx1.toFixed(2)}  `"
           color: Red
           show: params.dx1 < 0
 
@@ -191,7 +191,7 @@ layout:
           show: calcs.dx2 > 0
       - Label:
           coordinates: [0.3, ((params.x2)+(calcs.x2new))/2]
-          text: "` \\\\Delta Y = ${calcs.dx2.toFixed(2)}`"
+          text: "` \\\\Delta Y = +${calcs.dx2.toFixed(2)}`"
           color: Green
           position: l
           show: calcs.dx2 > 0

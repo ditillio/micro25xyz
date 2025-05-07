@@ -9,7 +9,7 @@ aspectRatio: 1.3
 params:
 
 - {name: x1, value: 5, min: 4, max: 6, round: 0.1}
-- {name: x2, value: 5, min: 3, max: 6, round: 0.1}
+- {name: x2, value: 6, min: 3, max: 6, round: 0.1}
 - {name: dx1, value: 2, min: -2, max: 2, round: 0.05}
 - {name: dx2, value: 2, min: -2, max: 2, round: 0.05}
 
@@ -376,10 +376,15 @@ layout:
           - param: dx1
             label: \Delta X
         divs:
-          - html: "` A partire dal paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$, una variazione
-                    $\\\\Delta X=${params.dx1.toFixed(2)}$ nel consumo del bene $X$ provoca una variazione
-                     $\\\\Delta U=${calcs.uvar1.toFixed(2)}$ nell'utilità. Abbiamo quindi
-                     $$ \\\\dfrac{\\\\Delta U}{\\\\Delta X} = ${calcs.dudx1.toFixed(2)} $$
+          - html: "` A partire dal paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$, una variazione pari a
+                    $\\\\Delta X=${params.dx1.toFixed(2)}$ nel consumo di $X$ provoca una variazione pari a 
+                     $$
+                     \\\\Delta U=U(${calcs.x1new.toFixed(2)},${params.x2.toFixed(1)})-U(${params.x1.toFixed(1)},${params.x2.toFixed(1)})=${calcs.uvar1.toFixed(2)}
+                     $$
+                     nell'utilità. Abbiamo quindi
+                     $$
+                     \\\\dfrac{\\\\Delta U}{\\\\Delta X} = \\\\dfrac{${calcs.uvar1.toFixed(2)}}{${params.dx1.toFixed(2)}} = ${calcs.dudx1.toFixed(2)}
+                     $$
                       `"
             show: params.dx1 !== 0
           - html: "` A partire dal paniere $(${params.x1},${params.x2})$, una variazione
@@ -400,10 +405,15 @@ layout:
           - param: dx2
             label: \Delta Y
         divs:
-          - html: "` A partire dal paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$, una variazione
-                    $\\\\Delta Y=${params.dx2.toFixed(2)}$ nel consumo del bene $Y$ provoca una variazione
-                     $\\\\Delta U=${calcs.uvar2.toFixed(2)}$ nell'utilità. Abbiamo quindi
-                     $$ \\\\dfrac{\\\\Delta U}{\\\\Delta Y} = ${calcs.dudx2.toFixed(2)} $$
+          - html: "` A partire dal paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$, una variazione pari a
+                    $\\\\Delta Y=${params.dx2.toFixed(2)}$ nel consumo di $Y$ provoca una variazione pari a
+                     $$
+                     \\\\Delta U=U(${params.x1.toFixed(1)},${calcs.x2new.toFixed(2)})-U(${params.x1.toFixed(1)},${params.x2.toFixed(1)})=${calcs.uvar2.toFixed(2)}
+                     $$
+                     nell'utilità. Abbiamo quindi
+                     $$
+                     \\\\dfrac{\\\\Delta U}{\\\\Delta Y} = \\\\dfrac{${calcs.uvar2.toFixed(2)}}{${params.dx2.toFixed(2)}} = ${calcs.dudx2.toFixed(2)}
+                     $$
                       `"
             show: params.dx2 !== 0
           - html: "` A partire dal paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$, una variazione
@@ -419,6 +429,14 @@ layout:
 
     explanation:
         divs:
+          - html: "` `"
+            show: params.which == 0
+          - html: "` `"
+            show: params.which == 0
+          - html: "` `"
+            show: params.which == 0
+          - html: "` `"
+            show: params.which == 0
           - html: "` `"
             show: params.which == 0
           - html: "` `"
@@ -504,7 +522,11 @@ layout:
             show: params.which == 2
           - html: "` Riducendo il valore assoluto di $\\\\Delta Y$ si verifica che 
                     $MU_Y$ è il limite a cui tende il rapporto
-                    $\\\\Delta U / \\\\Delta Y$ al tendere di $\\\\Delta Y$ a zero. `"
+                    $\\\\Delta U / \\\\Delta Y$ al tendere di $\\\\Delta Y$ a zero 
+                    (in questo esempio l'utilità
+                    marginale di $Y$ è costante e quindi il rapporto $\\\\Delta U / \\\\Delta Y$ è pari a $MU_X$
+                    anche quando il valore assoluto di $\\\\Delta Y$ non è piccolo).
+                      `"
             show: params.which == 2
 
 
