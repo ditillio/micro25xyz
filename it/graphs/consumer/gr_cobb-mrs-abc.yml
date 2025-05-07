@@ -312,7 +312,7 @@ layout:
 
 
     leftControls:
-      title: Alice
+      title: Alice ( 𝑎 = 1, 𝑏 = 1  )
       sliders:
       - param: x1a
         label: X
@@ -322,7 +322,7 @@ layout:
       - html: "` $MRS_{XY}(${params.x1a},${params.x2a})=${calcs.MRSa.toFixed(2)}$ `"
 
     middleControls:
-      title: Bruno
+      title: Bruno ( 𝑎 = 2, 𝑏 = 1  )
       sliders:
       - param: x1b
         label: X
@@ -332,7 +332,7 @@ layout:
       - html: "` $MRS_{XY}(${params.x1b},${params.x2b})=${calcs.MRSb.toFixed(2)}$ `"
 
     rightControls:
-      title: Carmen
+      title: Carmen ( 𝑎 = 1, 𝑏 = 2  )
       sliders:
       - param: x1c
         label: X

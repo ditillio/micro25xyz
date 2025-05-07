@@ -284,7 +284,11 @@ layout:
                       è $$MRS_{XY}(${params.x1},${params.x2}) = ${calcs.MRS.toFixed(3)}$$ `"
           - html: "` Riducendo il valore assoluto di $\\\\Delta X$ si verifica che 
                     il saggio marginale di sostituzione è il negativo del limite a cui tende il rapporto
-                    $\\\\Delta Y / \\\\Delta X$ al tendere di $\\\\Delta X$ a zero. `"
+                    $\\\\Delta Y / \\\\Delta X$ al tendere di $\\\\Delta X$ a zero. 
+                     Quando $X$ varia di poco (il valore assoluto di $\\\\Delta X$ è piccolo)
+                    la corrispondente variazione $\\\\Delta Y$ che lascia il consumatore indifferente
+                    è quindi approssimativamente pari a $-MRS_{XY}\\\\times\\\\Delta X$.
+                    `"
 
 
 

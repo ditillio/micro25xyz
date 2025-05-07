@@ -428,7 +428,7 @@ layout:
             - $U=XY$
             - $U=X^2Y$
             - $U=XY^2$
-            - $U=XY+4(X+Y)$
+            - $U=XY+6(X+Y)$
         description: Selezionare una funzione di utilità e poi un paniere per calcolare utilità marginali e 
                     saggio marginale di sostituzione di 𝑋 con 𝑌 in quel paniere.
 
@@ -471,8 +471,8 @@ layout:
       - title: "` `"
         divs:
           - html: "`  `"
-          - html: "` In questo caso abbiamo $MU_X=Y+5$ e $MU_Y=X+5$, quindi 
-                    $$ MRS_{XY} = \\\\dfrac{Y+5}{X+5} $$  `"
+          - html: "` In questo caso abbiamo $MU_X=Y+${params.s}$ e $MU_Y=X+${params.s}$, quindi 
+                    $$ MRS_{XY} = \\\\dfrac{Y+${params.s}}{X+${params.s}} $$  `"
         sliders:
         - param: x1
           label: X
@@ -497,7 +497,7 @@ layout:
           - html: "` In corrispondenza del paniere $(${params.x1},${params.x2})$
                       le utilità marginali sono $MU_X=${params.x2}$ e $MU_Y=${params.x1}$.
                      Il saggio marginale di sostituzione di $X$ con $Y$ è quindi
-                     $MRS_{XY} = ${params.x2} / ${params.x1} = ${calcs.MRS0.toFixed(2)}. $
+                     $$ MRS_{XY} = \\\\dfrac{${params.x2}}{${params.x1}} = ${calcs.MRS0.toFixed(2)}. $$
                      `"
             show: params.whichU == 0
 
@@ -505,7 +505,7 @@ layout:
                       le utilità marginali sono $MU_X=${(2)*(params.x1)*(params.x2)}$ e
                       $MU_Y=${(params.x1)*(params.x1)}$.
                      Il saggio marginale di sostituzione di $X$ con $Y$ è quindi
-                     $MRS_{XY} = 2 ${params.x2} / ${params.x1} = ${calcs.MRS1.toFixed(2)}. $
+                     $$ MRS_{XY} = \\\\dfrac{2\\\\times ${params.x2}}{${params.x1}} = ${calcs.MRS1.toFixed(2)}. $$
                      `"
             show: params.whichU == 1
 
@@ -513,7 +513,7 @@ layout:
                       le utilità marginali sono $MU_X=${(params.x2)*(params.x2)}$
                       e $MU_Y=${(2)*(params.x1)*(params.x2)}$.
                      Il saggio marginale di sostituzione di $X$ con $Y$ è quindi
-                     $MRS_{XY} = ${params.x2} / (2 \\\\times ${params.x1} ) = ${calcs.MRS2.toFixed(2)}. $
+                     $$ MRS_{XY} = \\\\dfrac{${params.x2}}{2 \\\\times ${params.x1}} = ${calcs.MRS2.toFixed(2)}. $$
                      `"
             show: params.whichU == 2
 
@@ -521,7 +521,7 @@ layout:
                       le utilità marginali sono $MU_X=${(params.x2)+(params.s)}$
                       e $MU_Y=${(params.x1)+(params.s)}$.
                      Il saggio marginale di sostituzione di $X$ con $Y$ è quindi
-                     $MRS_{XY} = (${params.x2}+${params.s}) / (${params.x1}+${params.s}) = ${calcs.MRS3.toFixed(2)}. $
+                     $$ MRS_{XY} = \\\\dfrac{${params.x2}+${params.s}}{${params.x1}+${params.s}} = ${calcs.MRS3.toFixed(2)} $$
                      `"
             show: params.whichU == 3
 

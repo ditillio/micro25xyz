@@ -5,9 +5,9 @@ aspectRatio: 1.5
 
 params:
 
-  - {name: x1, value: 5, min: 0, max: 9, round: 0.1}
-  - {name: x2, value: 5, min: 0, max: 9, round: 0.1}
-  - {name: s, value: 4, min: 0, max: 10}
+  - {name: x1, value: 3, min: 0, max: 9, round: 0.1}
+  - {name: x2, value: 3, min: 0, max: 9, round: 0.1}
+  - {name: s, value: 5, min: 0, max: 10}
 
   - {name: showMORE, value: false}
   - {name: showLESS, value: false}
@@ -25,7 +25,11 @@ params:
 
 
 calcs:
+# utility at selected bundle
   u: (params.x1) * (params.x2) + (params.s) * ( (params.x1) + (params.x2) )
+
+# MRS at selected bundle
+  MRS: ((params.x2)+(params.s))/((params.x1)+(params.s))
 
 # utility levels
   u1: ((params.c1)*(params.c1))+((params.s)*((params.c1)+(params.c1)))
@@ -60,11 +64,11 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{Mele (kg)} `"
+            text: "` \\\\text{Pesce (kg)} `"
             position: l
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{Arance (kg)}  `"
+            text: "` \\\\text{Carne (kg)}  `"
 
 
 
@@ -134,7 +138,8 @@ layout:
             horizontal: params.x2.toFixed(1)
             vertical: params.x1.toFixed(1)
           color: Blue
-          r: 5
+          strokeWidth: 0.5
+          r: 4
           draggable: true
       - Label:
           coordinates: [params.x1, params.x2+0.1]
@@ -142,46 +147,27 @@ layout:
           position: l
           color: Black
           bgcolor: none
-              
+
+# tangent at bundle
+      - Line:
+          point: [params.x1,params.x2]
+          slope: -(calcs.MRS)
+          color: Blue
+          min: params.x1-100
+          max: params.x1+100
+          strokeWidth: 0.7
+          lineStyle: dashed
 
 
-    explanation:
-      divs:
-        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo settimanale di mele 
-                  e arance (entrambe misurate in chili), le preferenze del consumatore
-                  sono descritte dalla funzione di utilità 
-                  $$U(X,Y)=XY+${params.s}(X+Y)$$
-                  Diversamente dall'Esempio 1, in questo caso le curve
-                  d'indifferenza toccano gli assi. Per esempio, si può verificare che 
-                  quando $s=4$ il paniere $(2,2)$
-                  e il paniere $(5,0)$, che si trova
-                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
-                  (entrambi danno un'utilità pari a $20$).
-                    `"
-          show: params.s > 1
-        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo settimanale di mele 
-                  e arance (entrambe misurate in chili), le preferenze del consumatore
-                  sono descritte dalla funzione di utilità 
-                  $$U(X,Y)=XY+(X+Y)$$
-                  Diversamente dall'Esempio 1, in questo caso le curve
-                  d'indifferenza toccano gli assi. Per esempio, il paniere $(2,2)$
-                  e il paniere $(8,0)$, che si trova
-                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
-                  (entrambi danno un'utilità pari a $8$).
-                    `"
-          show: params.s == 1
-        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo settimanale di mele 
-                  e arance (entrambe misurate in chili), le preferenze del consumatore
-                  sono descritte dalla funzione di utilità 
-                  $$U(X,Y)=XY$$
-                  Tali preferenze sono identiche a quelle della Figura 2.2.`"
-          show: params.s == 0
 
     sidebar:
 
       controls:
 
       - title: Preferenze del consumatore per beni divisibili (Esempio 2)
+        description: Scegliere un valore del parametro 𝑠 per vedere come cambia la mappa di curve di indifferenza
+                    al variare del parametro. Trascinare il punto <i>A</i> per selezionare un paniere e poi vedere quali panieri sono preferiti
+                    ad esso e a quali esso è preferito.
 
         checkboxes:
         - param: showMORE
@@ -189,10 +175,59 @@ layout:
         - param: showLESS
           label: "\\text{Mostra panieri cui $A$ è preferito}"
 
+        divs:
+          - html: "` In corrispondenza del paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
+                    il saggio marginale di sostituzione di $X$ con $Y$ (valore assoluto della
+                    pendenza della retta tratteggiata) è
+                    $$
+                      MRS_{XY}(${params.x1.toFixed(1)},${params.x2.toFixed(1)})=
+                      ${calcs.MRS.toFixed(2)}
+                    $$ 
+                  `"
         sliders:
         - param: s
           label: s
 
-        # divs:
-        #   - html: "`  `"
-        #     show: calcs.u < 0
+
+
+
+
+
+
+
+    explanation:
+      divs:
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
+                  e carne, le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY+${params.s}(X+Y)$$
+                  Diversamente dal caso Cobb-Douglas, in questo caso le curve
+                  d'indifferenza toccano gli assi. Per esempio, si può verificare che 
+                  quando $s=4$ il paniere $(2,2)$
+                  e il paniere $(5,0)$, che si trova
+                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
+                  (entrambi danno un'utilità pari a $20$).
+                    `"
+          show: params.s > 1
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
+                  e carne, le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY+(X+Y)$$
+                  Diversamente dal caso Cobb-Douglas, in questo caso le curve
+                  d'indifferenza toccano gli assi. Per esempio, il paniere $(2,2)$
+                  e il paniere $(8,0)$, che si trova
+                  sull'asse orizzontale, appartengono alla stessa curva d'indifferenza
+                  (entrambi danno un'utilità pari a $8$).
+                    `"
+          show: params.s == 1
+        - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
+                  e carne, le preferenze del consumatore
+                  sono descritte dalla funzione di utilità 
+                  $$U(X,Y)=XY$$
+                  Tali preferenze sono identiche a quelle della Figura 2.2.`"
+          show: params.s == 0
+
+
+
+
+
