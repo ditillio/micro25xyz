@@ -154,7 +154,7 @@ layout:
         - param: showMORE
           label: "\\text{Mostra panieri preferiti ad $A$}"
         - param: showLESS
-          label: "\\text{Mostra panieri cui $A$ è preferito}"
+          label: "\\text{Mostra panieri a cui $A$ è preferito}"
         sliders:
         - param: x1
           label: "` \\\\text{Cibo} `"

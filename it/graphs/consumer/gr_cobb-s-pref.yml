@@ -173,7 +173,7 @@ layout:
         - param: showMORE
           label: "\\text{Mostra panieri preferiti ad $A$}"
         - param: showLESS
-          label: "\\text{Mostra panieri cui $A$ è preferito}"
+          label: "\\text{Mostra panieri a cui $A$ è preferito}"
 
         divs:
           - html: "` In corrispondenza del paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$

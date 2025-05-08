@@ -174,9 +174,9 @@ layout:
                     ad esso e a quali esso è preferito.
         checkboxes:
         - param: showMORE
-          label: "\\text{Mostra panieri preferiti ad $A$}"
+          label: "\\text{Mostra panieri preferiti al paniere $A$}"
         - param: showLESS
-          label: "\\text{Mostra panieri cui $A$ è preferito}"
+          label: "\\text{Mostra panieri a cui $A$ è preferito}"
         sliders:
         - param: x1
           label: "` \\\\text{Pizza} `"
@@ -194,7 +194,7 @@ layout:
                   `"
             show: params.showMORE == 1
           - html: "`
-                  I punti rossi rappresentano panieri cui il paniere $A$ è preferito.
+                  I punti rossi rappresentano panieri a cui il paniere $A$ è preferito.
                   `"
             show: params.showLESS == 1
 
@@ -203,8 +203,8 @@ layout:
         divs:
           - html: "`
                   Non tutti i panieri sono necessariamente peggiori o migliori di $A$. Per esempio,
-                  quando $A=(3,4)$, vediamo che $A$ non è preferito a $(6,1)$, né quest'ultimo è preferito
-                  ad $A$. Il consumatore è <i>indifferente</i> tra i due panieri.
+                  $A=(3,4)$ non è preferito a $(6,1)$, né quest'ultimo è preferito
+                  ad $A$. Il consumatore è <i>indifferente</i> tra i due panieri, cioè li considera ugualmente desiderabili.
                   `"
             show: params.showMORE == 1 && params.showLESS == 1
           - html: "`
