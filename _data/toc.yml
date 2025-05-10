@@ -37,6 +37,9 @@ parts:
               en: Preferences and Utility
               it: Preferenze e utilità
           - title:
+              en: Substitution between Goods
+              it: Sostituibilità tra i beni
+          - title:
               en: Budget Constraint, Optimal Choice and Demand Functions
               it: Vincolo di bilancio, scelta ottima e funzioni di domanda
           - title:

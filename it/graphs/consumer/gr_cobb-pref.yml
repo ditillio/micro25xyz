@@ -60,7 +60,7 @@ layout:
             coordinates: [0, 9.5]
             text: "` \\\\text{Alloggio (decine di m$^2$)}  `"
 
-      # Bundle
+# Bundle
       - Point:
           coordinates: [params.x1, params.x2]
           droplines:
@@ -74,7 +74,7 @@ layout:
             text: "` \\\\large{A} `"
             bgcolor: none
 
-      # Preferred and less preferred bundles
+# Preferred and less preferred bundles
       - Area:
           fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
           fill: blue
@@ -87,13 +87,14 @@ layout:
           show: params.showLESS == true
           min: 0.01
 
-      # Indifference curve at bundle
+# Indifference curve at bundle
       - Curve:
           fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
           color: Black
-          strokeWidth: 2
+          strokeWidth: 1.5
+          min: 0.04
       
-      # Indifference Map
+# Indifference Map
       - Curve:
           fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
           color: Grey
@@ -164,7 +165,16 @@ layout:
           - html: "`  `"
             show: calcs.u < 0
 
-
+    explanation:
+        divs:
+          - html: "` Nel caso di beni divisibili esiste un numero infinito di curve di 
+                    indifferenza. Nel grafico sono riportate solo quelle passanti per i panieri
+                    $(1,1)$, $(2,2)$, $(3,3)$ ecc. oltre a quella 
+                    passante per il paniere $A$. La non sazietà implica che i panieri 
+                    preferiti ad $A$ sono quelli a nord-est della curva passante per $A$, mentre
+                    quelli a cui $A$ è preferito sono quelli a sud-ovest di essa.
+                    Curve di indifferenza più lontane dall'origine corrispondono quindi
+                    a livelli maggiori di benessere del consumatore. `"
 
 
 
