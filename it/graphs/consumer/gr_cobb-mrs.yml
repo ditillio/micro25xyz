@@ -7,7 +7,7 @@ params:
   - {name: x2, value: 4, min: 1, max: 9, round: 0.1}
   - {name: dx1, value: 2, min: -2, max: 2, round: 0.01}
 
-  - {name: a, value: 1}
+  - {name: a, value: 2}
   - {name: b, value: 1}
 
 # consumption levels on 45° line
@@ -27,6 +27,9 @@ calcs:
 
 # utility at selected bundle
   u: ((params.x1)^(params.a))*((params.x2)^(params.b))
+
+# utility at intermediate bundle
+  uint: ((calcs.x1new)^(params.a))*((params.x2)^(params.b))
 
 # MRS at selected bundle
   MRS: ((params.a)/(params.b))*((params.x2)/(params.x1))
@@ -65,11 +68,11 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{Cibo (kg)} `"
+            text: "` \\\\text{Unità di $X$} `"
             position: l
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{Alloggio (decine di m$^2$)}  `"
+            text: "` \\\\text{Unità di $Y$}  `"
 
 # bundle
       - Point:
@@ -94,10 +97,36 @@ layout:
           color: Blue
           r: 3
           strokeWidth: 0.5
-          draggable: true
+          draggable: false
           label:
             text: "` \\\\large{B} `"
             bgcolor: none
+          show: params.dx1 !== 0
+
+# intermediate bundle
+      - Point:
+          coordinates: [calcs.x1new, params.x2]
+          color: Black
+          r: 3
+          strokeWidth: 0.5
+          draggable: false
+          label:
+            text: "` \\\\large{C} `"
+            bgcolor: none
+          show: params.dx1 !== 0
+      - Segment:
+          a: [params.x1, params.x2]
+          b: [calcs.x1new, params.x2]
+          color: Black
+          lineStyle: dotted
+          strokeWidth: 0.5
+          show: params.dx1 !== 0
+      - Segment:
+          a: [calcs.x1new, params.x2]
+          b: [calcs.x1new, calcs.x2new]
+          color: Black
+          lineStyle: dotted
+          strokeWidth: 0.5
           show: params.dx1 !== 0
 
 
@@ -105,55 +134,61 @@ layout:
       - Curve:
           fn: ((calcs.u)/((x)^(params.a)))^(1/(params.b))
           color: Black
-          strokeWidth: 1.5
+          strokeWidth: 1
+
+# Indifference curve at intermediate bundle
+      - Curve:
+          fn: ((calcs.uint)/((x)^(params.a)))^(1/(params.b))
+          color: Black
+          strokeWidth: 1
       
 
-# Indifference Map
-      - Curve:
-          fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.04
-      - Curve:
-          fn:   ((calcs.u2)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.15
-      - Curve:
-          fn:   ((calcs.u3)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.05
-      - Curve:
-          fn:   ((calcs.u4)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.01
-      - Curve:
-          fn:   ((calcs.u5)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.01
-      - Curve:
-          fn:   ((calcs.u6)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.01
-      - Curve:
-          fn:   ((calcs.u7)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.01
-      - Curve:
-          fn:   ((calcs.u8)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.01
-      - Curve:
-          fn:   ((calcs.u9)/((x)^(params.a)))^(1/(params.b))
-          color: Grey
-          strokeWidth: 0.25
-          min: 0.01
+# # Indifference Map
+#       - Curve:
+#           fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.04
+#       - Curve:
+#           fn:   ((calcs.u2)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.15
+#       - Curve:
+#           fn:   ((calcs.u3)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.05
+#       - Curve:
+#           fn:   ((calcs.u4)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.01
+#       - Curve:
+#           fn:   ((calcs.u5)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.01
+#       - Curve:
+#           fn:   ((calcs.u6)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.01
+#       - Curve:
+#           fn:   ((calcs.u7)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.01
+#       - Curve:
+#           fn:   ((calcs.u8)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.01
+#       - Curve:
+#           fn:   ((calcs.u9)/((x)^(params.a)))^(1/(params.b))
+#           color: Grey
+#           strokeWidth: 0.25
+#           min: 0.01
 
 
 # positive variation in X
@@ -241,10 +276,34 @@ layout:
                     rimanga invariata.
         divs:
           - html: "`  `"
-          - html: "` Le variazioni $$ \\\\Delta X=${params.dx1.toFixed(1)} \\\\qquad
-                    \\\\Delta Y=${calcs.dx2.toFixed(2)} $$ si compensano in termini di
-                    utilità. I panieri $A$ e $B$ si trovano sulla stessa curva di 
+          - html: "` La variazione $\\\\Delta X=${params.dx1.toFixed(1)}$ (dal paniere $A$ al
+                    paniere $C$) aumenta l'utilità. La variazione $\\\\Delta Y=${calcs.dx2.toFixed(2)}$
+                    (dal paniere $C$ al paniere $B$) riduce l'utilità. `"
+            show: params.dx1 > 0
+          - html: "`  `"
+            show: params.dx1 > 0
+          - html: "` Le due variazioni nei consumi
+                    si compensano in termini di utilità: $A$ e $B$ si trovano sulla stessa curva di 
                     indifferenza.  `"
+            show: params.dx1 > 0
+          - html: "`  `"
+            show: params.dx1 > 0
+          - html: "` Si può notare che quando $\\\\Delta X$ tende a zero, anche $\\\\Delta Y$ tende a zero.  `"
+            show: params.dx1 > 0
+          - html: "` La variazione $\\\\Delta X=${params.dx1.toFixed(1)}$ (dal paniere $A$ al
+                    paniere $C$) riduce l'utilità. La variazione $\\\\Delta Y=${calcs.dx2.toFixed(2)}$
+                    (dal paniere $C$ al paniere $B$) aumenta l'utilità.  `"
+            show: params.dx1 < 0
+          - html: "`  `"
+            show: params.dx1 < 0
+          - html: "` Le due variazioni nei consumi
+                    si compensano in termini di utilità: $A$ e $B$ si trovano sulla stessa curva di 
+                    indifferenza.  `"
+            show: params.dx1 < 0
+          - html: "`  `"
+            show: params.dx1 < 0
+          - html: "` Si può notare che quando $\\\\Delta X$ tende a zero, anche $\\\\Delta Y$ tende a zero.  `"
+            show: params.dx1 < 0
         # checkboxes:
         # - param: showTANGENT
         #   label: "\\text{Mostra retta tangente nel punto $A$}"
@@ -278,17 +337,13 @@ layout:
                    \\\\dfrac{${calcs.dx2.toFixed(2)}}{${params.dx1.toFixed(1)}} =
                     ${calcs.ratio.toFixed(3)} $$  `"
             show: params.dx1 < 0
-          - html: "` In corrispondenza di $A$, il saggio marginale di sostituzione 
-                      del bene $X$ col bene $Y$, valore assoluto della pendenza della retta
-                      (tratteggiata blu) tangente in $A$
-                      è $$MRS_{XY}(${params.x1},${params.x2}) = ${calcs.MRS.toFixed(3)}$$ `"
-          - html: "` Riducendo il valore assoluto di $\\\\Delta X$ si verifica che 
-                    il saggio marginale di sostituzione è il negativo del limite a cui tende il rapporto
-                    $\\\\Delta Y / \\\\Delta X$ al tendere di $\\\\Delta X$ a zero. 
-                     Quando $X$ varia di poco (il valore assoluto di $\\\\Delta X$ è piccolo)
-                    la corrispondente variazione $\\\\Delta Y$ che lascia il consumatore indifferente
-                    è quindi approssimativamente pari a $-MRS_{XY}\\\\times\\\\Delta X$.
-                    `"
+          - html: "` Il saggio marginale di sostituzione del bene $X$ col bene $Y$ in corrispondenza
+                    del paniere $A$ è il negativo del limite a cui tende il rapporto
+                    $\\\\Delta Y / \\\\Delta X$ al tendere di $\\\\Delta X$ a zero
+                    (ridurre il valore assoluto di $\\\\Delta X$ per verificare questo):
+                    $$
+                    MRS_{XY}(${params.x1.toFixed(1)},${params.x2.toFixed(1)}) = ${calcs.MRS.toFixed(3)}
+                    $$ `"
 
 
 

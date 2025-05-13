@@ -435,7 +435,9 @@ layout:
       - title: "` `"
         divs:
           - html: "`  `"
-          - html: "` In questo caso abbiamo $MU_X=Y$ e $MU_Y=X$, quindi 
+          - html: "` In questo caso abbiamo
+                    $$ MU_X=Y \\\\qquad MU_Y=X$$
+                    e quindi 
                     $$ MRS_{XY} = \\\\dfrac{Y}{X} $$  `"
         sliders:
         - param: x1
@@ -447,7 +449,9 @@ layout:
       - title: "` `"
         divs:
           - html: "`  `"
-          - html: "` In questo caso abbiamo $MU_X=2XY$ e $MU_Y=X^2$, quindi 
+          - html: "` In questo caso abbiamo
+                    $$ MU_X=2XY \\\\qquad MU_Y=X^2$$
+                    e quindi 
                     $$ MRS_{XY} = \\\\dfrac{2Y}{X} $$  `"
         sliders:
         - param: x1
@@ -459,7 +463,9 @@ layout:
       - title: "` `"
         divs:
           - html: "`  `"
-          - html: "` In questo caso abbiamo $MU_X=Y^2$ e $MU_Y=2XY$, quindi 
+          - html: "` In questo caso abbiamo
+                    $$ MU_X=Y^2 \\\\qquad MU_Y=2XY$$
+                    e quindi 
                     $$ MRS_{XY} = \\\\dfrac{Y}{2X} $$  `"
         sliders:
         - param: x1
@@ -471,7 +477,9 @@ layout:
       - title: "` `"
         divs:
           - html: "`  `"
-          - html: "` In questo caso abbiamo $MU_X=Y+${params.s}$ e $MU_Y=X+${params.s}$, quindi 
+          - html: "` In questo caso abbiamo
+                    $$ MU_X=Y+${params.s} \\\\qquad MU_Y=X+${params.s}$$
+                    e quindi 
                     $$ MRS_{XY} = \\\\dfrac{Y+${params.s}}{X+${params.s}} $$  `"
         sliders:
         - param: x1

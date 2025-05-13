@@ -3,29 +3,14 @@ schema: EconSchema
 version: 1
 aspectRatio: 1.5
 params:
-  - name: x1
-    value: 100
-    min: 0
-    max: 180
-    round: 5
-  - name: x2
-    value: 50
-    min: 0
-    max: 180
-    round: 5
-  - name: p1
-    value: 4
-    min: 1
-    max: 9
-  - name: p2
-    value: 4
-    min: 1
-    max: 9
-  - name: m
-    value: 500
-    min: 100
-    max: 700
-    round: 20
+  - {name: x1, value: 4, min: 0, max: 9, round: 0.1}
+  - {name: x2, value: 4, min: 0, max: 9, round: 0.1}
+
+  - {name: p1, value: 40, min: 20, max: 80, round: 20}
+  - {name: p2, value: 40, min: 20, max: 80, round: 20}
+
+  - {name: m, value: 240, min: 120, max: 360, round: 40}
+
   - {name: showAFFORDABLE, value: true}
 
 calcs:
@@ -37,24 +22,20 @@ layout:
   OneGraphPlusSidebar:
     graph:
       xAxis:
-        max: 190
+        max: 9.5
         ticks: 5
-        title: Cibo (kg)
       yAxis:
-        max: 190
+        max: 9.5
         ticks: 5
-        title: Alloggio (m$^2$)
       objects:
 
-      # - Label:
-      #       coordinates: [190, 0]
-      #       text: "` \\\\text{Cibo (kg)} `"
-      #       yPixelOffset: 0
-      #       position: l
-      # - Label:
-      #       coordinates: [0, 190]
-      #       text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
-      #       yPixelOffset: 0
+      - Label:
+            coordinates: [9.3, 0]
+            text: "` \\\\text{Consumo} `"
+            position: l
+      - Label:
+            coordinates: [0, 9.5]
+            text: "` \\\\text{Alloggio}  `"
 
 
       # BudgetLine
@@ -62,16 +43,16 @@ layout:
           point: [0,params.m/params.p2]
           slope: -params.p1/params.p2
           color: DarkGreen
-          strokeWidth: 2.5
+          strokeWidth: 2
           max: params.m/params.p1
       - Point:
           coordinates: [params.m/params.p1, 0]
-          droplines: {vertical: calcs.xintercept.toFixed(1), horizontal: }
+          droplines: {vertical: calcs.xintercept.toFixed(2), horizontal: }
           color: black
           r: 0
       - Point:
           coordinates: [0, params.m/params.p2]
-          droplines: {vertical: , horizontal: calcs.yintercept.toFixed(1)}
+          droplines: {vertical: , horizontal: calcs.yintercept.toFixed(2)}
           color: black
           r: 0
 
@@ -88,10 +69,10 @@ layout:
       - Point:
           coordinates: [params.x1, params.x2]
           droplines:
-            horizontal: params.x2
-            vertical: params.x1
+            horizontal: params.x2.toFixed(1)
+            vertical: params.x1.toFixed(1)
           color: Darkgreen
-          r: 5
+          r: 4
           draggable: true
           show: calcs.e <= params.m
           label:
@@ -100,10 +81,10 @@ layout:
       - Point:
           coordinates: [params.x1, params.x2]
           droplines:
-            horizontal: params.x2
-            vertical: params.x1
+            horizontal: params.x2.toFixed(1)
+            vertical: params.x1.toFixed(1)
           color: Red
-          r: 5
+          r: 4
           draggable: true
           label:
             text: "` \\\\large{A} `"
@@ -131,26 +112,31 @@ layout:
         divs:
           - html: "` `"
           - html: "` `"
-          - html: "` Il paniere $A=(${params.x1},${params.x2})$
+          - html: "` Il paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
                       $\\\\color{${colors.red}} \\\\text{non è accessibile}$ poiché
-                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
-                          = ${calcs.e} > ${params.m} .$$
+                    $$ ${params.p1.toFixed(1)}*${params.x1.toFixed(1)}+${params.p2.toFixed(1)}*${params.x2.toFixed(1)}
+                          = ${calcs.e.toFixed(2)} > ${params.m} $$
                      `"
             show: calcs.e > params.m
-          - html: "` Il paniere $A=(${params.x1},${params.x2})$ è accessibile ma non si trova
+          - html: "` Il paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ è accessibile ma non si trova
                       sul vincolo di bilancio poiché
-                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
-                          = ${calcs.e} < ${params.m} .$$
+                    $$ ${params.p1.toFixed(1)}*${params.x1.toFixed(1)}+${params.p2.toFixed(1)}*${params.x2.toFixed(1)}
+                          = ${calcs.e.toFixed(2)} < ${params.m} .$$
                      `"
             show: calcs.e < params.m
-          - html: "` Il paniere $A=(${params.x1},${params.x2})$ è accessibile e si trova
+          - html: "` Il paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ è accessibile e si trova
                       sul vincolo di bilancio poiché
-                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2}
-                          = ${calcs.e} = ${params.m} .$$
+                    $$ ${params.p1.toFixed(1)}*${params.x1.toFixed(1)}+${params.p2.toFixed(1)}*${params.x2.toFixed(1)}
+                          = ${calcs.e.toFixed(2)} = ${params.m} .$$
                      `"
             show: calcs.e == params.m
 
 
+    explanation:
+      divs:
+        - html: "` Il consumatore ha un reddito settimanale di $M=${params.m}$ euro.
+                  Il prezzo del generico bene di consumo è $P_X=${params.p1}$ euro/unità 
+                  mentre l'alloggio ha un prezzo settimanale di $P_Y=${params.p2}$ euro/d m$^2$.  `"
 
 
 

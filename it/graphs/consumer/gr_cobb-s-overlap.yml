@@ -9,9 +9,9 @@ params:
   - {name: x2, value: 3, min: 0, max: 5, round: 0.5}
   - {name: s, value: 4, min: 0, max: 10}
 
-  - {name: m, value: 8}
-  - {name: p1, value: 2, min: 2, max: 5}
-  - {name: p2, value: 2, min: 2, max: 5}
+  - {name: m, value: 80}
+  - {name: p1, value: 20, min: 20, max: 50}
+  - {name: p2, value: 20, min: 20, max: 50}
 
   - {name: which, value: 0}
 
@@ -67,11 +67,11 @@ layout:
 
       - Label:
             coordinates: [5, 0]
-            text: "` \\\\text{Mele (kg)} `"
+            text: "` \\\\text{Pesce (kg)} `"
             position: l
       - Label:
             coordinates: [0, 5]
-            text: "` \\\\text{Arance (kg)}  `"
+            text: "` \\\\text{Carne (kg)}  `"
 
 
 
@@ -278,9 +278,10 @@ layout:
       divs:
         - html: "` La funzione di utilità del consumatore è 
                   $U(X,Y)=XY+4(X+Y)$,
-                     dove $X$ e $Y$ indicano rispettivamente il consumo settimanale di mele
-                      e arance (entrambe misurate in chili). 
-                    Il consumatore ha un reddito settimanale di  $M=8$ euro. Mele e arance si
+                     dove $X$ e $Y$ indicano rispettivamente il consumo mensile di pesce
+                      e carne. 
+                    Il consumatore ha $M=${params.m}$ euro da spendere mensilmente nei due beni. 
+                    Pesce e carne si
                    vendono rispettivamente a $P_X=${calcs.pp1}$ euro/kg e $P_Y=${calcs.pp2}$ euro/kg.  
                   La figura mostra i panieri accessibili  (area verde), un generico paniere (punto blu), 
                   la curva di indifferenza che passa per quel paniere,
@@ -294,9 +295,9 @@ layout:
         radioGroup:
           param: which
           options:
-            - Sia mele che arance costano 2 €/kg 
-            - Aumenta il prezzo delle mele a 5 €/kg
-            - Aumenta il prezzo delle arance a 5 €/kg
+            - Sia pesce che carne costano 20 €/kg 
+            - Aumenta il prezzo del pesce a 50 €/kg
+            - Aumenta il prezzo della carne a 50 €/kg
         # sliders:
         # - param: p1
         #   label: P_X

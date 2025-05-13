@@ -54,7 +54,7 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{Cibo (kg)} `"
+            text: "` \\\\text{Consumo} `"
             position: l
       - Label:
             coordinates: [0, 9.5]
@@ -158,7 +158,7 @@ layout:
           label: "\\text{Mostra panieri a cui $A$ è preferito}"
         sliders:
         - param: x1
-          label: "` \\\\text{Cibo} `"
+          label: "` \\\\text{Consumo} `"
         - param: x2
           label: "` \\\\text{Alloggio} `"
         divs:
@@ -167,7 +167,8 @@ layout:
 
     explanation:
         divs:
-          - html: "` Nel caso di beni divisibili esiste un numero infinito di curve di 
+          - html: "` Nel caso di beni divisibili (alloggio sull'asse verticale, un generico bene di consumo 
+                    sull'asse orizzontale) esiste un numero infinito di curve di 
                     indifferenza. Nel grafico sono riportate solo quelle passanti per i panieri
                     $(1,1)$, $(2,2)$, $(3,3)$ ecc. oltre a quella 
                     passante per il paniere $A$. La non sazietà implica che i panieri 

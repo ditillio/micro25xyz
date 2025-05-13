@@ -4,17 +4,23 @@ version: 1
 # aspectRatio: 1.3
 params:
 
-# Alice bundle
-  - {name: x1a, value: 5, min: 1, max: 9, round: 1}
-  - {name: x2a, value: 5, min: 1, max: 9, round: 1}
+# Alice bundles
+  - {name: x1a, value: 4, min: 1, max: 9, round: 1}
+  - {name: x2a, value: 4, min: 1, max: 9, round: 1}
+  - {name: x1aa, value: 8, min: 1, max: 9, round: 1}
+  - {name: x2aa, value: 2, min: 1, max: 9, round: 1}
 
-# Bruno bundle
-  - {name: x1b, value: 5, min: 1, max: 9, round: 1}
-  - {name: x2b, value: 5, min: 1, max: 9, round: 1}
+# Bruno bundles
+  - {name: x1b, value: 4, min: 1, max: 9, round: 1}
+  - {name: x2b, value: 4, min: 1, max: 9, round: 1}
+  - {name: x1bb, value: 8, min: 1, max: 9, round: 1}
+  - {name: x2bb, value: 2, min: 1, max: 9, round: 1}
 
-# Carmen bundle
-  - {name: x1c, value: 5, min: 1, max: 9, round: 1}
-  - {name: x2c, value: 5, min: 1, max: 9, round: 1}
+# Carmen bundles
+  - {name: x1c, value: 4, min: 1, max: 9, round: 1}
+  - {name: x2c, value: 4, min: 1, max: 9, round: 1}
+  - {name: x1cc, value: 8, min: 1, max: 9, round: 1}
+  - {name: x2cc, value: 2, min: 1, max: 9, round: 1}
 
 # consumption levels of X
   - {name: c1, value: 1}
@@ -33,14 +39,17 @@ calcs:
 
 # Alice utility and MRS at selected bundle
   ua: ((params.x1a)^(1))*((params.x2a)^(1))
+  uaa: ((params.x1aa)^(1))*((params.x2aa)^(1))
   MRSa: ((1)/(1))*((params.x2a)/(params.x1a))
 
 # Bruno utility and MRS at selected bundle
   ub: ((params.x1b)^(2))*((params.x2b)^(1))
+  ubb: ((params.x1bb)^(2))*((params.x2bb)^(1))
   MRSb: ((2)/(1))*((params.x2b)/(params.x1b))
 
 # Carmen utility and MRS at selected bundle
   uc: ((params.x1c)^(1))*((params.x2c)^(2))
+  ucc: ((params.x1cc)^(1))*((params.x2cc)^(2))
   MRSc: ((1)/(2))*((params.x2c)/(params.x1c))
 
 
@@ -97,52 +106,68 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{kg} `"
-            position: l
+            text: "` \\\\text{\\\\small Consumo} `"
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{d m$^2$}  `"
+            text: "` \\\\text{\\\\small Alloggio}  `"
 
 # Alice indifference map
-      - Curve: {fn: ((calcs.u1a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u2a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u3a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u4a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u5a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u6a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u7a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u8a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u9a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u1a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u2a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u3a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u4a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u5a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u6a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u7a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u8a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u9a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
 
-# Alice bundle
+# Alice bundles
       - Point:
           coordinates: [params.x1a, params.x2a]
           droplines:
             horizontal: params.x2a
             vertical: params.x1a
           color: Blue
-          r: 4
-          strokeWidth: 0.5
+          r: 3 
+          strokeWidth: 0.2
           draggable: true
-          # label:
-          #   text: "` \\\\large{A} `"
-          #   bgcolor: none
+          label:
+            text: "` A `"
+            bgcolor: none
+      - Point:
+          coordinates: [params.x1aa, params.x2aa]
+          droplines:
+            horizontal: params.x2aa
+            vertical: params.x1aa
+          color: Blue
+          r: 3 
+          strokeWidth: 0.2
+          draggable: true
+          label:
+            text: "` B `"
+            bgcolor: none
 
-# Alice indifference curve at bundle
+# Alice indifference curve at bundle A
       - Curve:
           fn: ((calcs.ua)/((x)^(1)))^(1/(1))
           color: Black
-          strokeWidth: 2
+          strokeWidth: 1
+# Alice indifference curve at bundle B
+      - Curve:
+          fn: ((calcs.uaa)/((x)^(1)))^(1/(1))
+          color: Black
+          strokeWidth: 1
       
-# tangent at bundle
-      - Line:
-          point: [params.x1a,params.x2a]
-          slope: -(calcs.MRSa)
-          color: Blue
-          min: params.x1a-30
-          max: params.x1a+30
-          strokeWidth: 0.5
-          lineStyle: dashed
+# # tangent at bundle
+#       - Line:
+#           point: [params.x1a,params.x2a]
+#           slope: -(calcs.MRSa)
+#           color: Blue
+#           min: params.x1a-30
+#           max: params.x1a+30
+#           strokeWidth: 0.5
+#           lineStyle: dashed
 
       
 
@@ -179,53 +204,69 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{kg} `"
-            position: l
+            text: "` \\\\text{\\\\small Consumo} `"
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{d m$^2$}  `"
+            text: "` \\\\text{\\\\small Alloggio}  `"
 
 
 # Bruno Indifference Map
-      - Curve: {fn: ((calcs.u1b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u2b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u3b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u4b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u5b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u6b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u7b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u8b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u9b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u1b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u2b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u3b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u4b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u5b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u6b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u7b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u8b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
+      - Curve: {fn: ((calcs.u9b)/((x)^(2)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
 
-# Bruno bundle
+# Bruno bundles
       - Point:
           coordinates: [params.x1b, params.x2b]
           droplines:
             horizontal: params.x2b
             vertical: params.x1b
           color: Blue
-          r: 4
-          strokeWidth: 0.5
+          r: 3 
+          strokeWidth: 0.2
           draggable: true
-          # label:
-          #   text: "` \\\\large{A} `"
-          #   bgcolor: none
+          label:
+            text: "` A `"
+            bgcolor: none
+      - Point:
+          coordinates: [params.x1bb, params.x2bb]
+          droplines:
+            horizontal: params.x2bb
+            vertical: params.x1bb
+          color: Blue
+          r: 3 
+          strokeWidth: 0.2
+          draggable: true
+          label:
+            text: "` B `"
+            bgcolor: none
 
-# Bruno indifference curve at bundle
+# Bruno indifference curve at bundle A
       - Curve:
           fn: ((calcs.ub)/((x)^(2)))^(1/(1))
           color: Black
-          strokeWidth: 2
+          strokeWidth: 1
+# Bruno indifference curve at bundle B
+      - Curve:
+          fn: ((calcs.ubb)/((x)^(2)))^(1/(1))
+          color: Black
+          strokeWidth: 1
 
-# tangent at bundle
-      - Line:
-          point: [params.x1b,params.x2b]
-          slope: -(calcs.MRSb)
-          color: Blue
-          min: params.x1b-30
-          max: params.x1b+30
-          strokeWidth: 0.5
-          lineStyle: dashed
+# # tangent at bundle
+#       - Line:
+#           point: [params.x1b,params.x2b]
+#           slope: -(calcs.MRSb)
+#           color: Blue
+#           min: params.x1b-30
+#           max: params.x1b+30
+#           strokeWidth: 0.5
+#           lineStyle: dashed
 
 
 
@@ -255,52 +296,68 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{kg} `"
-            position: l
+            text: "` \\\\text{\\\\small Consumo} `"
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{d m$^2$}  `"
+            text: "` \\\\text{\\\\small Alloggio}  `"
 
 # Carmen Indifference Map
-      - Curve: {fn: ((calcs.u1c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u2c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u3c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u4c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u5c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u6c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u7c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u8c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
-      - Curve: {fn: ((calcs.u9c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.5, min: 0.04}
+      - Curve: {fn: ((calcs.u1c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+      - Curve: {fn: ((calcs.u2c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+      - Curve: {fn: ((calcs.u3c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+      - Curve: {fn: ((calcs.u4c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+      - Curve: {fn: ((calcs.u5c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+      - Curve: {fn: ((calcs.u6c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+      - Curve: {fn: ((calcs.u7c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+      - Curve: {fn: ((calcs.u8c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
+      - Curve: {fn: ((calcs.u9c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}
 
-# Carmen bundle
+# Carmen bundles
       - Point:
           coordinates: [params.x1c, params.x2c]
           droplines:
             horizontal: params.x2c
             vertical: params.x1c
           color: Blue
-          r: 4
-          strokeWidth: 0.5
+          r: 3 
+          strokeWidth: 0.2
           draggable: true
-          # label:
-          #   text: "` \\\\large{A} `"
-          #   bgcolor: none
+          label:
+            text: "` A `"
+            bgcolor: none
+      - Point:
+          coordinates: [params.x1cc, params.x2cc]
+          droplines:
+            horizontal: params.x2cc
+            vertical: params.x1cc
+          color: Blue
+          r: 3 
+          strokeWidth: 0.2
+          draggable: true
+          label:
+            text: "` B `"
+            bgcolor: none
 
-# Carmen indifference curve at bundle
+# Carmen indifference curve at bundle A
       - Curve:
           fn: ((calcs.uc)/((x)^(1)))^(1/(2))
           color: Black
-          strokeWidth: 2
+          strokeWidth: 1
+# Carmen indifference curve at bundle B
+      - Curve:
+          fn: ((calcs.ucc)/((x)^(1)))^(1/(2))
+          color: Black
+          strokeWidth: 1
 
-# tangent at bundle
-      - Line:
-          point: [params.x1c,params.x2c]
-          slope: -(calcs.MRSc)
-          color: Blue
-          min: params.x1c-30
-          max: params.x1c+30
-          strokeWidth: 0.5
-          lineStyle: dashed
+# # tangent at bundle
+#       - Line:
+#           point: [params.x1c,params.x2c]
+#           slope: -(calcs.MRSc)
+#           color: Blue
+#           min: params.x1c-30
+#           max: params.x1c+30
+#           strokeWidth: 0.5
+#           lineStyle: dashed
 
 
 
@@ -313,33 +370,42 @@ layout:
 
     leftControls:
       title: Alice ( 𝑎 = 1, 𝑏 = 1  )
-      sliders:
-      - param: x1a
-        label: X
-      - param: x2a
-        label: Y
       divs:
-      - html: "` $MRS_{XY}(${params.x1a},${params.x2a})=${calcs.MRSa.toFixed(2)}$ `"
+      - html: "` Trascinare i panieri $A$ e $B$ per vedere quale è preferito da Alice. `"
+      - html: "` Alice è indifferente tra $A$ e $B$. `"
+        show: calcs.ua == calcs.uaa
+      - html: "` Alice preferisce $A$ a $B$. `"
+        show: calcs.ua > calcs.uaa
+      - html: "` Alice preferisce $B$ ad $A$. `"
+        show: calcs.ua < calcs.uaa
+      - html: "` $U(${params.x1a},${params.x2a})=${params.x1a} \\\\times ${params.x2a} = ${calcs.ua}$ `"
+      - html: "` $U(${params.x1aa},${params.x2aa})=${params.x1aa} \\\\times ${params.x2aa} = ${calcs.uaa}$ `"
 
     middleControls:
       title: Bruno ( 𝑎 = 2, 𝑏 = 1  )
-      sliders:
-      - param: x1b
-        label: X
-      - param: x2b
-        label: Y
       divs:
-      - html: "` $MRS_{XY}(${params.x1b},${params.x2b})=${calcs.MRSb.toFixed(2)}$ `"
+      - html: "` Trascinare i panieri $A$ e $B$ per vedere quale Bruno preferisce. `"
+      - html: "` Bruno è indifferente tra $A$ e $B$. `"
+        show: calcs.ub == calcs.ubb
+      - html: "` Bruno preferisce $A$ a $B$. `"
+        show: calcs.ub > calcs.ubb
+      - html: "` Bruno preferisce $B$ ad $A$. `"
+        show: calcs.ub < calcs.ubb
+      - html: "` $U(${params.x1b},${params.x2b})=${params.x1b}^2 \\\\times ${params.x2b} = ${calcs.ub}$ `"
+      - html: "` $U(${params.x1bb},${params.x2bb})=${params.x1bb}^2 \\\\times ${params.x2bb} = ${calcs.ubb}$ `"
 
     rightControls:
       title: Carmen ( 𝑎 = 1, 𝑏 = 2  )
-      sliders:
-      - param: x1c
-        label: X
-      - param: x2c
-        label: Y
       divs:
-      - html: "` $MRS_{XY}(${params.x1c},${params.x2c})=${calcs.MRSc.toFixed(2)}$ `"
+      - html: "` Trascinare i panieri $A$ e $B$ per vedere quale Carmen preferisce. `"
+      - html: "` Carmen è indifferente tra $A$ e $B$. `"
+        show: calcs.uc == calcs.ucc
+      - html: "` Carmen preferisce $A$ a $B$. `"
+        show: calcs.uc > calcs.ucc
+      - html: "` Carmen preferisce $B$ ad $A$. `"
+        show: calcs.uc < calcs.ucc
+      - html: "` $U(${params.x1c},${params.x2c})=${params.x1c} \\\\times ${params.x2c}^2 = ${calcs.uc}$ `"
+      - html: "` $U(${params.x1cc},${params.x2cc})=${params.x1cc} \\\\times ${params.x2cc}^2 = ${calcs.ucc}$ `"
 
 
 

@@ -3,198 +3,221 @@ schema: EconSchema
 version: 1
 aspectRatio: 1.7
 params:
-  - name: x1
-    value: 75
-    min: 0
-    max: 120
-    round: 5
-  - name: x2
-    value: 80
-    min: 0
-    max: 120
-    round: 5
-  - name: p1
-    value: 3
-  - name: p2
-    value: 3
-  - name: m
-    value: 360
+
+  - {name: x1, value: 5.5, min: 0, max: 12, round: 0.5}
+  - {name: x2, value: 6.5, min: 0, max: 12, round: 0.5}
+  - {name: p1, value: 40}
+  - {name: p2, value: 40}
+  - {name: m, value: 360}
+ 
+  - {name: a, value: 2}
+  - {name: b, value: 1}
+
+# consumption levels on 45° line
+  - {name: c1, value: 1}
+  - {name: c2, value: 2}
+  - {name: c3, value: 3}
+  - {name: c4, value: 4}
+  - {name: c5, value: 5}
+  - {name: c6, value: 6}
+  - {name: c7, value: 7}
+  - {name: c8, value: 8}
+  - {name: c9, value: 9}
 
 calcs:
   u: (params.x1)^2 * (params.x2)
+
+  u1: ((params.c1)^(params.a))*((params.c1)^(params.b))
+  u2: ((params.c2)^(params.a))*((params.c2)^(params.b))
+  u3: ((params.c3)^(params.a))*((params.c3)^(params.b))
+  u4: ((params.c4)^(params.a))*((params.c4)^(params.b))
+  u5: ((params.c5)^(params.a))*((params.c5)^(params.b))
+  u6: ((params.c6)^(params.a))*((params.c6)^(params.b))
+  u7: ((params.c7)^(params.a))*((params.c7)^(params.b))
+  u8: ((params.c8)^(params.a))*((params.c8)^(params.b))
+  u9: ((params.c9)^(params.a))*((params.c9)^(params.b))
 
 layout:
   OneGraphPlusSidebar:
     graph:
       xAxis:
-        max: 130
+        max: 10
         ticks: 0
       yAxis:
-        max: 130
+        max: 10
         ticks: 0
       objects:
 
       - Label:
-            coordinates: [130, 0]
-            text: "` \\\\text{Cibo (kg)} `"
-            yPixelOffset: 0
+            coordinates: [10, 0]
+            text: "` \\\\text{Consumo} `"
             position: l
       - Label:
-            coordinates: [0, 130]
-            text: "` \\\\text{Affitto ($\\\\text{m}^2$)}  `"
-            xPixelOffset: 0
-            yPixelOffset: 10
+            coordinates: [0, 10]
+            text: "` \\\\text{Alloggio (decine di $\\\\text{m}^2$)}  `"
 
-      # Bundle
+# Bundle
       - Point:
           coordinates: [params.x1, params.x2]
           droplines:
             horizontal: params.x2
             vertical: params.x1
           color: Blue
-          r: 5
+          r: 4
           draggable: true
       - Label:
-          coordinates: [params.x1, params.x2+3]
+          coordinates: [params.x1, params.x2+0.3]
           text: "` ( ${params.x1} , ${params.x2} ) `"
           position: l
           color: Blue
           bgcolor: none
 
-      # Preferred bundles
+# Preferred bundles
       - Area:
           fn: (calcs.u) / ( (x)^2 )
           fill: pink
           above: true
 
-      # Indifference curve at bundle
+# Indifference curve at bundle
       - Curve:
           fn:   (calcs.u) / ( (x)^2 )
           color: Black
-          strokeWidth: 2
+          strokeWidth: 1.5
       
-      # Indifference Map
+# Indifference Map
       - Curve:
-          fn:   (10000) / ( (x)^2 )
+          fn:   ((calcs.u1)/((x)^(params.a)))^(1/(params.b))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
+          min: 0.04
       - Curve:
-          fn:   (40000) / ( (x)^2 )
+          fn:   ((calcs.u2)/((x)^(params.a)))^(1/(params.b))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
+          min: 0.05
       - Curve:
-          fn:   (120000) / ( (x)^2 )
+          fn:   ((calcs.u3)/((x)^(params.a)))^(1/(params.b))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
+          min: 0.05
       - Curve:
-          fn:   (256000) / ( (x)^2 )
+          fn:   ((calcs.u4)/((x)^(params.a)))^(1/(params.b))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
+          min: 0.01
       - Curve:
-          fn:   (450000) / ( (x)^2 )
+          fn:   ((calcs.u5)/((x)^(params.a)))^(1/(params.b))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
+          min: 0.01
       - Curve:
-          fn:   (660000) / ( (x)^2 )
+          fn:   ((calcs.u6)/((x)^(params.a)))^(1/(params.b))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
+          min: 0.01
       - Curve:
-          fn:   (950000) / ( (x)^2 )
+          fn:   ((calcs.u7)/((x)^(params.a)))^(1/(params.b))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
+          min: 0.01
       - Curve:
-          fn:   (1300000) / ( (x)^2 )
+          fn:   ((calcs.u8)/((x)^(params.a)))^(1/(params.b))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
+          min: 0.01
+      - Curve:
+          fn:   ((calcs.u9)/((x)^(params.a)))^(1/(params.b))
+          color: Grey
+          strokeWidth: 0.25
+          min: 0.01
 
-      
 
-      # BudgetLine
+# BudgetLine
       - Line:
-          point: [0,120]
-          slope: -1
+          point: [0,(params.m)/(params.p2)]
+          slope: -(params.p1)/(params.p2)
           color: DarkGreen
           strokeWidth: 2
           max: 120
       - Point:
-          coordinates: [120, 0]
-          droplines: {vertical: 120, horizontal: }
+          coordinates: [(params.m)/(params.p1), 0]
+          droplines: {vertical: (params.m)/(params.p1), horizontal: }
           color: black
           r: 0
       - Point:
-          coordinates: [0, 120]
-          droplines: {vertical: , horizontal: 120}
+          coordinates: [0, (params.m)/(params.p2)]
+          droplines: {vertical: , horizontal: (params.m)/(params.p2)}
           color: black
           r: 0
 
-      # Affordable bundles
+# Affordable bundles
       - Area:
           fn: (params.m) / (params.p2) - ((params.p1)*(x)) / (params.p2)
           fill: green
           above: false
 
 
-      # Evaluation
+# Evaluation
       - Label:
-          coordinates: [112, 105]
-          text: \text{\large Accessibile}
-          position: r
-          bgcolor: none
-
-      - Label:
-          coordinates: [112, 105]
-          text: \LARGE\checkmark
-          position: l
-          bgcolor: none
-          color: green
-          show: (params.p1*params.x1 + params.p2*params.x2 <= params.m)
-          
-      - Label:
-          coordinates: [112, 105]
-          text: \LARGE{\boldsymbol\times}
-          position: l
-          bgcolor: none
-          color: red
-          show: (params.p1*params.x1 + params.p2*params.x2 > params.m)
-          
-      - Label:
-          coordinates: [112, 115]
+          coordinates: [9, 9]
           text: \text{\large No sovrapp.}
           position: r
           bgcolor: none
 
       - Label:
-          coordinates: [112, 115]
+          coordinates: [9, 9]
           text: \LARGE{\checkmark}
           position: l
           bgcolor: none
           color: green
-          show: (calcs.u >= 256000)
+          show: (calcs.u >= 108)
           
       - Label:
-          coordinates: [112, 115]
+          coordinates: [9, 9]
           text: \LARGE{\boldsymbol\times}
           position: l
           bgcolor: none
           color: red
-          show: (calcs.u < 256000)
+          show: (calcs.u < 108)
+      - Label:
+          coordinates: [9, 8.1]
+          text: \text{\large Accessibile}
+          position: r
+          bgcolor: none
 
       - Label:
-          coordinates: [116, 80]
+          coordinates: [9, 8.1]
+          text: \LARGE\checkmark
+          position: l
+          bgcolor: none
+          color: green
+          show: (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+      - Label:
+          coordinates: [9, 8.1]
+          text: \LARGE{\boldsymbol\times}
+          position: l
+          bgcolor: none
+          color: red
+          show: (params.p1*params.x1 + params.p2*params.x2 > params.m)
+
+# BINGO
+      - Label:
+          coordinates: [9, 6]
           text: \text{\LARGE BINGO!}
           color: green
           position: r
           bgcolor: none
-          show: (params.p1*params.x1 + params.p2*params.x2 <= params.m) && (calcs.u >= 256000)
+          show: (params.p1*params.x1 + params.p2*params.x2 <= params.m) && (calcs.u >= 108)
 
     explanation:
       divs:
         - html: "` Le preferenze del consumatore sono descritte dalla funzione di utilità 
                   $U(X,Y)=X^2Y$,
-                     dove $X$ è la quantità di cibo (chili al mese) e $Y$ la grandezza 
-                     dell'appartamento dove vivere (metri quadrati).  
-                  Il consumatore ha un reddito settimanale di $M=${params.m}$ euro. Il prezzo del cibo è $P_X=${params.p1}$ euro/kg 
-                  mentre l'affitto ha un prezzo settimanale di  $P_Y=${params.p2}$ euro/$\\\\text{m}^2$. 
+                     dove $X$ è la quantità del generico bene di consumo e $Y$ la grandezza 
+                     dell'appartamento dove vivere (decine di m$^2$).  
+                  Il consumatore ha un reddito settimanale di $M=${params.m}$ euro.
+                  Il prezzo del generico bene di consumo è $P_X=${params.p1}$ euro/unità 
+                  mentre l'alloggio ha un prezzo settimanale di  $P_Y=${params.p2}$ euro/d m$^2$. 
                   La figura mostra i panieri accessibili  (area verde), un generico paniere (punto blu), 
                   la curva di indifferenza che passa per quel paniere,
                      e l'insieme dei panieri ad esso preferiti 
@@ -202,50 +225,50 @@ layout:
 
     sidebar:
       controls:
-      - title: Scelta ottima del consumatore (Esempio 1)
+      - title: Scelta ottima del consumatore
         divs:
           - html: "` L'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
                     non si sovrappone all'insieme dei panieri accessibili.
                      `"
-            show: calcs.u >= 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
           - html: "` `"
-            show: calcs.u >= 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
           - html: "` Tuttavia, il paniere $(${params.x1},${params.x2})$ non è accessibile, dato che
                     $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2} > ${params.m} .$$
                     Prova a spostare il paniere fino ad un punto dove è accessibile.
                      `"
-            show: calcs.u >= 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
 
 
 
           - html: "` L'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
                     non si sovrappone all'insieme dei panieri accessibili. `"
-            show: calcs.u >= 256000 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
           - html: "` `"
-            show: calcs.u >= 256000 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
           - html: "` Inoltre, il paniere $(${params.x1},${params.x2})$ è accessibile, dato che
                     $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2} \\\\leq ${params.m} .$$
                     Hai individuato la scelta ottima del consumatore! `"
-            show: calcs.u >= 256000 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
 
 
 
           - html: "` Il paniere $(${params.x1},${params.x2})$ è accessibile, dato che
                     $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2} \\\\leq ${params.m} .$$
                      `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
           - html: "` `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
           - html: "` Tuttavia, l'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
                     si sovrappone all'insieme dei panieri accessibili. Ciò significa che qualche altro
                     paniere è sia accessibile sia preferito al paniere  $(${params.x1},${params.x2})$.
                      `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
           - html: "` `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
           - html: "` Dunque, $(${params.x1},${params.x2})$ non è la scelta ottima del consumatore.
                      `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
 
 
 
@@ -254,20 +277,20 @@ layout:
           - html: "` Il paniere $(${params.x1},${params.x2})$ non è accessibile, dato che
                     $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2} > ${params.m} .$$
                      `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
           - html: "` `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
           - html: "` Inoltre, l'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
                     si sovrappone all'insieme dei panieri accessibili. Ciò significa che qualche altro
                     paniere è sia accessibile sia preferito al paniere  $(${params.x1},${params.x2})$.
                      `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
           - html: "` `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
           - html: "` Prova a spostare il paniere fino ad un punto dove è accessibile e non c'è
                     sovrapposizione.
                      `"
-            show: calcs.u < 256000 && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
 
 
 
