@@ -291,7 +291,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Scelta ottima del consumatore
+      - title: Scelta ottima del consumatore (beni sostituti)
         radioGroup:
           param: which
           options:

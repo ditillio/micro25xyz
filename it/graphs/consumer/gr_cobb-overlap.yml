@@ -225,7 +225,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Scelta ottima del consumatore
+      - title: Scelta ottima del consumatore (Cobb-Douglas)
         divs:
           - html: "` L'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
                     non si sovrappone all'insieme dei panieri accessibili.
