@@ -67,12 +67,12 @@ layout:
       objects:
 
       - Label:
-            coordinates: [9.5, 0]
-            text: "` \\\\text{Unità di $X$} `"
+            coordinates: [9.33, 0]
+            text: "` \\\\text{unità di $X$} `"
             position: l
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{Unità di $Y$}  `"
+            text: "` \\\\text{unità di $Y$}  `"
 
 # bundle
       - Point:

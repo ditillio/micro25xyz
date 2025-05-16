@@ -50,10 +50,20 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` X `"
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
       - Label:
-            coordinates: [0, 9.5]
-            text: "` Y  `"
+            coordinates: [9.5, 0]
+            text: "` \\\\text{ di $X$} `"
+            yPixelOffset: -5
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{ di $Y$} `"
+            yPixelOffset: -5
 
 # bundles
       - Point:
@@ -107,10 +117,20 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` X `"
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
       - Label:
-            coordinates: [0, 9.5]
-            text: "` Y  `"
+            coordinates: [9.5, 0]
+            text: "` \\\\text{ di $X$} `"
+            yPixelOffset: -5
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{ di $Y$} `"
+            yPixelOffset: -5
 
       - Point:
           coordinates: [4.75, 3.5]
@@ -159,6 +179,14 @@ layout:
           max: 8.5
 
 
+
+
+
+
+
+
+
+
     rightGraph:
       xAxis:
         max: 9.5
@@ -171,10 +199,20 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` X `"
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
       - Label:
-            coordinates: [0, 9.5]
-            text: "` Y  `"
+            coordinates: [9.5, 0]
+            text: "` \\\\text{ di $X$} `"
+            yPixelOffset: -5
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{unità} `"
+            yPixelOffset: 10
+      - Label:
+            coordinates: [0,9.5]
+            text: "` \\\\text{ di $Y$} `"
+            yPixelOffset: -5
 
       - Curve:
           fn: 3+2/(x)

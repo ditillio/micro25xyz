@@ -127,22 +127,34 @@ layout:
             color: Red
             opacity: 0.4
             label:
-              text: "` U = ${params.y} X^2 `"
+              text: "` U = ${params.y.toFixed(1)} X^2 `"
               x: 9.5
               position: c
 
         - Label:
-              coordinates: [9.5, 0]
-              text: "` \\\\text{Unità di $X$} `"
-#              position: l
+              coordinates: [9, 0]
+              text: "` \\\\text{unità} `"
+              yPixelOffset: 10
+              position: l
+        - Label:
+              coordinates: [9, 0]
+              text: "` \\\\text{ di $X$} `"
+              yPixelOffset: -5
+              position: l
         - Label:
               coordinates: [0, 1000]
               text: "` \\\\text{Utilità}  `"
 
+
+
+
+
+
+
         - Point:
             coordinates: [params.x,calcs.z]
             droplines:
-              vertical: params.x
+              vertical: params.x.toFixed(1)
               horizontal:
             strokeWidth: 0.5
             color: Blue
@@ -178,18 +190,19 @@ layout:
 
         divs:
           - html: "` `"
-          - html: "`L'utilità marginale del bene $X$ in corrispondenza del paniere $(${params.x},${params.y})$
-                    è la pendenza della curva rossa in corrispondenza di $X=${params.x}$ (= pendenza della retta 
-                    tratteggiata):  $MU_X = ${(2)*(params.x)*(params.y)}$. `"
+          - html: "`L'utilità marginale del bene $X$ in corrispondenza del paniere $(${params.x.toFixed(1)},
+                    ${params.y.toFixed(1)})$
+                    è la pendenza della curva rossa in corrispondenza di $X=${params.x.toFixed(1)}$ (= pendenza della retta 
+                    tratteggiata):  $MU_X = ${calcs.MUx.toFixed(2)}$. `"
 
     explanation:
 
         divs:
           - html: "` `"
           - html: "` La funzione di utilità del consumatore è $U(X,Y)=X^2Y$. Tenendo fermo il consumo del bene $Y$
-                      a $Y=${params.y}$ unità, l'utilità diventa una funzione del solo consumo di $X$, ovvero
-                      $U=${params.y}X^2$ (curva rossa). L'utilità marginale del bene $X$ è la derivata
-                      di questa funzione: $MU_X=${2*params.y}X$.   `"
+                      a $Y=${params.y.toFixed(1)}$ unità, l'utilità diventa una funzione del solo consumo di $X$, ovvero
+                      $U=${params.y.toFixed(1)}X^2$ (curva rossa). L'utilità marginale del bene $X$ è la derivata
+                      di questa funzione: $MU_X=${2*params.y.toFixed(1)}X$.   `"
 
 
 

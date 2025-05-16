@@ -1,10 +1,16 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 1.3
+aspectRatio: 0.7
 params:
   - {name: x1, value: 4, min: 0.5, max: 9, round: 0.5}
   - {name: x2, value: 4, min: 0.5, max: 9, round: 0.5}
+
+
+# income and prices
+  - {name: m, value: 30, min: 15, max: 45, round: 5}
+  - {name: p1, value: 4, min: 1, max: 10, round: 0.5}
+  - {name: p2, value: 4, min: 1, max: 10, round: 0.5}
 
 
 # consumption levels on 45° line
@@ -18,7 +24,7 @@ params:
   - {name: c8, value: 8}
   - {name: c9, value: 9}
 
-  - {name: s, value: 6}
+  - {name: s, value: 10}
 
 
 # which utility function
@@ -28,11 +34,36 @@ params:
 
 calcs:
 
-# utility at selected bundle
-  u0: ((params.x1))*((params.x2))
-  u1: ((params.x1)^(2))*((params.x2)^(1))
-  u2: ((params.x1)^(1))*((params.x2)^(2))
-  u3: ((params.x1)*(params.x2))+((params.s)*((params.x1)+(params.x2)))
+# optimal bundle and utility (params.whichU=0)
+  x1opt0: (0.5)*(params.m)/(params.p1)
+  x2opt0: (0.5)*(params.m)/(params.p2)
+  u0: ((calcs.x1opt0))*((calcs.x2opt0))
+
+# optimal bundle and utility (params.whichU=1)
+  x1opt1: (2/3)*(params.m)/(params.p1)
+  x2opt1: (1/3)*(params.m)/(params.p2)
+  u1: ((calcs.x1opt1)^(2))*((calcs.x2opt1)^(1))
+
+# optimal bundle and utility (params.whichU=2)
+  x1opt2: (1/3)*(params.m)/(params.p1)
+  x2opt2: (2/3)*(params.m)/(params.p2)
+  u2: ((calcs.x1opt2)^(1))*((calcs.x2opt2)^(2))
+
+# optimal bundle and utility (params.whichU=3)
+  x1opt3: min(max(0,((params.m)+((params.s)*((params.p2)-(params.p1))))/((2)*(params.p1))),(params.m)/(params.p1))
+  x2opt3: min(max(0,((params.m)+((params.s)*((params.p1)-(params.p2))))/((2)*(params.p2))),(params.m)/(params.p2))
+  u3: ((calcs.x1opt3)*(calcs.x2opt3))+((params.s)*((calcs.x1opt3)+(calcs.x2opt3)))
+
+
+
+
+# price of X above which X=0
+  maxP1: (params.p2)+(params.m)/(params.s)
+# price of X below which Y=0
+  minP1: (params.p2)-(params.m)/(params.s)
+
+
+
 
 # MRS at selected bundle
   MRS0: (params.x2)/(params.x1)
@@ -85,11 +116,16 @@ calcs:
   u93: ((params.c9)*(params.c9))+((params.s)*((params.c9)+(params.c9)))
 
 
+  xintercept: params.m/params.p1
+  yintercept: params.m/params.p2
+
 
 
 layout:
-  OneGraphPlusSidebar:
-    graph:
+  TwoVerticalGraphsPlusSidebar:
+
+
+    topGraph:
       xAxis:
         max: 9.5
         ticks: 0
@@ -97,34 +133,73 @@ layout:
         max: 9.5
         ticks: 0
 
-
-
       objects:
 
       - Label:
-            coordinates: [9.5, 0]
-            text: "` \\\\text{Unità di $X$} `"
+            coordinates: [9.33, 0]
+            text: "` \\\\text{unità di $X$} `"
             position: l
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{Unità di $Y$}  `"
+            text: "` \\\\text{unità di $Y$}  `"
 
-# bundle
+# budget line
+      - Line:
+          point: [0,params.m/params.p2]
+          slope: -params.p1/params.p2
+          color: Green
+          strokeWidth: 1.5
+          max: params.m/params.p1
       - Point:
-          coordinates: [params.x1, params.x2]
+          coordinates: [params.m/params.p1, 0]
+          droplines: {vertical: calcs.xintercept.toFixed(2), horizontal: }
+          color: black
+          r: 0
+      - Point:
+          coordinates: [0, params.m/params.p2]
+          droplines: {vertical: , horizontal: calcs.yintercept.toFixed(2)}
+          color: black
+          r: 0
+
+# optimal bundle
+      - Point:
+          coordinates: [calcs.x1opt0, calcs.x2opt0]
           droplines:
-            horizontal: params.x2.toFixed(1)
-            vertical: params.x1.toFixed(1)
+            horizontal: calcs.x2opt0.toFixed(2)
+            vertical: calcs.x1opt0.toFixed(2)
           color: Blue
           r: 4
           strokeWidth: 0.5
-          draggable: true
-          # label:
-          #   text: "` \\\\large{A} `"
-          #   bgcolor: none
+          show: params.whichU == 0 
+      - Point:
+          coordinates: [calcs.x1opt1, calcs.x2opt1]
+          droplines:
+            horizontal: calcs.x2opt1.toFixed(2)
+            vertical: calcs.x1opt1.toFixed(2)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          show: params.whichU == 1 
+      - Point:
+          coordinates: [calcs.x1opt2, calcs.x2opt2]
+          droplines:
+            horizontal: calcs.x2opt2.toFixed(2)
+            vertical: calcs.x1opt2.toFixed(2)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          show: params.whichU == 2
+      - Point:
+          coordinates: [calcs.x1opt3, calcs.x2opt3]
+          droplines:
+            horizontal: calcs.x2opt3.toFixed(2)
+            vertical: calcs.x1opt3.toFixed(2)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          show: params.whichU == 3
 
-
-# Indifference curve at bundle
+# Indifference curve at optimal bundle
       - Curve:
           fn: ((calcs.u0)/((x)^(1)))^(1/(1))
           color: Black
@@ -151,55 +226,55 @@ layout:
       - Curve:
           fn:   ((calcs.u10)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 0 
       - Curve:
           fn:   ((calcs.u20)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.15
           show: params.whichU == 0 
       - Curve:
           fn:   ((calcs.u30)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.05
           show: params.whichU == 0 
       - Curve:
           fn:   ((calcs.u40)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 0 
       - Curve:
           fn:   ((calcs.u50)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 0 
       - Curve:
           fn:   ((calcs.u60)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 0 
       - Curve:
           fn:   ((calcs.u70)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 0 
       - Curve:
           fn:   ((calcs.u80)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 0 
       - Curve:
           fn:   ((calcs.u90)/((x)^(1)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 0 
 
@@ -208,55 +283,55 @@ layout:
       - Curve:
           fn:   ((calcs.u11)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 1 
       - Curve:
           fn:   ((calcs.u21)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.15
           show: params.whichU == 1 
       - Curve:
           fn:   ((calcs.u31)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.05
           show: params.whichU == 1 
       - Curve:
           fn:   ((calcs.u41)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 1 
       - Curve:
           fn:   ((calcs.u51)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 1 
       - Curve:
           fn:   ((calcs.u61)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 1 
       - Curve:
           fn:   ((calcs.u71)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 1 
       - Curve:
           fn:   ((calcs.u81)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 1 
       - Curve:
           fn:   ((calcs.u91)/((x)^(2)))^(1/(1))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 1 
 
@@ -265,55 +340,55 @@ layout:
       - Curve:
           fn:   ((calcs.u12)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 2 
       - Curve:
           fn:   ((calcs.u22)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.15
           show: params.whichU == 2 
       - Curve:
           fn:   ((calcs.u32)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.05
           show: params.whichU == 2 
       - Curve:
           fn:   ((calcs.u42)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 2 
       - Curve:
           fn:   ((calcs.u52)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 2 
       - Curve:
           fn:   ((calcs.u62)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 2 
       - Curve:
           fn:   ((calcs.u72)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 2 
       - Curve:
           fn:   ((calcs.u82)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 2 
       - Curve:
           fn:   ((calcs.u92)/((x)^(1)))^(1/(2))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.01
           show: params.whichU == 2 
 
@@ -322,97 +397,257 @@ layout:
       - Curve:
           fn:   ((calcs.u13)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
       - Curve:
           fn:   ((calcs.u23)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
       - Curve:
           fn:   ((calcs.u33)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
       - Curve:
           fn:   ((calcs.u43)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
       - Curve:
           fn:   ((calcs.u53)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
       - Curve:
           fn:   ((calcs.u63)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
       - Curve:
           fn:   ((calcs.u73)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
       - Curve:
           fn:   ((calcs.u83)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
       - Curve:
           fn:   ((calcs.u93)-((params.s)*(x)))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.25
+          strokeWidth: 0.2 
           min: 0.04
           show: params.whichU == 3 
 
 
 
-# tangent at bundle
-      - Line:
-          point: [params.x1,params.x2]
-          slope: -(calcs.MRS0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    bottomGraph:
+      xAxis:
+        max: 9.5
+        ticks: 0
+      yAxis:
+        max: 9.5
+        ticks: 0
+
+      objects:
+
+      - Label:
+            coordinates: [9.33, 0]
+            text: "` \\\\text{unità di $X$} `"
+            position: l
+      - Label:
+            coordinates: [0, 9.5]
+            text: "` \\\\text{euro/unità di $X$}  `"
+
+# demand function
+      - Curve:
+          fn: (0.5)*(params.m)/(x)
           color: Blue
-          min: params.x1-100
-          max: params.x1+100
-          strokeWidth: 0.7
-          lineStyle: dashed
-          show: params.whichU == 0
-      - Line:
-          point: [params.x1,params.x2]
-          slope: -(calcs.MRS1)
+          strokeWidth: 1.5
+          min: 0.04
+          show: params.whichU == 0 
+      - Curve:
+          fn: (2/3)*(params.m)/(x)
           color: Blue
-          min: params.x1-100
-          max: params.x1+100
-          strokeWidth: 0.7
-          lineStyle: dashed
+          strokeWidth: 1.5
+          min: 0.04
           show: params.whichU == 1
-      - Line:
-          point: [params.x1,params.x2]
-          slope: -(calcs.MRS2)
+      - Curve:
+          fn: (1/3)*(params.m)/(x)
           color: Blue
-          min: params.x1-100
-          max: params.x1+100
-          strokeWidth: 0.7
-          lineStyle: dashed
-          show: params.whichU == 2
-      - Line:
-          point: [params.x1,params.x2]
-          slope: -(calcs.MRS3)
+          strokeWidth: 1.5
+          min: 0.04
+          show: params.whichU == 2 
+
+# demand function (params.whichU=3)
+      - Curve:
+          fn: ((params.m)+(params.s)*(params.p2))/((2)*(x)+(params.s))
           color: Blue
-          min: params.x1-100
-          max: params.x1+100
-          strokeWidth: 0.7
-          lineStyle: dashed
+          max: (params.m)/(calcs.minP1)
+          strokeWidth: 2.5
           show: params.whichU == 3
+      - Curve:
+          fn: (params.m)/(x)
+          color: Blue
+          min: (params.m)/(calcs.minP1)
+          strokeWidth: 2.5
+          show: params.whichU == 3
+      - Segment:
+          a: [0.02, calcs.maxP1]
+          b: [0.02, 1000]
+          color: Blue
+          strokeWidth: 3
+          show: params.whichU == 3
+      - Point:
+          coordinates: [0, calcs.maxP1]
+          droplines:
+            horizontal: calcs.maxP1.toFixed(2)
+          color: Blue
+          r: 0
+          show: params.whichU == 3
+
+# optimal choice (params.whichU=0)
+      - Point:
+          coordinates: [calcs.x1opt0, params.p1]
+          droplines:
+            vertical: calcs.x1opt0.toFixed(2)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          show: params.whichU == 0 
+      - Point:
+          coordinates: [calcs.x1opt0, params.p1]
+          droplines:
+            horizontal: params.p1.toFixed(2)
+          color: Green
+          r: 0
+          strokeWidth: 0.7
+          show: params.whichU == 0 
+# optimal choice (params.whichU=1)
+      - Point:
+          coordinates: [calcs.x1opt1, params.p1]
+          droplines:
+            vertical: calcs.x1opt1.toFixed(2)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          show: params.whichU == 1 
+      - Point:
+          coordinates: [calcs.x1opt1, params.p1]
+          droplines:
+            horizontal: params.p1.toFixed(2)
+          color: Green
+          r: 0
+          strokeWidth: 0.7
+          show: params.whichU == 1 
+# optimal choice (params.whichU=2)
+      - Point:
+          coordinates: [calcs.x1opt2, params.p1]
+          droplines:
+            vertical: calcs.x1opt2.toFixed(2)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          show: params.whichU == 2 
+      - Point:
+          coordinates: [calcs.x1opt2, params.p1]
+          droplines:
+            horizontal: params.p1.toFixed(2)
+          color: Green
+          r: 0
+          strokeWidth: 0.7
+          show: params.whichU == 2 
+# vertical dropline (params.whichU=2)
+      - Segment:
+          a: [calcs.x1opt2, params.p1]
+          b: [calcs.x1opt2, 1000]
+          strokeWidth: 0.6
+          lineStyle: dotted
+          color: blue
+          show: params.whichU == 2 
+
+
+
+# optimal choice (params.whichU=2)
+      - Point:
+          coordinates: [calcs.x1opt3, params.p1]
+          droplines:
+            vertical: calcs.x1opt3.toFixed(2)
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          show: params.whichU == 3 && calcs.x1opt3 > 0
+      - Point:
+          coordinates: [0.02, params.p1]
+          droplines:
+            vertical: 0
+          color: Blue
+          r: 4
+          strokeWidth: 0.5
+          show: params.whichU == 3 && calcs.x1opt3 == 0
+      - Point:
+          coordinates: [calcs.x1opt3, params.p1]
+          droplines:
+            horizontal: params.p1.toFixed(2)
+          color: Green
+          r: 0
+          strokeWidth: 0.7
+          show: params.whichU == 3
+# vertical dropline (params.whichU=2)
+      - Segment:
+          a: [calcs.x1opt3, params.p1]
+          b: [calcs.x1opt3, 1000]
+          strokeWidth: 0.6
+          lineStyle: dotted
+          color: blue
+          show: params.whichU == 3 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -428,9 +663,9 @@ layout:
             - $U=XY$
             - $U=X^2Y$
             - $U=XY^2$
-            - $U=XY+6(X+Y)$
-        description: Selezionare una funzione di utilità e poi un paniere per calcolare utilità marginali e 
-                    saggio marginale di sostituzione di 𝑋 con 𝑌 in quel paniere.
+            - $U=XY+10(X+Y)$
+        description: Selezionare una funzione di utilità. Selezionare poi reddito e prezzi per calcolare
+                      la scelta ottima del consumatore e la funzione di domanda del bene 𝑋.
 
       - title: "` `"
         divs:
@@ -440,10 +675,12 @@ layout:
                     e quindi 
                     $$ MRS_{XY} = \\\\dfrac{Y}{X} $$  `"
         sliders:
-        - param: x1
-          label: X
-        - param: x2
-          label: Y
+        - param: m
+          label: M
+        - param: p1
+          label: P_X
+        - param: p2
+          label: P_Y
         show: params.whichU == 0
 
       - title: "` `"
@@ -454,10 +691,12 @@ layout:
                     e quindi 
                     $$ MRS_{XY} = \\\\dfrac{2Y}{X} $$  `"
         sliders:
-        - param: x1
-          label: X
-        - param: x2
-          label: Y
+        - param: m
+          label: M
+        - param: p1
+          label: P_X
+        - param: p2
+          label: P_Y
         show: params.whichU == 1
 
       - title: "` `"
@@ -468,10 +707,12 @@ layout:
                     e quindi 
                     $$ MRS_{XY} = \\\\dfrac{Y}{2X} $$  `"
         sliders:
-        - param: x1
-          label: X
-        - param: x2
-          label: Y
+        - param: m
+          label: M
+        - param: p1
+          label: P_X
+        - param: p2
+          label: P_Y
         show: params.whichU == 2
 
       - title: "` `"
@@ -482,10 +723,12 @@ layout:
                     e quindi 
                     $$ MRS_{XY} = \\\\dfrac{Y+${params.s}}{X+${params.s}} $$  `"
         sliders:
-        - param: x1
-          label: X
-        - param: x2
-          label: Y
+        - param: m
+          label: M
+        - param: p1
+          label: P_X
+        - param: p2
+          label: P_Y
         show: params.whichU == 3
 
 
