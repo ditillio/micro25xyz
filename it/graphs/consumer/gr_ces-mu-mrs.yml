@@ -142,28 +142,28 @@ layout:
 
       controls:
 
-      - title: Preferenze del consumatore per beni divisibili (Esempio 2)
+      - title: Utilità marginali e saggio marginale di sostituzione (beni sostituti)
 
-        description: Scegliere i valori dei parametri 𝑎, 𝑏 e 𝑠 per vedere come cambiano la
-                     mappa di curve di indifferenza, le utilità marginali e il saggio
-                     marginale di sostituzione al variare dei parametri. Selezionare poi 
-                     un paniere per calcolare utilità marginali e 
+        # description: Scegliere i valori dei parametri 𝑎, 𝑏 e 𝑠 per vedere come cambiano la
+        #              mappa di curve di indifferenza, le utilità marginali e il saggio
+        #              marginale di sostituzione al variare dei parametri. Selezionare poi 
+        #              un paniere per calcolare utilità marginali e 
+        #             saggio marginale di sostituzione di 𝑋 con 𝑌 in quel paniere.
+
+        description: Scegliere un paniere per calcolare utilità marginali e 
                     saggio marginale di sostituzione di 𝑋 con 𝑌 in quel paniere.
 
         divs:
           - html: "` Le utilità marginali sono
                     $$
-                    MU_X=${params.a} \\\\times ${params.s.toFixed(1)} 
-                          \\\\times X^{${params.s.toFixed(1)}-1} 
+                    MU_X = \\\\frac{1}{2\\\\sqrt{X}} 
                     $$
                     $$
-                    MU_Y=${params.b} \\\\times ${params.s.toFixed(1)} 
-                          \\\\times Y^{${params.s.toFixed(1)}-1} 
+                    MU_Y = \\\\frac{1}{2\\\\sqrt{Y}} 
                     $$
                     e quindi 
                     $$
-                    MRS_{XY} = \\\\dfrac{${params.a}}{${params.b}} 
-                        \\\\left( \\\\dfrac{Y}{X} \\\\right)^{1-${params.s.toFixed(1)}}
+                    MRS_{XY} = \\\\frac{\\\\sqrt{Y}}{\\\\sqrt{X}}
                     $$  `"
 
         # checkboxes:
@@ -174,13 +174,17 @@ layout:
 
 
         sliders:
-        - param: a
-          label: a
-        - param: b
-          label: b
-        - param: s
-          label: s
+        - param: x1
+          label: X
+        - param: x2
+          label: Y
 
+        # - param: a
+        #   label: a
+        # - param: b
+        #   label: b
+        # - param: s
+        #   label: s
 
 
 
@@ -193,13 +197,12 @@ layout:
         - html: "` Indicando rispettivamente con $X$ e $Y$ il consumo mensile di pesce 
                   e carne, le preferenze del consumatore
                   sono descritte dalla funzione di utilità 
-                  $$U(X,Y)=${params.a} \\\\times X^{${params.s.toFixed(1)}} + ${params.b}
-                   \\\\times Y^{${params.s.toFixed(1)}} $$
-                  Diversamente dal caso Cobb-Douglas, in questo caso le curve
+                  $$ U(X,Y)=\\\\sqrt{X} + \\\\sqrt{Y} $$
+                  Diversamente dal caso Cobb-Douglas, le curve
                   d'indifferenza toccano gli assi (in corrispondenza dei punti grigi). Per esempio,  
-                  quando $a=1$, $b=1$ e $s=0.5$ i panieri $(8,0)$ e $(0,8)$, che si trovano 
+                  i panieri $(8,0)$ e $(0,8)$, che si trovano 
                   rispettivamente sull'asse orizzontale e quello verticale, appartengono alla
-                  stessa curva di indifferenza del paniere interno $(2,2)$
+                  stessa curva di indifferenza del paniere $(2,2)$
                   (tutti e tre danno un'utilità pari a $\\\\sqrt{8}$).
                     `"
 
