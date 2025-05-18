@@ -28,8 +28,10 @@ calcs:
 # utility at selected bundle
   u: (params.x1) * (params.x2) + (params.s) * ( (params.x1) + (params.x2) )
 
-# MRS at selected bundle
-  MRS: ((params.x2)+(params.s))/((params.x1)+(params.s))
+# MU and MRS at selected bundle
+  MU1: (params.x2) + (params.s)
+  MU2: (params.x1) + (params.s)
+  MRS: (calcs.MU1)/(calcs.MU2)
 
 # utility levels
   u1: ((params.c1)*(params.c1))+((params.s)*((params.c1)+(params.c1)))
@@ -72,63 +74,51 @@ layout:
 
 
 
-      # Preferred and less preferred bundles
-      - Area:
-          fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
-          fill: blue
-          above: true
-          show: params.showMORE == true
-      - Area:
-          fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
-          fill: red
-          above: false
-          show: params.showLESS == true
-          min: 0.001
-
-      # Indifference Curve at X
+# Indifference Curve at bundle
       - Curve:
           fn:   ( (calcs.u) - params.s * (x) ) / ( (x) + params.s )
           color: Black
-          strokeWidth: 2
+          strokeWidth: 1.5
+          min: 0.01
       
-      # Indifference Map
+# Indifference Map
       - Curve:
           fn:   ((calcs.u1)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
           min: 0.01
       - Curve:
           fn:   ((calcs.u2)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
       - Curve:
           fn:   ((calcs.u3)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
       - Curve:
           fn:   ((calcs.u4)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
       - Curve:
           fn:   ((calcs.u5)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
       - Curve:
           fn:   ((calcs.u6)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
       - Curve:
           fn:   ((calcs.u7)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
       - Curve:
           fn:   ((calcs.u8)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
       - Curve:
           fn:   ((calcs.u9)-(params.s)*(x))/((x)+(params.s))
           color: Grey
-          strokeWidth: 0.5
+          strokeWidth: 0.25
 
             
       # Bundle
@@ -141,12 +131,6 @@ layout:
           strokeWidth: 0.5
           r: 4
           draggable: true
-      - Label:
-          coordinates: [params.x1, params.x2+0.1]
-          text: "` A `"
-          position: l
-          color: Black
-          bgcolor: none
 
 # tangent at bundle
       - Line:
@@ -164,29 +148,50 @@ layout:
 
       controls:
 
-      - title: Preferenze del consumatore per beni divisibili (Esempio 2)
-        description: Scegliere un valore del parametro 𝑠 per vedere come cambia la mappa di curve di indifferenza
-                    al variare del parametro. Trascinare il punto <i>A</i> per selezionare un paniere e poi vedere quali panieri sono preferiti
-                    ad esso e a quali esso è preferito.
+      - title: Utilità marginali e saggio marginale di sostituzione (beni sostituti)
+        description: Selezionare un valore del parametro 𝑠 per vedere come cambia la mappa di curve di indifferenza
+                    al variare del parametro. Selezionare poi un paniere
+                       per calcolare utilità marginali e 
+                    saggio marginale di sostituzione di 𝑋 con 𝑌 in quel paniere.
 
-        checkboxes:
-        - param: showMORE
-          label: "\\text{Mostra panieri preferiti ad $A$}"
-        - param: showLESS
-          label: "\\text{Mostra panieri a cui $A$ è preferito}"
+        # checkboxes:
+        # - param: showMORE
+        #   label: "\\text{Mostra panieri preferiti ad $A$}"
+        # - param: showLESS
+        #   label: "\\text{Mostra panieri a cui $A$ è preferito}"
 
         divs:
-          - html: "` In corrispondenza del paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
-                    il saggio marginale di sostituzione di $X$ con $Y$ (valore assoluto della
-                    pendenza della retta tratteggiata) è
+          - html: "` Le utilità marginali sono
                     $$
-                      MRS_{XY}(${params.x1.toFixed(1)},${params.x2.toFixed(1)})=
-                      ${calcs.MRS.toFixed(2)}
-                    $$ 
-                  `"
+                    MU_X = Y + ${params.s} 
+                          \\\\qquad 
+                    MU_Y = X + ${params.s} 
+                    $$
+                    e quindi il saggio marginale di sostituzione di $X$ con $Y$ è
+                    $$
+                    MRS_{XY} = \\\\dfrac{Y + ${params.s}}{X + ${params.s}}
+                    $$  `"
+            show: params.s > 0
+
+          - html: "` Le utilità marginali sono
+                    $$
+                    MU_X = Y 
+                          \\\\qquad 
+                    MU_Y = X 
+                    $$
+                    e quindi il saggio marginale di sostituzione di $X$ con $Y$ è
+                    $$
+                    MRS_{XY} = \\\\dfrac{Y}{X}
+                    $$  `"
+            show: params.s == 0
+
         sliders:
         - param: s
           label: s
+        - param: x1
+          label: X
+        - param: x2
+          label: Y
 
 
 
@@ -226,6 +231,26 @@ layout:
                   $$U(X,Y)=XY$$
                   Tali preferenze sono identiche a quelle della Figura 2.2.`"
           show: params.s == 0
+
+        - html: "` `"
+
+        - html: "` In corrispondenza del paniere $(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
+                    le utilità marginali sono
+                    $$
+                    MU_X=${calcs.MU1.toFixed(2)}
+                    \\\\qquad
+                    MU_Y=${calcs.MU2.toFixed(2)}
+                    $$
+                   `"
+
+        - html: "` 
+                   Il saggio marginale di sostituzione di $X$ con $Y$ 
+                    (valore assoluto della pendenza della retta tratteggiata) è quindi
+                   $$
+                   MRS_{XY} = \\\\dfrac{${calcs.MU1.toFixed(2)}}{${calcs.MU2.toFixed(2)}}
+                      = ${calcs.MRS.toFixed(2)}
+                   $$
+                   `"
 
 
 

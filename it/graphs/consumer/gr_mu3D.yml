@@ -180,7 +180,7 @@ layout:
     sidebar:
       controls:
       - title: Utilità marginale del bene 𝑋
-        description: Scegliere un paniere per calcolare l'utilità marginale del bene <i>X</i>
+        description: Selezionare un paniere per calcolare l'utilità marginale del bene <i>X</i>
                       in corrispondenza di quel paniere.
         sliders:
           - param: x

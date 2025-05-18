@@ -23,9 +23,6 @@ params:
 
 
 
-# which utility function
-  - {name: whichU, value: 0}
-
 
 
 calcs:
