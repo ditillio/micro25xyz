@@ -4,17 +4,17 @@ version: 1
 aspectRatio: 1.25
 params:
 
-  - {name: x1, value: 5.5, min: 0, max: 12, round: 0.5}
-  - {name: x2, value: 6.5, min: 0, max: 12, round: 0.5}
+  - {name: x1, value: 3, min: 0, max: 6.5, round: 0.5}
+  - {name: x2, value: 5, min: 0, max: 6.5, round: 0.5}
 
 # basic prices
-  - {name: p1, value: 40}
-  - {name: p2, value: 40}
+  - {name: p1, value: 5}
+  - {name: p2, value: 5}
 # price variation in one of the goods
-  - {name: dp, value: 50}
+  - {name: dp, value: 5}
 
-  - {name: m, value: 360}
- 
+  - {name: m, value: 30}
+
   - {name: a, value: 2}
   - {name: b, value: 1}
   - {name: s, value: 10}
@@ -84,7 +84,7 @@ calcs:
   uscornerY: (params.s)*(params.m)/(calcs.pp2) # utility at X=0 corner
 
 # MRS (cobb-douglas)
-  MRS0: ((params.x2)+(params.s))/((params.x1)+(params.s))
+  MRS0: ((params.a)*(params.x2))/((params.b)*(params.x1))
 # MRS (substitutes)
   MRS1: ((params.x2)+(params.s))/((params.x1)+(params.s))
   MRScornerX: (params.s)/(((params.m)/(calcs.pp1))+(params.s))  # MRS at Y=0 corner
@@ -99,19 +99,19 @@ layout:
   OneGraphPlusSidebar:
     graph:
       xAxis:
-        max: 10
+        max: 7
         ticks: 0
       yAxis:
-        max: 10
+        max: 7
         ticks: 0
       objects:
 
       - Label:
-            coordinates: [9.8, 0]
+            coordinates: [6.8, 0]
             text: "` \\\\text{unità di $X$} `"
             position: l
       - Label:
-            coordinates: [0, 10]
+            coordinates: [0, 7]
             text: "` \\\\text{unità di $Y$}  `"
 
 # Bundle
@@ -121,8 +121,9 @@ layout:
             horizontal: params.x2
             vertical: params.x1
           color: Blue
-          r: 4
+          r: 3.5
           draggable: true
+          strokeWidth: 0.5
       - Label:
           coordinates: [params.x1, params.x2+0.3]
           text: "` ( ${params.x1} , ${params.x2} ) `"
@@ -139,6 +140,7 @@ layout:
 # Preferred bundles
       - Area:
           fn: (calcs.u) / ( (x)^((params.a)/(params.b)) )
+          min: 0.1
           fill: pink
           above: true
           show: params.UF == 0
@@ -152,26 +154,26 @@ layout:
       - Curve:
           fn:   (calcs.u) / ( (x)^((params.a)/(params.b)) )
           color: Black
-          strokeWidth: 1.5
+          strokeWidth: 1.2
           show: params.UF == 0
       - Curve:
           fn:   ( (calcs.us) - params.s * (x) ) / ( (x) + params.s )
           color: Black
-          strokeWidth: 1.5
+          strokeWidth: 1.2
           show: params.UF == 1
 
 # Indifference Map
       - ContourMap:
           levels: [calcs.u1, calcs.u2, calcs.u3, calcs.u4, calcs.u5, calcs.u6, calcs.u7, calcs.u8, calcs.u9]
-          yMax: 10
-          xMax: 10
+          yMax: 11
+          xMax: 11
           strokeWidth: 0.25
           fn: ((x)^(params.a))*((y)^(params.b))
           show: params.UF == 0
       - ContourMap:
           levels: [calcs.u1s, calcs.u2s, calcs.u3s, calcs.u4s, calcs.u5s, calcs.u6s, calcs.u7s, calcs.u8s, calcs.u9s]
-          yMax: 10
-          xMax: 10
+          yMax: 11
+          xMax: 11
           strokeWidth: 0.25
           fn: ((x)*(y))+((params.s)*((x)+(y)))
           show: params.UF == 1
@@ -181,7 +183,7 @@ layout:
           point: [0,(params.m)/(calcs.pp2)]
           slope: -(calcs.pp1)/(calcs.pp2)
           color: DarkGreen
-          strokeWidth: 2
+          strokeWidth: 1.2
           max: 120
       - Point:
           coordinates: [(params.m)/(calcs.pp1), 0]
@@ -196,13 +198,13 @@ layout:
 
 # overlap evaluation
       - Label:
-          coordinates: [9, 9]
+          coordinates: [6, 6]
           text: \text{\large No sovrapp.}
           position: r
           bgcolor: none
 
       - Label:
-          coordinates: [9, 9]
+          coordinates: [6, 6]
           text: \LARGE{\checkmark}
           position: l
           bgcolor: none
@@ -210,7 +212,7 @@ layout:
           show: calcs.u >= calcs.umax && params.UF == 0 || calcs.us >= calcs.usmaxinterior && calcs.interiorcheck == 0 && params.UF == 1 || calcs.us >= calcs.uscornerX && calcs.cornerXcheck > 0 && params.UF == 1 || calcs.us >= calcs.uscornerY && calcs.cornerYcheck > 0 && params.UF == 1 
 
       - Label:
-          coordinates: [9, 9]
+          coordinates: [6, 6]
           text: \LARGE{\boldsymbol\times}
           position: l
           bgcolor: none
@@ -221,20 +223,20 @@ layout:
 
 # accessibility evaluation
       - Label:
-          coordinates: [9, 8.1]
+          coordinates: [6, 5.1]
           text: \text{\large Accessibile}
           position: r
           bgcolor: none
 
       - Label:
-          coordinates: [9, 8.1]
+          coordinates: [6, 5.1]
           text: \LARGE\checkmark
           position: l
           bgcolor: none
           color: green
           show: calcs.cost <= params.m
       - Label:
-          coordinates: [9, 8.1]
+          coordinates: [6, 5.1]
           text: \LARGE{\boldsymbol\times}
           position: l
           bgcolor: none
@@ -243,7 +245,7 @@ layout:
 
 # BINGO
       - Label:
-          coordinates: [9, 6]
+          coordinates: [6, 3]
           text: \text{\LARGE BINGO!}
           color: green
           position: r
@@ -259,9 +261,7 @@ layout:
     sidebar:
       controls:
 
-      - title: Scelta ottima del consumatore (Cobb-Douglas)
-
-
+      - title: Funzione di utilità
 
         radioGroup:
           param: UF
@@ -271,96 +271,86 @@ layout:
 
 
 
-      - title: Cobb-Douglas
 
-        show: params.UF == 0
-
-
-
-
-      - title: Beni sostituti
-
+      - title: Reddito e prezzi
         radioGroup:
           param: which
           options:
-            - $M=360$, $P_X=40$, $P_Y=40$
-            - $M=360$, $P_X=80$, $P_Y=40$
-            - $M=360$, $P_X=40$, $P_Y=80$
-
-        show: params.UF == 1
+            - $M=30$, $P_X=5$, $P_Y=5$
+            - $M=30$, $P_X=10$, $P_Y=5$
+            - $M=30$, $P_X=5$, $P_Y=10$
 
 
 
 
 
-
+      - title: Scelta ottima
+        description: Trascinare il punto blu fino a individuare la scelta ottima.
+        show: params.UF == 0
         divs:
-          - html: "` L'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
-                    non si sovrappone all'insieme dei panieri accessibili.
+          - html: "` Il paniere $(${params.x1},${params.x2})$ non è accessibile:
+                    $$ ${calcs.pp1 }\\\\times ${params.x1}+${calcs.pp2 }\\\\times ${params.x2} > ${params.m} $$
+                    Quindi $(${params.x1},${params.x2})$ non è la scelta ottima.
                      `"
-            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
-          - html: "` `"
-            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
-          - html: "` Tuttavia, il paniere $(${params.x1},${params.x2})$ non è accessibile, dato che
-                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2} > ${params.m} .$$
-                    Prova a spostare il paniere fino ad un punto dove è accessibile.
+            show: calcs.cost > params.m
+
+          - html: "` Il paniere $(${params.x1},${params.x2})$ 
+                    è accessibile
+                    $$ ${calcs.pp1 }\\\\times ${params.x1}+${calcs.pp2 }\\\\times ${params.x2} \\\\leq ${params.m} $$
                      `"
-            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.cost <= params.m
 
-
-
-          - html: "` L'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
-                    non si sovrappone all'insieme dei panieri accessibili. `"
-            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
-          - html: "` `"
-            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
-          - html: "` Inoltre, il paniere $(${params.x1},${params.x2})$ è accessibile, dato che
-                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2} \\\\leq ${params.m} .$$
-                    Hai individuato la scelta ottima del consumatore! `"
-            show: calcs.u >= 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
-
-
-
-          - html: "` Il paniere $(${params.x1},${params.x2})$ è accessibile, dato che
-                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2} \\\\leq ${params.m} .$$
+          - html: "` L'insieme dei panieri preferiti a $(${params.x1},${params.x2})$ però
+                    si sovrappone all'insieme dei panieri accessibili. Ciò vuol dire che qualche altro
+                    paniere è sia accessibile sia preferito a $(${params.x1},${params.x2})$.
+                    Quindi $(${params.x1},${params.x2})$ non è la scelta ottima.
                      `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
-          - html: "` `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
-          - html: "` Tuttavia, l'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
-                    si sovrappone all'insieme dei panieri accessibili. Ciò significa che qualche altro
-                    paniere è sia accessibile sia preferito al paniere  $(${params.x1},${params.x2})$.
+            show: calcs.cost <= params.m && calcs.u < calcs.umax
+
+          - html: "` Inoltre, l'insieme dei panieri preferiti a $(${params.x1},${params.x2})$
+                    non si sovrappone all'insieme dei panieri accessibili. Ciò significa che nessun altro
+                    paniere è sia accessibile sia preferito a $(${params.x1},${params.x2})$.
+                    Quindi $(${params.x1},${params.x2})$ è la scelta ottima!
                      `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
-          - html: "` `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
-          - html: "` Dunque, $(${params.x1},${params.x2})$ non è la scelta ottima del consumatore.
+            show: calcs.cost <= params.m && calcs.u >= calcs.umax
+
+
+
+
+
+
+
+
+
+      - title: Scelta ottima
+        description: Trascinare il punto blu fino a individuare la scelta ottima.
+        show: params.UF == 1
+        divs:
+          - html: "` Il paniere $(${params.x1},${params.x2})$ non è accessibile:
+                    $$ ${calcs.pp1 }\\\\times ${params.x1}+${calcs.pp2 }\\\\times ${params.x2} > ${params.m} $$
+                    Quindi $(${params.x1},${params.x2})$ non è la scelta ottima.
                      `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 <= params.m)
+            show: calcs.cost > params.m
 
-
-
-
-
-          - html: "` Il paniere $(${params.x1},${params.x2})$ non è accessibile, dato che
-                    $$ ${params.p1}*${params.x1}+${params.p2}*${params.x2} > ${params.m} .$$
+          - html: "` Il paniere $(${params.x1},${params.x2})$ 
+                    è accessibile
+                    $$ ${calcs.pp1 }\\\\times ${params.x1}+${calcs.pp2 }\\\\times ${params.x2} \\\\leq ${params.m} $$
                      `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
-          - html: "` `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
-          - html: "` Inoltre, l'insieme dei panieri preferiti al paniere $(${params.x1},${params.x2})$
-                    si sovrappone all'insieme dei panieri accessibili. Ciò significa che qualche altro
-                    paniere è sia accessibile sia preferito al paniere  $(${params.x1},${params.x2})$.
-                     `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
-          - html: "` `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
-          - html: "` Prova a spostare il paniere fino ad un punto dove è accessibile e non c'è
-                    sovrapposizione.
-                     `"
-            show: calcs.u < 108  && (params.p1*params.x1 + params.p2*params.x2 > params.m)
+            show: calcs.cost <= params.m
 
+          - html: "` L'insieme dei panieri preferiti a $(${params.x1},${params.x2})$ però
+                    si sovrappone all'insieme dei panieri accessibili. Ciò vuol dire che qualche altro
+                    paniere è sia accessibile sia preferito a $(${params.x1},${params.x2})$.
+                    Quindi $(${params.x1},${params.x2})$ non è la scelta ottima.
+                     `"
+            show: calcs.cost <= params.m && calcs.us < calcs.usmaxinterior && calcs.interiorcheck == 0 || calcs.cost <= params.m && calcs.us < calcs.uscornerX && calcs.cornerXcheck > 0 || calcs.cost <= params.m && calcs.us < calcs.uscornerY && calcs.cornerYcheck > 0
 
+          - html: "` Inoltre, l'insieme dei panieri preferiti a $(${params.x1},${params.x2})$
+                    non si sovrappone all'insieme dei panieri accessibili. Ciò significa che nessun altro
+                    paniere è sia accessibile sia preferito a $(${params.x1},${params.x2})$.
+                    Quindi $(${params.x1},${params.x2})$ è la scelta ottima!
+                     `"
+            show: calcs.cost <= params.m && calcs.us >= calcs.usmaxinterior && calcs.interiorcheck == 0 || calcs.cost <= params.m && calcs.us >= calcs.uscornerX && calcs.cornerXcheck > 0 || calcs.cost <= params.m && calcs.us >= calcs.uscornerY && calcs.cornerYcheck > 0
 
 
 
@@ -372,21 +362,83 @@ layout:
 
     explanation:
       divs:
-        - html: "` Le preferenze del consumatore sono descritte dalla funzione di utilità 
-                  $U(X,Y)=X^2Y$,
-                     dove $X$ è la quantità del generico bene di consumo e $Y$ la grandezza 
-                     dell'appartamento dove vivere (decine di m$^2$).  
-                  Il consumatore ha un reddito settimanale di $M=${params.m}$ euro.
-                  Il prezzo del generico bene di consumo è $P_X=${params.p1}$ euro/unità 
-                  mentre l'alloggio ha un prezzo settimanale di  $P_Y=${params.p2}$ euro/d m$^2$. 
-                  La figura mostra i panieri accessibili  (area verde), un generico paniere (punto blu), 
-                  la curva di indifferenza che passa per quel paniere,
-                     e l'insieme dei panieri ad esso preferiti 
-                     (area rosa).  `"
+        - html: <br><br><br><br><br><br><br><br><br>
+          show: calcs.cost > params.m
 
+        - html: "` Il paniere $(${params.x1},${params.x2})$ si trova sotto il vincolo di bilancio.
+                    La non sazietà implica che il consumatore starebbe meglio, continuando a 
+                    soddisfare la condizione di accessibilità, se aumentasse leggermente la spesa 
+                    nei due beni. 
+                      `"
+          show: calcs.cost < params.m 
 
+        - html: "` Il paniere $(${params.x1},${params.x2})$ si trova sul vincolo di bilancio.
+                    In quel paniere la curva di indifferenza è più inclinata del vincolo
+                    di bilancio, abbiamo cioè $MRS_{XY}>P_X/P_Y$ o, in termini di utilità marginali,
+                    $$
+                    MU_X / P_X > MU_Y / P_Y
+                    $$
+                    Ciò significa che il tasso a cui l'utilità aumenterebbe all'aumentare del denaro
+                    speso in $X$ è maggiore del tasso a cui l'utilità diminuirebbe al diminuire del denaro
+                    speso in $Y$. Il consumatore starebbe quindi meglio, e spenderebbe lo stesso,
+                    se riducesse leggermente la spesa in $Y$ e aumentasse di un uguale
+                    ammontare la spesa in $X$.
+                      `"
+          show: calcs.cost == params.m && calcs.MRS0 > calcs.r && params.UF == 0 || calcs.cost == params.m && calcs.MRS1 > calcs.r && calcs.cornerXcheck == 0 && params.UF == 1 || calcs.cost == params.m && params.x1 < (params.m)/(calcs.pp1) && calcs.MRS1 > calcs.r && calcs.cornerXcheck > 0 && params.UF == 1
 
+        - html: "` Il paniere $(${params.x1},${params.x2})$ si trova sul vincolo di bilancio.
+                    In quel paniere la curva di indifferenza è meno inclinata del vincolo
+                    di bilancio, abbiamo cioè $MRS_{XY}< P_X/P_Y$ o, in termini di utilità marginali,
+                    $$
+                    MU_X / P_X < MU_Y / P_Y
+                    $$
+                    Ciò significa che il tasso a cui l'utilità aumenterebbe all'aumentare del denaro
+                    speso in $Y$ è maggiore del tasso a cui l'utilità diminuirebbe al diminuire del denaro
+                    speso in $X$. Il consumatore starebbe quindi meglio, e spenderebbe lo stesso,
+                    se riducesse leggermente la spesa in $X$ e aumentasse di un uguale
+                    ammontare la spesa in $Y$.
+                      `"
+          show: calcs.cost == params.m && calcs.MRS0 < calcs.r && params.UF == 0 || calcs.cost == params.m && calcs.MRS1 < calcs.r && calcs.cornerYcheck == 0 && params.UF == 1 || calcs.cost == params.m && params.x2 < (params.m)/(calcs.pp2) && calcs.MRS1 < calcs.r && calcs.cornerYcheck > 0 && params.UF == 1
 
+        - html: "` Il paniere $(${params.x1},${params.x2})$ si trova sul vincolo di bilancio.
+                    In quel paniere la curva di indifferenza è tangente al vincolo
+                    di bilancio, abbiamo cioè $MRS_{XY}=P_X/P_Y$ o, in termini di utilità marginali,
+                    $$
+                    MU_X / P_X = MU_Y / P_Y
+                    $$
+                    Ciò significa che il tasso a cui l'utilità varierebbe al variare  
+                     del denaro speso in $X$ è uguale al tasso a cui l'utilità varierebbe al variare del denaro
+                    speso in $Y$. Il consumatore non può quindi stare meglio
+                    riducendo la spesa in un bene per aumentare dello stesso ammontare la spesa nell'altro.
+                      `"
+          show: calcs.cost == params.m && calcs.MRS0 == calcs.r && params.UF == 0 || calcs.cost == params.m && calcs.MRS1 == calcs.r && calcs.interiorcheck == 0 && params.UF == 1
 
+        - html: "` Il paniere $(${params.x1},${params.x2})$ si trova sul vincolo di bilancio.
+                    In quel paniere la curva di indifferenza è più inclinata del vincolo
+                    di bilancio, abbiamo cioè $MRS_{XY}>P_X/P_Y$ o, in termini di utilità marginali,
+                    $$
+                    MU_X / P_X > MU_Y / P_Y
+                    $$
+                    Ciò significa che il tasso a cui l'utilità aumenterebbe all'aumentare del denaro
+                    speso in $X$ è maggiore del tasso a cui l'utilità diminuirebbe al diminuire del denaro
+                    speso in $Y$. Il consumatore starebbe quindi meglio, e spenderebbe lo stesso,
+                    se potesse ridurre leggermente la spesa in $Y$ e aumentare di un uguale
+                    ammontare la spesa in $X$. <i>Ma la spesa in $Y$ è già pari a zero!</i>
+                      `"
+          show: params.UF == 1 && calcs.cost == params.m && params.x1 == (params.m)/(calcs.pp1) && calcs.cornerXcheck > 0
+
+        - html: "` Il paniere $(${params.x1},${params.x2})$ si trova sul vincolo di bilancio.
+                    In quel paniere la curva di indifferenza è meno inclinata del vincolo
+                    di bilancio, abbiamo cioè $MRS_{XY}< P_X/P_Y$ o, in termini di utilità marginali,
+                    $$
+                    MU_X / P_X < MU_Y / P_Y
+                    $$
+                    Ciò significa che il tasso a cui l'utilità aumenterebbe all'aumentare del denaro
+                    speso in $Y$ è maggiore del tasso a cui l'utilità diminuirebbe al diminuire del denaro
+                    speso in $X$. Il consumatore starebbe quindi meglio, e spenderebbe lo stesso,
+                    se potesse ridurre leggermente la spesa in $X$ e aumentare di un uguale
+                    ammontare la spesa in $Y$. <i>Ma la spesa in $X$ è già pari a zero!</i>
+                      `"
+          show: params.UF == 1 && calcs.cost == params.m && params.x2 == (params.m)/(calcs.pp2) && calcs.cornerYcheck > 0
 
 

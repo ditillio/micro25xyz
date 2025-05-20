@@ -40,11 +40,11 @@ parts:
               en: Substitution between Goods
               it: Sostituibilità tra i beni
           - title:
-              en: Budget Constraint, Optimal Choice and Demand Functions
-              it: Vincolo di bilancio, scelta ottima e funzioni di domanda
+              en: Budget Constraint and Optimal Choice
+              it: Vincolo di bilancio e scelta ottima
           - title:
-              en: Consumer Surplus and Welfare
-              it: Benessere e surplus del consumatore
+              en: Demand, Welfare and Surplus
+              it: Domanda, benessere e surplus del consumatore
           - title:
               en: OLD
               it: OLD

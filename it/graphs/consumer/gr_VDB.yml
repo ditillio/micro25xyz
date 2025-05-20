@@ -17,6 +17,7 @@ calcs:
   e: (params.p1)*(params.x1)+(params.p2)*(params.x2)
   xintercept: params.m/params.p1
   yintercept: params.m/params.p2
+  r: params.p1/params.p2
 
 layout:
   OneGraphPlusSidebar:
@@ -110,21 +111,24 @@ layout:
         - param: p2
           label: P_Y
         divs:
-          - html: "` `"
-          - html: "` `"
+          - html: <br>
+          - html: "` Il vincolo di bilancio è
+                    $$ Y = ${calcs.yintercept} - ${calcs.r} X $$
+                     `"
+          - html: <br>
           - html: "` Il paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$
                       $\\\\color{${colors.red}} \\\\text{non è accessibile}$ poiché
                     $$ ${params.p1.toFixed(1)}*${params.x1.toFixed(1)}+${params.p2.toFixed(1)}*${params.x2.toFixed(1)}
                           = ${calcs.e.toFixed(2)} > ${params.m} $$
                      `"
             show: calcs.e > params.m
-          - html: "` Il paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ è accessibile ma non si trova
-                      sul vincolo di bilancio poiché
+          - html: "` Il paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ è accessibile. 
+                      Non si trova sul vincolo di bilancio poiché
                     $$ ${params.p1.toFixed(1)}*${params.x1.toFixed(1)}+${params.p2.toFixed(1)}*${params.x2.toFixed(1)}
                           = ${calcs.e.toFixed(2)} < ${params.m} .$$
                      `"
             show: calcs.e < params.m
-          - html: "` Il paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ è accessibile e si trova
+          - html: "` Il paniere $A=(${params.x1.toFixed(1)},${params.x2.toFixed(1)})$ è accessibile. Si trova
                       sul vincolo di bilancio poiché
                     $$ ${params.p1.toFixed(1)}*${params.x1.toFixed(1)}+${params.p2.toFixed(1)}*${params.x2.toFixed(1)}
                           = ${calcs.e.toFixed(2)} = ${params.m} .$$
@@ -138,9 +142,43 @@ layout:
                   Il prezzo del generico bene di consumo è $P_X=${params.p1}$ euro/unità 
                   mentre l'alloggio ha un prezzo settimanale di $P_Y=${params.p2}$ euro/d m$^2$.  `"
 
-
-
-
+        - html: "`
+                <ul>
+                  <li>
+                    <p><small>
+                  L'intercetta verticale della retta di bilancio (valore di $Y$ corrispondente a $X=0$) è
+                  pari a $M/P_Y$. Il numeratore è il reddito, misurato in euro.
+                  Il denominatore è il prezzo di $Y$, misurato in euro/unità di $Y$.
+                  Il rapporto, misurato quindi in unità di $Y$, è la quantità massima di $Y$
+                  che il consumatore può permettersi.
+                  Analogamente, l'intercetta orizzontale (valore di $X$ corrispondente a $Y=0$)
+                  è pari a $M/P_X$, la quantità massima di $X$ che il consumatore può permettersi.
+                    </small></p>
+                  </li>
+                  <li>
+                    <p><small>
+                  Il valore assoluto della pendenza della retta di bilancio, $P_X/P_Y$,
+                  misura il valore in termini di $Y$ che il mercato attribuisce ad una 
+                  unità di $X$, cioè il tasso a cui il mercato permette di scambiare
+                  i due beni. Infatti rinunciare ad una unità di $X$ permette di avere $P_X$
+                  euro in più da spendere in $Y$, cioè poterne comprare $P_X/P_Y$ unità in più.
+                  Analogamente, acquistare una unità di $X$ in più obbliga a spendere
+                  $P_X$ euro in meno in $Y$, cioè a comprarne $P_X/P_Y$ unità in meno. 
+                    </small></p>
+                  </li>
+                  <li>
+                    <p><small>
+                  Un aumento del reddito sposta il vincolo di bilancio parallelamente verso l'esterno, mentre una  riduzione del reddito sposta il vincolo di bilancio parallelamente verso l'interno. La pendenza, che non dipende dal reddito, non cambia.
+                    </small></p>
+                  </li>
+                  <li>
+                    <p><small>
+                  Un aumento del prezzo di $X$ fa ruotare il vincolo di bilancio in senso orario, mentre una riduzione del prezzo di $X$ lo fa ruotare in senso antiorario, intorno alla sua intercetta verticale.
+                  Un aumento del prezzo di $Y$ fa ruotare il vincolo di bilancio in senso antiorario, mentre una riduzione del prezzo di $Y$ lo fa ruotare in senso orario, intorno alla sua intercetta orizzontale.
+                    </small></p>
+                  </li>
+                </ul>
+                `"
 
 
 

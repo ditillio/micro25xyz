@@ -665,7 +665,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Utilità marginali e saggio marginale di sostituzione
+      - title: Scelta ottima e funzione di domanda del bene 𝑋
         radioGroup:
           param: whichU
           options:
