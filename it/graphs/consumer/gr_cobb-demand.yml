@@ -5,7 +5,7 @@ aspectRatio: 0.7
 params:
 
 # income and prices
-  - {name: m, value: 30, min: 5, max: 45, round: 5}
+  - {name: m, value: 24, min: 12, max: 48, round: 12}
   - {name: p1, value: 4, min: 1, max: 10, round: 0.5}
   - {name: p2, value: 4, min: 1, max: 10, round: 0.5}
 
@@ -164,7 +164,7 @@ layout:
           strokeWidth: 1.5
           min: 0.04
           label:
-            text: "` X = \\\\dfrac{${calcs.E1}}{P_X} `"
+            text: "` X = \\\\dfrac{${calcs.E1.toFixed(2)}}{P_X} `"
             x: 9.5
             position: l
 
@@ -235,11 +235,11 @@ layout:
 
         divs:
           - html: "`  `"
-          - html: "` La scelta ottima è spendere $[a/(a+b)]\\\\times M=${calcs.E1}$ euro
+          - html: "` La scelta ottima è spendere $[a/(a+b)]\\\\times M=${calcs.E1.toFixed(2)}$ euro
                     nel bene $X$. La funzione di domanda individuale del bene $X$ è
                     quindi
                     $$
-                    X=\\\\dfrac{[a/(a+b)]\\\\times M}{P_X}=\\\\dfrac{${calcs.E1}}{P_X}
+                    X=\\\\dfrac{[a/(a+b)]\\\\times M}{P_X}=\\\\dfrac{${calcs.E1.toFixed(2)}}{P_X}
                     $$
                      `"
 
