@@ -106,10 +106,10 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{\\\\small Consumo} `"
+            text: "` \\\\text{kg} `"
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{\\\\small Alloggio}  `"
+            text: "` \\\\text{d m$^2$}  `"
 
 # Alice indifference map
       - Curve: {fn: ((calcs.u1a)/((x)^(1)))^(1/(1)), color: Grey, strokeWidth: 0.2 , min: 0.04}
@@ -204,10 +204,10 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{\\\\small Consumo} `"
+            text: "` \\\\text{kg} `"
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{\\\\small Alloggio}  `"
+            text: "` \\\\text{d m$^2$}  `"
 
 
 # Bruno Indifference Map
@@ -296,10 +296,10 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{\\\\small Consumo} `"
+            text: "` \\\\text{kg} `"
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{\\\\small Alloggio}  `"
+            text: "` \\\\text{d m$^2$}  `"
 
 # Carmen Indifference Map
       - Curve: {fn: ((calcs.u1c)/((x)^(1)))^(1/(2)), color: Grey, strokeWidth: 0.2, min: 0.04}

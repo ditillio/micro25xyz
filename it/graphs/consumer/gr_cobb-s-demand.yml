@@ -279,9 +279,9 @@ layout:
 
     sidebar:
       controls:
-      - title: Scelta ottima e funzione di domanda del bene 𝑋
+      - title: Scelta ottima e funzione di domanda individuale del bene 𝑋 (beni sostituti)
 
-        description: Selezionare una funzione di utilità. Selezionare poi reddito e prezzi per calcolare
+        description: Selezionare un valore del parametro 𝑠. Selezionare poi reddito e prezzi per calcolare
                       la scelta ottima del consumatore e la funzione di domanda del bene 𝑋.
 
       - title: "` `"
@@ -307,18 +307,43 @@ layout:
 
 
 
+    # explanation:
+
+    #     divs:
 
 
-    explanation:
-
-        divs:
-
-          - html: "` `"
-
-          - html: "`
-                  bla
-                  `"
-
+    #       - html: "`
+    #               <ul>
+    #                 <li>
+    #                   <p><small>
+    #                         Anche in questo caso vale la legge della domanda.
+    #                   </small></p>
+    #                 </li>
+    #                 <li>
+    #                   <p><small>
+    #                         In entrambi i casi, una variazione del reddito ($M$) provoca uno <i>spostamento della curva</i>
+    #                         di domanda del bene, verso destra o sinistra a seconda che il
+    #                         reddito aumenti o diminuisca (il bene $X$ è normale).
+    #                   </small></p>
+    #                 </li>
+    #                 <li>
+    #                   <p><small>
+    #                       Nel primo caso (preferenze Cobb-Douglas) una variazione del prezzo 
+    #                       dell'altro bene ($P_Y$) modifica la quantità
+    #                       domandata di $Y$ ma non quella di $X$:  
+    #                       al variare di $P_Y$ la curva di domanda di $X$ non si sposta
+    #                       (i due beni sono indipendenti).
+    #                       Nel secondo caso (beni sostituti) una variazione di $P_Y$ modifica la quantità
+    #                       domandata di $Y$ (a meno che $P_Y$ non sia già tanto alto
+    #                       che il consumo di $Y$ è zero) ma anche la quantità domandata di $X$
+    #                       (a meno che $P_Y$ non sia già tanto basso
+    #                       che il consumo di $X$ è zero). In particolare, un aumento di $P_Y$ 
+    #                       fa spostare a destra la curva di domanda di $X$, mentre una riduzione
+    #                       di $P_Y$ la fa spostare a sinistra (i beni sono sostituti).
+    #                   </small></p>
+    #                 </li>
+    #               </ul>
+    #               `"
 
 
 

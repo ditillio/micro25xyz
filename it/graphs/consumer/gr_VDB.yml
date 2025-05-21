@@ -32,11 +32,11 @@ layout:
 
       - Label:
             coordinates: [9.3, 0]
-            text: "` \\\\text{Consumo} `"
+            text: "` \\\\text{Consumo (kg)} `"
             position: l
       - Label:
             coordinates: [0, 9.5]
-            text: "` \\\\text{Alloggio}  `"
+            text: "` \\\\text{Alloggio (d m$^2$)}  `"
 
 
       # BudgetLine
@@ -139,7 +139,7 @@ layout:
     explanation:
       divs:
         - html: "` Il consumatore ha un reddito settimanale di $M=${params.m}$ euro.
-                  Il prezzo del generico bene di consumo è $P_X=${params.p1}$ euro/unità 
+                  Il prezzo del generico bene di consumo è $P_X=${params.p1}$ euro/kg 
                   mentre l'alloggio ha un prezzo settimanale di $P_Y=${params.p2}$ euro/d m$^2$.  `"
 
         - html: "`

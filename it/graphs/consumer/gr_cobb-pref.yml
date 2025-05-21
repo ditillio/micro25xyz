@@ -54,7 +54,7 @@ layout:
 
       - Label:
             coordinates: [9.5, 0]
-            text: "` \\\\text{Consumo} `"
+            text: "` \\\\text{Consumo (kg)} `"
             position: l
       - Label:
             coordinates: [0, 9.5]

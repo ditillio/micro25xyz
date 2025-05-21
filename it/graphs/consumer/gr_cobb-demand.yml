@@ -271,31 +271,35 @@ layout:
 
 
 
-    explanation:
+    # explanation:
 
-        divs:
+    #     divs:
 
-          - html: "`
-                  <ul>
-                    <li>
-                      <p><small>
-                            Una variazione del prezzo del bene ($P_X$) provoca uno <i>spostamento
-                            lungo la curva</i> di domanda del bene.
-                      </small></p>
-                    </li>
-                    <li>
-                      <p><small>
-                            Una variazione del reddito ($M$) provoca uno <i>spostamento della curva</i>
-                            di domanda del bene, verso nord-est o sud-ovest a seconda che il
-                            reddito aumenti o diminuisca (il bene $X$ è normale).
-                      </small></p>
-                    </li>
-                    <li>
-                      <p><small>
-                          Una variazione del prezzo dell'altro bene ($P_Y$) modifica la quantità
-                          domandata di $Y$ ma non quella di $X$ (i beni sono indipendenti).
-                          La curva di domanda di $X$ non si sposta.
-                      </small></p>
-                    </li>
-                  </ul>
-                  `"
+    #       - html: "`
+    #               <ul>
+    #                 <li>
+    #                   <p><small>
+    #                         Una variazione del prezzo del bene ($P_X$) provoca uno <i>spostamento
+    #                         lungo la curva</i> di domanda del bene, e vale la <i><b>legge della
+    #                         domanda</b></i>: all'aumentare o diminuire di $P_X$ la quantità
+    #                         domandata di $X$ rispettivamente diminuisce o aumenta.
+    #                   </small></p>
+    #                 </li>
+    #                 <li>
+    #                   <p><small>
+    #                         Una variazione del reddito ($M$) provoca uno <i>spostamento della curva</i>
+    #                         di domanda del bene, verso destra o sinistra a seconda che il
+    #                         reddito aumenti o diminuisca (il bene $X$ è normale).
+    #                   </small></p>
+    #                 </li>
+    #                 <li>
+    #                   <p><small>
+    #                       Una variazione del prezzo 
+    #                       dell'altro bene ($P_Y$) modifica la quantità
+    #                       domandata di $Y$ ma non quella di $X$:  
+    #                       al variare di $P_Y$ la curva di domanda di $X$ non si sposta
+    #                       (i due beni sono indipendenti).
+    #                   </small></p>
+    #                 </li>
+    #               </ul>
+    #               `"
