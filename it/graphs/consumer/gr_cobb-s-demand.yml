@@ -8,7 +8,7 @@ params:
 
 
 # income and prices
-  - {name: m, value: 30, min: 5, max: 45, round: 5}
+  - {name: m, value: 30, min: 10, max: 50, round: 5}
   - {name: p1, value: 4, min: 1, max: 10, round: 0.5}
   - {name: p2, value: 4, min: 1, max: 10, round: 0.5}
 
@@ -28,12 +28,21 @@ params:
 
 
 
-
 calcs:
 
+# budget line intercepts
+  xintercept: params.m/params.p1
+  yintercept: params.m/params.p2
+
+
+# optimal bundle when interior
+  x1int: ( (params.m) + (params.s) * ( params.p2 - params.p1 ) ) / ( 2 * params.p1 )
+  x2int: ( (params.m) + (params.s) * ( params.p1 - params.p2 ) ) / ( 2 * params.p2 )
+
+
 # optimal bundle and indirect utility
-  x1opt: min(max(0,((params.m)+((params.s)*((params.p2)-(params.p1))))/((2)*(params.p1))),(params.m)/(params.p1))
-  x2opt: min(max(0,((params.m)+((params.s)*((params.p1)-(params.p2))))/((2)*(params.p2))),(params.m)/(params.p2))
+  x1opt: max(0,min(calcs.xintercept,calcs.x1int))
+  x2opt: max(0,min(calcs.yintercept,calcs.x2int))
   umax: ((calcs.x1opt)*(calcs.x2opt))+((params.s)*((calcs.x1opt)+(calcs.x2opt)))
 
 # price of X above which X=0
@@ -54,8 +63,6 @@ calcs:
   u8: ((params.c8)*(params.c8))+((params.s)*((params.c8)+(params.c8)))
   u9: ((params.c9)*(params.c9))+((params.s)*((params.c9)+(params.c9)))
 
-  xintercept: params.m/params.p1
-  yintercept: params.m/params.p2
 
 
 
@@ -167,11 +174,18 @@ layout:
           color: Blue
           max: (params.m)/(calcs.minP1)
           strokeWidth: 2.5
+          show: calcs.minP1 > 0
       - Curve:
           fn: (params.m)/(x)
           color: Blue
           min: (params.m)/(calcs.minP1)
           strokeWidth: 2.5
+          show: calcs.minP1 > 0
+      - Curve:
+          fn: ((params.m)+(params.s)*(params.p2))/((2)*(x)+(params.s))
+          color: Blue
+          strokeWidth: 2.5
+          show: calcs.minP1 == 0
       - Segment:
           a: [0.02, calcs.maxP1]
           b: [0.02, 1000]
