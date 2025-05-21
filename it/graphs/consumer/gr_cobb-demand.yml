@@ -246,23 +246,8 @@ layout:
 
           - html: <br>
 
-          - html: "` Una variazione del prezzo del bene ($P_X$) provoca uno <i>spostamento
-                            lungo la curva</i> di domanda del bene.
-                     `"
 
-          - html: <br>
 
-          - html: "` Una variazione del reddito ($M$) provoca uno <i>spostamento della curva</i>
-                            di domanda del bene, verso nord-est o sud-ovest a seconda che il
-                            reddito aumenti o diminuisca (il bene è normale).
-                     `"
-
-          - html: <br>
-
-          - html: "` Una variazione del prezzo dell'altro bene ($P_X$) modifica la quantità
-                          domandata di $Y$ ma non quella di $X$ (i beni sono indipendenti).
-                          La curva di domanda di $X$ non si sposta.
-                     `"
 
         sliders:
         - param: a
@@ -290,20 +275,27 @@ layout:
 
         divs:
 
-          - html: "` `"
-
-          - html: "` bla
+          - html: "`
+                  <ul>
+                    <li>
+                      <p><small>
+                            Una variazione del prezzo del bene ($P_X$) provoca uno <i>spostamento
+                            lungo la curva</i> di domanda del bene.
+                      </small></p>
+                    </li>
+                    <li>
+                      <p><small>
+                            Una variazione del reddito ($M$) provoca uno <i>spostamento della curva</i>
+                            di domanda del bene, verso nord-est o sud-ovest a seconda che il
+                            reddito aumenti o diminuisca (il bene $X$ è normale).
+                      </small></p>
+                    </li>
+                    <li>
+                      <p><small>
+                          Una variazione del prezzo dell'altro bene ($P_Y$) modifica la quantità
+                          domandata di $Y$ ma non quella di $X$ (i beni sono indipendenti).
+                          La curva di domanda di $X$ non si sposta.
+                      </small></p>
+                    </li>
+                  </ul>
                   `"
-
-
-
-
-
-
-
-
-
-
-
-
-

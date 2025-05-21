@@ -24,7 +24,7 @@ params:
   - {name: c8, value: 8}
   - {name: c9, value: 9}
 
-  - {name: s, value: 10}
+  - {name: s, value: 10, min: 5, max: 15}
 
 
 

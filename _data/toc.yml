@@ -43,11 +43,11 @@ parts:
               en: Budget Constraint and Optimal Choice
               it: Vincolo di bilancio e scelta ottima
           - title:
-              en: Demand, Welfare and Surplus
-              it: Domanda, benessere e surplus del consumatore
+              en: Demand and elasticity
+              it: Domanda ed elasticità
           - title:
-              en: OLD
-              it: OLD
+              en: Consumer Welfare and Surplus
+              it: Benessere e surplus del consumatore
       - folder: 3
         title:
           en: Production, Costs and Firm Choice
