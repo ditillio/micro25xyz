@@ -39,7 +39,7 @@ calcs:
 # price of X above which X=0
   maxP1: (params.p2)+(params.m)/(params.s)
 # price of X below which Y=0
-  minP1: (params.p2)-(params.m)/(params.s)
+  minP1: max(0,(params.p2)-(params.m)/(params.s))
 # demand of X when PX=minP1
   x1min: (params.m)/(calcs.minP1)
 
