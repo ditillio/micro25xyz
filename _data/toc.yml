@@ -40,11 +40,8 @@ parts:
               en: Substitution between Goods
               it: Sostituibilità tra i beni
           - title:
-              en: Budget Constraint and Optimal Choice
-              it: Vincolo di bilancio e scelta ottima
-          - title:
-              en: Demand and elasticity
-              it: Domanda ed elasticità
+              en: Budget Constraint, Optimal Choice and Demand
+              it: Vincolo di bilancio, scelta ottima e domanda
           - title:
               en: Consumer Welfare and Surplus
               it: Benessere e surplus del consumatore
