@@ -1,7 +1,7 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 0.7
+aspectRatio: 1
 params:
 
 # income and prices
