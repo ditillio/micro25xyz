@@ -8,9 +8,9 @@ params:
 
 
 # income and prices
-  - {name: m, value: 30, min: 10, max: 50, round: 5}
-  - {name: p1, value: 4, min: 1, max: 10, round: 0.5}
-  - {name: p2, value: 4, min: 1, max: 10, round: 0.5}
+  - {name: m, value: 20, min: 10, max: 50, round: 5}
+  - {name: p1, value: 5, min: 1, max: 10, round: 0.5}
+  - {name: p2, value: 5, min: 1, max: 10, round: 0.5}
 
 
 # consumption levels on 45° line
@@ -63,8 +63,9 @@ calcs:
   u8: ((params.c8)*(params.c8))+((params.s)*((params.c8)+(params.c8)))
   u9: ((params.c9)*(params.c9))+((params.s)*((params.c9)+(params.c9)))
 
-
-
+# case check
+  pricediff: (params.p2) - (params.p1)
+  Dpricediff: (params.m)/(params.s)
 
 layout:
   TwoVerticalGraphsPlusSidebar:
@@ -285,12 +286,53 @@ layout:
                       la scelta ottima del consumatore e la funzione di domanda del bene 𝑋.
 
       - title: "` `"
+
         divs:
+
           - html: "`  `"
-          - html: "` In questo caso abbiamo
-                    $$ MU_X=Y+${params.s} \\\\qquad MU_Y=X+${params.s}$$
-                    e quindi 
-                    $$ MRS_{XY} = \\\\dfrac{Y+${params.s}}{X+${params.s}} $$  `"
+
+          - html: "` I valori selezionati sono tali che
+                    $$
+                    P_Y-P_X=${calcs.pricediff.toFixed(1)} \\\\qquad M/s = ${calcs.Dpricediff.toFixed(2)}
+                    $$
+                  `"
+
+          - html: "` Siamo quindi nel caso (i). `"
+            show: calcs.pricediff > calcs.Dpricediff
+
+
+          - html: "` Siamo quindi nel caso (ii). `"
+            show: (calcs.pricediff)+(calcs.Dpricediff)<0
+
+          - html: "` Siamo quindi nel caso (iii). `"
+            show: calcs.pricediff <= calcs.Dpricediff && (calcs.pricediff)+(calcs.Dpricediff) >= 0
+
+          - html: <br>
+            show: calcs.pricediff <= calcs.Dpricediff && (calcs.pricediff)+(calcs.Dpricediff) >= 0
+
+          - html: "` Vincolo di bilancio:
+                    $$
+                    ${params.p1.toFixed(1)}X+${params.p2.toFixed(1)}Y = ${params.m.toFixed(0)}
+                    $$
+                     `"
+            show: calcs.pricediff <= calcs.Dpricediff && (calcs.pricediff)+(calcs.Dpricediff) >= 0
+
+          - html: "` Condizione di tangenza:
+                    $$
+                    ${params.p1.toFixed(1)}(X+${params.s})=${params.p2.toFixed(1)}(Y+${params.s})
+                    $$
+                     `"
+            show: calcs.pricediff <= calcs.Dpricediff && (calcs.pricediff)+(calcs.Dpricediff) >= 0
+
+          - html: <br>
+
+          - html: "` Scelta ottima:
+                    $$
+                    X=${calcs.x1opt.toFixed(2)} \\\\qquad Y=${calcs.x2opt.toFixed(2)}
+                    $$
+                     `"
+
+
         sliders:
         - param: s
           label: s

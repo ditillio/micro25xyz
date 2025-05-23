@@ -1,7 +1,7 @@
 ---
 schema: EconSchema
 version: 1
-aspectRatio: 1
+aspectRatio: 0.8
 params:
 
 # income and prices
@@ -201,7 +201,7 @@ layout:
       - Point:
           coordinates: [calcs.x1opt, params.p1]
           droplines:
-            horizontal: params.p1.toFixed(2)
+            horizontal: params.p1.toFixed(1)
           color: Green
           r: 0
           strokeWidth: 0.7
@@ -236,15 +236,25 @@ layout:
 
         divs:
           - html: "`  `"
-          - html: "` La scelta ottima è spendere $[a/(a+b)]\\\\times M=${calcs.E1.toFixed(2)}$ euro
-                    nel bene $X$. La funzione di domanda individuale del bene $X$ è
-                    quindi
+          - html: "` Vincolo di bilancio:
                     $$
-                    X=\\\\dfrac{[a/(a+b)]\\\\times M}{P_X}=\\\\dfrac{${calcs.E1.toFixed(2)}}{P_X}
+                    ${params.p1.toFixed(1)}X+${params.p2.toFixed(1)}Y = ${params.m.toFixed(0)}
                     $$
                      `"
 
-          - html: <br>
+          - html: "`  `"
+          - html: "` Condizione di tangenza:
+                    $$
+                    ${params.p1.toFixed(1)}X/(${params.p2.toFixed(1)}Y) = ${params.a}/${params.b}
+                    $$
+                     `"
+
+          - html: "`  `"
+          - html: "` Scelta ottima:
+                    $$
+                    X=${calcs.x1opt.toFixed(2)} \\\\qquad Y=${calcs.x2opt.toFixed(2)}
+                    $$
+                     `"
 
 
 
@@ -276,30 +286,10 @@ layout:
     #     divs:
 
     #       - html: "`
-    #               <ul>
-    #                 <li>
-    #                   <p><small>
-    #                         Una variazione del prezzo del bene ($P_X$) provoca uno <i>spostamento
-    #                         lungo la curva</i> di domanda del bene, e vale la <i><b>legge della
-    #                         domanda</b></i>: all'aumentare o diminuire di $P_X$ la quantità
-    #                         domandata di $X$ rispettivamente diminuisce o aumenta.
-    #                   </small></p>
-    #                 </li>
-    #                 <li>
-    #                   <p><small>
-    #                         Una variazione del reddito ($M$) provoca uno <i>spostamento della curva</i>
-    #                         di domanda del bene, verso destra o sinistra a seconda che il
-    #                         reddito aumenti o diminuisca (il bene $X$ è normale).
-    #                   </small></p>
-    #                 </li>
-    #                 <li>
-    #                   <p><small>
-    #                       Una variazione del prezzo 
-    #                       dell'altro bene ($P_Y$) modifica la quantità
-    #                       domandata di $Y$ ma non quella di $X$:  
-    #                       al variare di $P_Y$ la curva di domanda di $X$ non si sposta
-    #                       (i due beni sono indipendenti).
-    #                   </small></p>
-    #                 </li>
-    #               </ul>
-    #               `"
+    #             `"
+
+
+
+
+
+

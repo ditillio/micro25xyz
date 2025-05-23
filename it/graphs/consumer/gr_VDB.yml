@@ -147,9 +147,7 @@ layout:
                   <li>
                     <p><small>
                   L'intercetta verticale della retta di bilancio (valore di $Y$ corrispondente a $X=0$) è
-                  pari a $M/P_Y$. Il numeratore è il reddito, misurato in euro.
-                  Il denominatore è il prezzo di $Y$, misurato in euro/unità di $Y$.
-                  Il rapporto, misurato quindi in unità di $Y$, è la quantità massima di $Y$
+                  pari a $M/P_Y$, la quantità massima di $Y$
                   che il consumatore può permettersi.
                   Analogamente, l'intercetta orizzontale (valore di $X$ corrispondente a $Y=0$)
                   è pari a $M/P_X$, la quantità massima di $X$ che il consumatore può permettersi.
@@ -157,24 +155,28 @@ layout:
                   </li>
                   <li>
                     <p><small>
-                  Il valore assoluto della pendenza della retta di bilancio, $P_X/P_Y$,
+                  Il valore assoluto della pendenza, $P_X/P_Y$,
                   misura il valore in termini di $Y$ che il mercato attribuisce ad una 
                   unità di $X$, cioè il tasso a cui il mercato permette di scambiare
-                  i due beni. Infatti rinunciare ad una unità di $X$ permette di avere $P_X$
-                  euro in più da spendere in $Y$, cioè poterne comprare $P_X/P_Y$ unità in più.
+                  i due beni. Infatti rinunciare ad una unità di $X$ permette di spendere $P_X$
+                  euro in più in $Y$, cioè poterne comprare $P_X/P_Y$ unità in più.
                   Analogamente, acquistare una unità di $X$ in più obbliga a spendere
-                  $P_X$ euro in meno in $Y$, cioè a comprarne $P_X/P_Y$ unità in meno. 
+                  $P_X$ euro in meno in $Y$, cioè comprarne $P_X/P_Y$ unità in meno. 
                     </small></p>
                   </li>
                   <li>
                     <p><small>
-                  Un aumento del reddito sposta il vincolo di bilancio parallelamente verso l'esterno, mentre una  riduzione del reddito sposta il vincolo di bilancio parallelamente verso l'interno. La pendenza, che non dipende dal reddito, non cambia.
+                  Un aumento del reddito sposta il vincolo di bilancio parallelamente verso l'esterno,
+                  mentre una  riduzione del reddito sposta il vincolo di bilancio parallelamente
+                  verso l'interno. La pendenza, che non dipende dal reddito, non cambia.
                     </small></p>
                   </li>
                   <li>
                     <p><small>
-                  Un aumento del prezzo di $X$ fa ruotare il vincolo di bilancio in senso orario, mentre una riduzione del prezzo di $X$ lo fa ruotare in senso antiorario, intorno alla sua intercetta verticale.
-                  Un aumento del prezzo di $Y$ fa ruotare il vincolo di bilancio in senso antiorario, mentre una riduzione del prezzo di $Y$ lo fa ruotare in senso orario, intorno alla sua intercetta orizzontale.
+                  Un aumento o riduzione di $P_X$ fa ruotare il vincolo di bilancio in senso orario o antiorario,
+                  rispettivamente, intorno alla sua intercetta verticale.
+                  Un aumento o riduzione di $P_Y$ fa ruotare il vincolo di bilancio in senso antiorario o orario,
+                  rispettivamente, intorno alla sua intercetta orizzontale.
                     </small></p>
                   </li>
                 </ul>
